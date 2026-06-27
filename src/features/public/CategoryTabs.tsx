@@ -1,0 +1,63 @@
+import { useRef } from 'react'
+import type { Category } from '../../types'
+
+interface CategoryTabsProps {
+  categories: Category[]
+  activeId: string
+  onSelect: (id: string) => void
+}
+
+export function CategoryTabs({ categories, activeId, onSelect }: CategoryTabsProps) {
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  if (categories.length === 0) return null
+
+  const handleClick = (id: string) => {
+    onSelect(id)
+    // Scroll tab into view
+    const el = document.getElementById(`cat-tab-${id}`)
+    el?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+    // Scroll to section
+    const section = document.getElementById(`section-${id}`)
+    if (section) {
+      const offset = 130
+      const top = section.getBoundingClientRect().top + window.scrollY - offset
+      window.scrollTo({ top, behavior: 'smooth' })
+    }
+  }
+
+  return (
+    <div className="top-[109px] z-40 bg-white border-y border-[#e8e3d8] shadow-sm">
+      <div
+        ref={scrollRef}
+        className="flex items-center gap-2 overflow-x-auto no-scrollbar px-4 md:px-10 py-4 max-w-7xl mx-auto"
+      >
+        <button
+          id="cat-tab-all"
+          onClick={() => handleClick('all')}
+          className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex-shrink-0 ${
+            activeId === 'all'
+              ? 'bg-[#1d5c3a] text-white shadow-md'
+              : 'bg-[#f0ece4] text-[#555] hover:bg-[#e0dbd0] hover:text-[#1d5c3a]'
+          }`}
+        >
+          All Items
+        </button>
+        {categories.map((cat) => (
+          <button
+            key={cat.id}
+            id={`cat-tab-${cat.id}`}
+            onClick={() => handleClick(cat.id)}
+            className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex-shrink-0 ${
+              activeId === cat.id
+                ? 'bg-[#1d5c3a] text-white shadow-md'
+                : 'bg-[#f0ece4] text-[#555] hover:bg-[#e0dbd0] hover:text-[#1d5c3a]'
+            }`}
+          >
+            {cat.name}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
