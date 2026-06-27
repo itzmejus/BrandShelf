@@ -211,7 +211,7 @@ export function DashboardPage() {
       {/* Bento row */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {/* Storefront status */}
-        <div className="md:col-span-2 bg-primary p-8 rounded-xl text-on-primary flex flex-col justify-between overflow-hidden relative">
+        <div className="md:col-span-2 bg-primary p-5 md:p-8 rounded-xl text-on-primary flex flex-col justify-between overflow-hidden relative">
           <div className="relative z-10">
             <h3 className="text-lg font-semibold mb-2">Your Storefront</h3>
             <p className="text-sm opacity-80 max-w-xs">

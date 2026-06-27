@@ -125,10 +125,10 @@ export function CategoriesPage() {
 
       <div className="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
         {/* Header row */}
-        <div className="grid grid-cols-[40px_1fr_100px_120px] items-center px-6 py-3 bg-surface-container-low border-b border-outline-variant text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
-          <div />
+        <div className="grid grid-cols-[1fr_80px] sm:grid-cols-[40px_1fr_100px_120px] items-center px-4 sm:px-6 py-3 bg-surface-container-low border-b border-outline-variant text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
+          <div className="hidden sm:block" />
           <div>Name</div>
-          <div>Sort Order</div>
+          <div className="hidden sm:block">Sort Order</div>
           <div className="text-right">Actions</div>
         </div>
 
@@ -150,16 +150,17 @@ export function CategoriesPage() {
             {categories.map((cat) => (
               <div
                 key={cat.id}
-                className="grid grid-cols-[40px_1fr_100px_120px] items-center px-6 py-4 hover:bg-surface-container-low/50 transition-colors"
+                className="grid grid-cols-[1fr_80px] sm:grid-cols-[40px_1fr_100px_120px] items-center px-4 sm:px-6 py-4 hover:bg-surface-container-low/50 transition-colors"
               >
-                <GripVertical size={16} className="text-outline cursor-grab" />
+                <GripVertical size={16} className="hidden sm:block text-outline cursor-grab" />
                 <div>
                   <p className="text-sm font-semibold text-on-surface">{cat.name}</p>
                   <p className="text-[11px] text-on-surface-variant">
-                    ID: <span className="font-mono">{cat.id.slice(0, 8)}…</span>
+                    <span className="hidden sm:inline">ID: <span className="font-mono">{cat.id.slice(0, 8)}…</span></span>
+                    <span className="sm:hidden text-on-surface-variant">Order: {cat.sort_order}</span>
                   </p>
                 </div>
-                <div className="text-sm text-on-surface-variant">{cat.sort_order}</div>
+                <div className="hidden sm:block text-sm text-on-surface-variant">{cat.sort_order}</div>
                 <div className="flex justify-end gap-1">
                   <button
                     onClick={() => openEdit(cat)}

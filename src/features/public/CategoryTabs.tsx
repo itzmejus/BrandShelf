@@ -27,7 +27,7 @@ export function CategoryTabs({ categories, activeId, onSelect }: CategoryTabsPro
   }
 
   return (
-    <div className="top-[109px] z-40 bg-white border-y border-[#e8e3d8] shadow-sm">
+    <div className="sticky top-[109px] z-40 bg-white border-y border-[#e8e3d8] shadow-sm">
       <div
         ref={scrollRef}
         className="flex items-center gap-2 overflow-x-auto no-scrollbar px-4 md:px-10 py-4 max-w-7xl mx-auto"

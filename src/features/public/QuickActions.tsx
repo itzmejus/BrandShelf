@@ -72,19 +72,16 @@ export function QuickActions({ business }: QuickActionsProps) {
       </div>
 
       <div className="max-w-7xl mx-auto">
-        <div
-          className="grid gap-3"
-          style={{ gridTemplateColumns: `repeat(${Math.min(actions.length, 5)}, minmax(0, 1fr))` }}
-        >
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
           {actions.map((action) => {
             const card = (
-              <div className="bg-white rounded-2xl p-4 flex flex-col items-center gap-2 text-center hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
-                <div className="w-10 h-10 rounded-xl bg-[#f0f8ec] flex items-center justify-center group-hover:bg-[#1d5c3a] transition-colors">
-                  <action.icon size={18} className="text-[#1d5c3a] group-hover:text-white transition-colors" />
+              <div className="bg-white rounded-2xl p-3 sm:p-4 flex flex-col items-center gap-2 text-center hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#f0f8ec] flex items-center justify-center group-hover:bg-[#1d5c3a] transition-colors">
+                  <action.icon size={16} className="text-[#1d5c3a] group-hover:text-white transition-colors" />
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-[#1a1f2e]">{action.label}</p>
-                  <p className="text-[10px] text-[#888] truncate max-w-[80px] mt-0.5">{action.sub}</p>
+                  <p className="text-[11px] sm:text-xs font-bold text-[#1a1f2e]">{action.label}</p>
+                  <p className="text-[10px] text-[#888] truncate w-full mt-0.5">{action.sub}</p>
                 </div>
               </div>
             )

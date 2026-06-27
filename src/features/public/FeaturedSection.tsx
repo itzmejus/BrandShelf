@@ -48,7 +48,7 @@ export function FeaturedSection({ items }: FeaturedSectionProps) {
         </div>
 
         {/* Bottom trust bar */}
-        <div className="mt-12 bg-[#1d5c3a] rounded-2xl px-6 py-5 flex flex-wrap items-center justify-between gap-4">
+        <div className="mt-12 bg-[#1d5c3a] rounded-2xl px-6 py-5 grid grid-cols-2 sm:flex sm:flex-wrap sm:items-center sm:justify-between gap-4">
           {[
             { icon: '✓', label: 'Premium Quality' },
             { icon: '⚡', label: 'Fast Service' },

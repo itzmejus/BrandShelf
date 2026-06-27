@@ -44,13 +44,13 @@ export function AboutSection({ business }: AboutSectionProps) {
 
               {/* Floating logo badge */}
               {business.logo_url && (
-                <div className="absolute -bottom-5 -right-5 md:right-0 w-20 h-20 rounded-2xl bg-white shadow-xl border border-[#e8e3d8] overflow-hidden">
+                <div className="absolute bottom-2 right-2 md:-bottom-5 md:-right-5 w-20 h-20 rounded-2xl bg-white shadow-xl border border-[#e8e3d8] overflow-hidden">
                   <img src={business.logo_url} alt="Logo" className="w-full h-full object-contain p-1" />
                 </div>
               )}
 
               {/* Stat badge */}
-              <div className="absolute -top-4 -right-4 md:right-4 bg-[#1d5c3a] text-white rounded-2xl px-5 py-4 shadow-xl text-center">
+              <div className="absolute -top-4 right-2 md:-top-4 md:-right-4 bg-[#1d5c3a] text-white rounded-2xl px-5 py-4 shadow-xl text-center">
                 <p className="font-['Hanken_Grotesk'] text-3xl font-bold leading-none">
                   {business.type?.split(' ')[0] ?? '✓'}
                 </p>

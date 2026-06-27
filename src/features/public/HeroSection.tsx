@@ -11,7 +11,7 @@ export function HeroSection({ business }: HeroSectionProps) {
   const open = isBusinessOpen(business.opening_hours)
 
   return (
-    <section className="relative bg-[#f7f5ef] overflow-hidden">
+    <section className="relative bg-[#f7f5ef] overflow-x-hidden">
       {/* Decorative leaves — top left */}
       <div className="absolute top-0 left-0 hidden md:block pointer-events-none select-none">
         <Leaf size={80} rotate={-20} color="#1d5c3a" opacity={0.12} />
@@ -31,8 +31,8 @@ export function HeroSection({ business }: HeroSectionProps) {
         <Leaf size={50} rotate={-40} color="#8ab04b" opacity={0.13} />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-10 py-14 md:py-20">
-        <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
+      <div className="max-w-7xl mx-auto px-4 md:px-10 py-10 md:py-20">
+        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-16">
 
           {/* LEFT: Text content */}
           <div className="flex-1 flex flex-col gap-5 relative z-10">
@@ -54,7 +54,7 @@ export function HeroSection({ business }: HeroSectionProps) {
             </div>
 
             {/* Headline */}
-            <h1 className="font-['Hanken_Grotesk'] text-4xl md:text-5xl lg:text-6xl font-bold text-[#1a1f2e] leading-tight tracking-tight">
+            <h1 className="font-['Hanken_Grotesk'] text-3xl md:text-5xl lg:text-6xl font-bold text-[#1a1f2e] leading-tight tracking-tight">
               {business.name}
             </h1>
 
@@ -138,7 +138,7 @@ export function HeroSection({ business }: HeroSectionProps) {
             <div className="absolute w-56 h-56 md:w-80 md:h-80 rounded-full bg-[#8ab04b] opacity-10" />
 
             {/* Image */}
-            <div className="relative z-10 w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl">
+            <div className="relative z-10 w-56 h-56 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl">
               {business.cover_url ? (
                 <img
                   src={business.cover_url}

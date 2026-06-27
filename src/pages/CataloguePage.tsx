@@ -156,7 +156,7 @@ export function CataloguePage() {
       {/* Table */}
       <div className="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
         {/* Table header (desktop) */}
-        <div className="hidden lg:grid grid-cols-[72px_1fr_160px_120px_120px_100px_120px] items-center px-6 py-3 bg-surface-container-low border-b border-outline-variant text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
+        <div className="hidden lg:grid grid-cols-[72px_1fr_160px_120px_120px_100px_120px] items-center px-4 sm:px-6 py-3 bg-surface-container-low border-b border-outline-variant text-[11px] font-bold uppercase tracking-wider text-on-surface-variant">
           <div>Image</div>
           <div>Item</div>
           <div>Category</div>
@@ -272,7 +272,7 @@ interface ItemRowProps {
 function ItemRow({ item, toggling, onEdit, onDelete, onToggleAvailable, onToggleFeatured }: ItemRowProps) {
   return (
     <div
-      className={`lg:grid lg:grid-cols-[72px_1fr_160px_120px_120px_100px_120px] items-center px-6 py-4 transition-colors bg-white
+      className={`lg:grid lg:grid-cols-[72px_1fr_160px_120px_120px_100px_120px] items-center px-4 sm:px-6 py-4 transition-colors bg-white
         ${toggling ? 'opacity-60 pointer-events-none' : 'hover:bg-surface-container-low/50'}`}
     >
       {/* Mobile layout */}
@@ -358,6 +358,18 @@ function ItemRow({ item, toggling, onEdit, onDelete, onToggleAvailable, onToggle
 
       {/* Actions */}
       <div className="flex lg:justify-end gap-1 mt-3 lg:mt-0">
+        {/* Featured star — mobile only */}
+        <button
+          onClick={onToggleFeatured}
+          className="lg:hidden p-2 rounded-lg transition-colors"
+          title={item.featured ? 'Remove from featured' : 'Mark as featured'}
+        >
+          {toggling ? (
+            <Loader2 size={16} className="animate-spin text-secondary" />
+          ) : (
+            <Star size={16} className={item.featured ? 'text-secondary fill-secondary' : 'text-outline'} />
+          )}
+        </button>
         <button
           onClick={onEdit}
           className="p-2 text-on-surface-variant hover:bg-surface-container-high hover:text-primary rounded-lg transition-colors"

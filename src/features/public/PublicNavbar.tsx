@@ -64,7 +64,7 @@ export function PublicNavbar({ businessName, business }: PublicNavbarProps) {
                 {businessName?.charAt(0) ?? 'C'}
               </span>
             </div>
-            <span className="font-['Hanken_Grotesk'] text-base font-bold text-[#1d5c3a] leading-tight hidden sm:block">
+            <span className="font-['Hanken_Grotesk'] text-base font-bold text-[#1d5c3a] leading-tight truncate max-w-[130px] sm:max-w-none">
               {businessName ?? 'BrandShelf'}
             </span>
           </div>
