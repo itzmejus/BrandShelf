@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { X, ChevronLeft, ChevronRight, Images } from 'lucide-react'
-import { Leaf } from './LeafDecor'
 
 interface GallerySectionProps {
   images: string[]
@@ -19,28 +18,16 @@ export function GallerySection({ images }: GallerySectionProps) {
 
   return (
     <>
-      <section id="gallery" className="bg-[#f7f5ef] py-16 md:py-20 px-4 md:px-10 relative overflow-hidden">
-        {/* Leaf decorations */}
-        <div className="absolute left-4 bottom-8 pointer-events-none select-none">
-          <Leaf size={52} rotate={15} color="#1d5c3a" opacity={0.1} />
-        </div>
-        <div className="absolute right-4 top-8 pointer-events-none select-none">
-          <Leaf size={40} rotate={-45} color="#8ab04b" opacity={0.12} />
-        </div>
-
+      <section id="gallery" className="bg-(--color-surface-container-low) py-16 md:py-20 px-4 md:px-10">
         <div className="max-w-7xl mx-auto">
           {/* Section header */}
           <div className="text-center mb-12">
-            <div className="flex items-center justify-center gap-2 mb-3">
-              <span className="w-8 h-px bg-[#8ab04b]" />
-              <span className="text-xs font-bold text-[#8ab04b] uppercase tracking-widest flex items-center gap-1.5">
-                <Images size={11} />
-                Our Gallery
-              </span>
-              <span className="w-8 h-px bg-[#8ab04b]" />
-            </div>
-            <h2 className="font-['Hanken_Grotesk'] text-3xl md:text-4xl font-bold text-[#1a1f2e]">
-  Our Gallery
+            <span className="flex items-center justify-center gap-1.5 text-xs font-bold text-(--color-on-surface-variant) uppercase tracking-widest mb-3">
+              <Images size={11} />
+              Gallery
+            </span>
+            <h2 className="font-['Hanken_Grotesk'] text-3xl md:text-4xl font-bold text-(--color-on-surface)">
+              Our Gallery
             </h2>
           </div>
 
@@ -50,7 +37,7 @@ export function GallerySection({ images }: GallerySectionProps) {
               <button
                 key={i}
                 onClick={() => setLightboxIndex(i)}
-                className={`rounded-2xl overflow-hidden bg-[#e8e3d8] group shadow-sm hover:shadow-md transition-shadow ${
+                className={`rounded-2xl overflow-hidden bg-(--color-outline-variant) group border border-(--color-outline-variant) hover:shadow-sm transition-shadow ${
                   i === 0 ? 'md:col-span-2 md:row-span-2' : ''
                 }`}
                 style={{ aspectRatio: i === 0 ? '1' : '1' }}
@@ -58,7 +45,7 @@ export function GallerySection({ images }: GallerySectionProps) {
                 <img
                   src={src}
                   alt={`Gallery ${i + 1}`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                 />
               </button>
             ))}

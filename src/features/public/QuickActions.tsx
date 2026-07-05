@@ -1,6 +1,7 @@
-import { Phone, MessageCircle, Navigation, Share2, Mail } from 'lucide-react'
+import { Phone, Navigation, Share2, Mail } from 'lucide-react'
 import type { Business } from '../../types'
 import { formatPhone } from '../../utils/business.utils'
+import { WhatsAppIcon } from './WhatsAppIcon'
 
 interface QuickActionsProps {
   business: Business
@@ -24,7 +25,7 @@ export function QuickActions({ business }: QuickActionsProps) {
       bg: '#ffffff',
     },
     business.whatsapp && {
-      icon: MessageCircle,
+      icon: WhatsAppIcon,
       label: 'WhatsApp',
       sub: 'Chat with us',
       href: `https://wa.me/${formatPhone(business.whatsapp)}`,
@@ -63,25 +64,18 @@ export function QuickActions({ business }: QuickActionsProps) {
   if (actions.length === 0) return null
 
   return (
-    <section className="bg-[#1d5c3a] py-8 px-4 md:px-10 relative overflow-hidden">
-      {/* Subtle leaf decoration */}
-      <div className="absolute right-0 top-0 opacity-10 pointer-events-none select-none">
-        <svg width="120" height="120" viewBox="0 0 60 80" fill="none">
-          <path d="M30 2C12 18 8 48 30 78C52 48 48 18 30 2Z" fill="white" />
-        </svg>
-      </div>
-
+    <section className="bg-(--color-surface-container-low) border-y border-(--color-outline-variant) py-8 px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
           {actions.map((action) => {
             const card = (
-              <div className="bg-white rounded-2xl p-3 sm:p-4 flex flex-col items-center gap-2 text-center hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 cursor-pointer group">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#f0f8ec] flex items-center justify-center group-hover:bg-[#1d5c3a] transition-colors">
-                  <action.icon size={16} className="text-[#1d5c3a] group-hover:text-white transition-colors" />
+              <div className="bg-white rounded-xl border border-(--color-outline-variant) p-3 sm:p-4 flex flex-col items-center gap-2 text-center hover:border-(--color-brand) hover:shadow-sm transition-all duration-200 cursor-pointer group">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-(--color-surface-container-low) flex items-center justify-center group-hover:bg-(--color-brand) transition-colors">
+                  <action.icon size={16} className="text-(--color-on-surface-variant) group-hover:text-white transition-colors" />
                 </div>
                 <div>
-                  <p className="text-[11px] sm:text-xs font-bold text-[#1a1f2e]">{action.label}</p>
-                  <p className="text-[10px] text-[#888] truncate w-full mt-0.5">{action.sub}</p>
+                  <p className="text-[11px] sm:text-xs font-bold text-(--color-on-surface)">{action.label}</p>
+                  <p className="text-[10px] text-(--color-outline) truncate w-full mt-0.5">{action.sub}</p>
                 </div>
               </div>
             )

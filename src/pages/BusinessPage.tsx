@@ -15,7 +15,6 @@ import { GallerySection } from '../features/public/GallerySection'
 import { ContactSection } from '../features/public/ContactSection'
 import { PlaceholderSection } from '../features/public/PlaceholderSection'
 import { FooterSection } from '../features/public/FooterSection'
-import { StickyBottomBar } from '../features/public/StickyBottomBar'
 import { PublicPageSkeleton } from '../features/public/PublicPageSkeleton'
 import { NotFoundBusiness } from '../features/public/NotFoundBusiness'
 
@@ -83,8 +82,8 @@ export function BusinessPage() {
     .slice(0, 8)
 
   return (
-    <div className="min-h-screen bg-[#f7f5ef]">
-      <PublicNavbar businessName={business.name} business={business} />
+    <div className="min-h-screen bg-white">
+      <PublicNavbar businessName={business.name} />
 
       <HeroSection business={business} />
 
@@ -128,11 +127,6 @@ export function BusinessPage() {
       />
 
       <FooterSection business={business} />
-
-      <StickyBottomBar business={business} />
-
-      {/* Bottom padding on mobile for sticky bar */}
-      <div className="md:hidden h-20" />
     </div>
   )
 }

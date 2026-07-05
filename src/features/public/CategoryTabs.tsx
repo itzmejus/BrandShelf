@@ -20,14 +20,14 @@ export function CategoryTabs({ categories, activeId, onSelect }: CategoryTabsPro
     // Scroll to section
     const section = document.getElementById(`section-${id}`)
     if (section) {
-      const offset = 130
+      const offset = 120
       const top = section.getBoundingClientRect().top + window.scrollY - offset
       window.scrollTo({ top, behavior: 'smooth' })
     }
   }
 
   return (
-    <div className="sticky top-[109px] z-40 bg-white border-y border-[#e8e3d8] shadow-sm">
+    <div className="bg-white border-y border-(--color-outline-variant)">
       <div
         ref={scrollRef}
         className="flex items-center gap-2 overflow-x-auto no-scrollbar px-4 md:px-10 py-4 max-w-7xl mx-auto"
@@ -35,10 +35,10 @@ export function CategoryTabs({ categories, activeId, onSelect }: CategoryTabsPro
         <button
           id="cat-tab-all"
           onClick={() => handleClick('all')}
-          className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex-shrink-0 ${
+          className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-semibold transition-colors flex-shrink-0 ${
             activeId === 'all'
-              ? 'bg-[#1d5c3a] text-white shadow-md'
-              : 'bg-[#f0ece4] text-[#555] hover:bg-[#e0dbd0] hover:text-[#1d5c3a]'
+              ? 'bg-(--color-brand) text-white'
+              : 'bg-(--color-surface-container-low) text-(--color-on-surface-variant) hover:bg-(--color-surface-container-high)'
           }`}
         >
           All Items
@@ -48,10 +48,10 @@ export function CategoryTabs({ categories, activeId, onSelect }: CategoryTabsPro
             key={cat.id}
             id={`cat-tab-${cat.id}`}
             onClick={() => handleClick(cat.id)}
-            className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 flex-shrink-0 ${
+            className={`whitespace-nowrap px-5 py-2 rounded-full text-sm font-semibold transition-colors flex-shrink-0 ${
               activeId === cat.id
-                ? 'bg-[#1d5c3a] text-white shadow-md'
-                : 'bg-[#f0ece4] text-[#555] hover:bg-[#e0dbd0] hover:text-[#1d5c3a]'
+                ? 'bg-(--color-brand) text-white'
+                : 'bg-(--color-surface-container-low) text-(--color-on-surface-variant) hover:bg-(--color-surface-container-high)'
             }`}
           >
             {cat.name}

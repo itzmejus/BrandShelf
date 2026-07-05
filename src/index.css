@@ -57,6 +57,9 @@
   --color-background: #fbf8fa;
   --color-on-background: #1b1b1d;
 
+  --color-brand: #1d5c3a;
+  --color-brand-hover: #174d31;
+
   --radius-sm: 0.25rem;
   --radius: 0.5rem;
   --radius-md: 0.75rem;
