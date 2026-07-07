@@ -79,7 +79,11 @@ function PageLoader() {
 
 // Auth pages — always unprefixed, identical on either tree
 const authRoute: RouteObject = {
-  element: <AuthLayout />,
+  element: (
+    <ErrorBoundary>
+      <AuthLayout />
+    </ErrorBoundary>
+  ),
   children: [
     { path: '/login', element: <LoginPage /> },
     { path: '/register', element: <RegisterPage /> },
@@ -91,7 +95,11 @@ const authRoute: RouteObject = {
 // what scopes these paths; no /dashboard prefix needed underneath it)
 const dashboardRoute: RouteObject = {
   path: '/',
-  element: <DashboardLayout />,
+  element: (
+    <ErrorBoundary>
+      <DashboardLayout />
+    </ErrorBoundary>
+  ),
   children: [
     {
       index: true,
