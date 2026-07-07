@@ -35,6 +35,16 @@ export const businessService = {
     return data
   },
 
+  async getPaymentStatus(businessId: string): Promise<boolean> {
+    const { data, error } = await supabase
+      .from('business_payments')
+      .select('paid')
+      .eq('business_id', businessId)
+      .maybeSingle()
+    if (error) throw error
+    return data?.paid ?? false
+  },
+
   async uploadImage(bucket: string, businessId: string, file: File): Promise<string> {
     const validationError = validateImageFile(file)
     if (validationError) throw new Error(validationError)

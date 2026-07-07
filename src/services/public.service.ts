@@ -12,6 +12,14 @@ export const publicService = {
     return data
   },
 
+  async getBusinessStatus(slug: string): Promise<{ businessName: string; published: boolean; paid: boolean } | null> {
+    const { data, error } = await supabase.rpc('get_business_status', { p_slug: slug })
+    if (error) throw error
+    const row = data?.[0]
+    if (!row) return null
+    return { businessName: row.business_name, published: row.published, paid: row.paid }
+  },
+
   async getCategoriesByBusinessId(businessId: string): Promise<Category[]> {
     const { data, error } = await supabase
       .from('categories')

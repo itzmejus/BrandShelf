@@ -21,6 +21,7 @@ import {
   Copy,
   ExternalLink,
   ArrowRight,
+  Clock,
 } from 'lucide-react'
 import { useAppDispatch } from '../hooks/useAppDispatch'
 import { useAppSelector } from '../hooks/useAppSelector'
@@ -122,6 +123,9 @@ export function DashboardPage() {
   const catalogue = useAppSelector((s) => s.catalogue)
   const businessLoading = useAppSelector((s) => s.business.loading)
   const businessSaving = useAppSelector((s) => s.business.saving)
+  const paid = useAppSelector((s) => s.business.paid)
+  const paidFetched = useAppSelector((s) => s.business.paidFetched)
+  const paymentPending = business?.published && paidFetched && !paid
   const galleryImages = useAppSelector((s) => s.gallery.images)
 
   const availableCount = catalogue.items.filter((i) => i.available).length
@@ -187,8 +191,8 @@ export function DashboardPage() {
             <div className="min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 <h3 className="text-sm font-bold text-primary">Website Status</h3>
-                <Badge variant={business.published ? 'success' : 'default'}>
-                  {business.published ? 'Live' : 'Draft'}
+                <Badge variant={!business.published ? 'default' : paymentPending ? 'warning' : 'success'}>
+                  {!business.published ? 'Draft' : paymentPending ? 'Pending Payment' : 'Live'}
                 </Badge>
               </div>
               <p className="text-sm text-on-surface-variant truncate">{websiteUrl ?? 'No website link yet'}</p>
@@ -215,6 +219,22 @@ export function DashboardPage() {
               <ExternalLink size={13} />
               View Website
             </a>
+          </div>
+        </div>
+      )}
+
+      {/* Payment pending notice */}
+      {paymentPending && (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 md:p-6 flex items-start gap-4">
+          <div className="w-11 h-11 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
+            <Clock size={20} className="text-amber-700" aria-hidden="true" />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-amber-900">Your website is ready — payment pending</p>
+            <p className="text-sm text-amber-800 mt-1">
+              Your website is fully built, but it won't be visible to visitors until your payment is confirmed.
+              Once we receive it, your site goes live automatically — no action needed from you.
+            </p>
           </div>
         </div>
       )}

@@ -4,7 +4,7 @@ import { useAppDispatch } from '../hooks/useAppDispatch'
 import { useAppSelector } from '../hooks/useAppSelector'
 import { useBodyScrollLock } from '../hooks/useBodyScrollLock'
 import { setSidebarOpen } from '../store/slices/uiSlice'
-import { fetchBusiness } from '../store/slices/businessSlice'
+import { fetchBusiness, fetchPaymentStatus } from '../store/slices/businessSlice'
 import { BusinessSetupModal } from '../features/settings/components/BusinessSetupModal'
 import { Sidebar } from './Sidebar'
 import { Topnav } from './Topnav'
@@ -13,7 +13,7 @@ import { Spinner } from '../components'
 export function DashboardLayout() {
   const dispatch = useAppDispatch()
   const { user, initialized } = useAppSelector((s) => s.auth)
-  const { business, loading, fetched } = useAppSelector((s) => s.business)
+  const { business, loading, fetched, paidFetched } = useAppSelector((s) => s.business)
   const sidebarOpen = useAppSelector((s) => s.ui.sidebarOpen)
 
   useBodyScrollLock(sidebarOpen)
@@ -24,6 +24,12 @@ export function DashboardLayout() {
       dispatch(fetchBusiness(user.id))
     }
   }, [user, fetched, loading, dispatch])
+
+  useEffect(() => {
+    if (business && !paidFetched) {
+      dispatch(fetchPaymentStatus(business.id))
+    }
+  }, [business, paidFetched, dispatch])
 
   if (!initialized) {
     return (

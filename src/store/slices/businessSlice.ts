@@ -10,6 +10,8 @@ interface BusinessState {
   fetched: boolean   // true once the initial fetch has settled (even if null)
   saving: boolean
   error: string | null
+  paid: boolean       // whether an admin has marked this business as paid
+  paidFetched: boolean
 }
 
 const initialState: BusinessState = {
@@ -18,6 +20,8 @@ const initialState: BusinessState = {
   fetched: false,
   saving: false,
   error: null,
+  paid: false,
+  paidFetched: false,
 }
 
 export const fetchBusiness = createAsyncThunk(
@@ -25,6 +29,17 @@ export const fetchBusiness = createAsyncThunk(
   async (userId: string, { rejectWithValue }) => {
     try {
       return await businessService.getByUserId(userId)
+    } catch (err: unknown) {
+      return rejectWithValue((err as Error).message)
+    }
+  },
+)
+
+export const fetchPaymentStatus = createAsyncThunk(
+  'business/fetchPaymentStatus',
+  async (businessId: string, { rejectWithValue }) => {
+    try {
+      return await businessService.getPaymentStatus(businessId)
     } catch (err: unknown) {
       return rejectWithValue((err as Error).message)
     }
@@ -88,6 +103,13 @@ const businessSlice = createSlice({
       .addCase(saveBusiness.rejected, (state, action) => {
         state.saving = false
         state.error = action.payload as string
+      })
+      .addCase(fetchPaymentStatus.fulfilled, (state, action) => {
+        state.paid = action.payload
+        state.paidFetched = true
+      })
+      .addCase(fetchPaymentStatus.rejected, (state) => {
+        state.paidFetched = true
       })
       // Reset all business data on signout to prevent cross-user data leaks
       .addCase(signOut.fulfilled, () => initialState)

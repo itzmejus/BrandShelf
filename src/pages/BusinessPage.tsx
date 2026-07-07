@@ -20,6 +20,7 @@ import { PlaceholderSection } from '../features/public/PlaceholderSection'
 import { FooterSection } from '../features/public/FooterSection'
 import { PublicPageSkeleton } from '../features/public/PublicPageSkeleton'
 import { NotFoundBusiness } from '../features/public/NotFoundBusiness'
+import { PausedBusiness } from '../features/public/PausedBusiness'
 
 export function BusinessPage() {
   const { slug } = useParams<{ slug: string }>()
@@ -32,6 +33,7 @@ export function BusinessPage() {
   const [galleryImages, setGalleryImages] = useState<GalleryImage[]>([])
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
+  const [pausedBusinessName, setPausedBusinessName] = useState<string | null>(null)
   const [activeCategoryId, setActiveCategoryId] = useState('all')
 
   useEffect(() => {
@@ -42,10 +44,15 @@ export function BusinessPage() {
     const load = async () => {
       setLoading(true)
       setNotFound(false)
+      setPausedBusinessName(null)
       try {
         const biz = await publicService.getBusinessBySlug(slug)
         if (!biz) {
-          if (!cancelled) setNotFound(true)
+          if (!cancelled) {
+            const status = await publicService.getBusinessStatus(slug)
+            if (status) setPausedBusinessName(status.businessName)
+            else setNotFound(true)
+          }
           return
         }
 
@@ -115,6 +122,7 @@ export function BusinessPage() {
   })
 
   if (loading) return <PublicPageSkeleton />
+  if (pausedBusinessName) return <PausedBusiness businessName={pausedBusinessName} />
   if (notFound || !business || !business.published) return <NotFoundBusiness slug={slug ?? ''} />
 
   // Prefer curated gallery images; fall back to catalogue item photos
