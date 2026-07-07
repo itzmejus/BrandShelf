@@ -29,6 +29,7 @@ import { saveBusiness } from '../store/slices/businessSlice'
 import { addToast } from '../store/slices/uiSlice'
 import { StatCard, StatCardSkeleton, Switch, Badge } from '../components'
 import { ROUTES } from '../utils/constants'
+import { mainSiteUrl } from '../utils/domainRouting'
 import { formatRelativeTime } from '../utils/business.utils'
 import { computeSetupProgress } from '../utils/setupProgress'
 import { getCatalogueLabel } from '../utils/businessType'
@@ -136,7 +137,7 @@ export function DashboardPage() {
     galleryCount: galleryImages.length,
   })
 
-  const websiteUrl = business?.slug ? `${window.location.origin}/${business.slug}` : null
+  const websiteUrl = business?.slug ? mainSiteUrl(`/${business.slug}`) : null
 
   const handleTogglePublished = async () => {
     if (!business) return
