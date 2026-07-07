@@ -9,5 +9,4 @@ Disallow: /forgot-password
 # Allow public business pages
 Allow: /
 
-# Sitemap (update with your production domain)
-# Sitemap: https://catalogly.com/sitemap.xml
+Sitemap: https://www.siteselo.com/sitemap.xml

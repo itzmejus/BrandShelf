@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Spinner } from '../components'
 import { ErrorBoundary } from '../components/ErrorBoundary'
+import { enforceDomainRouting } from '../utils/domainRouting'
 
 // Landing + auth pages — small, load eagerly (user lands here first)
 import { LandingPage } from '../pages/LandingPage'
@@ -240,6 +241,13 @@ const router = createBrowserRouter([
     ),
   },
 ])
+
+// `<Link>` clicks are client-side navigations (no full page load), so the
+// main.tsx check alone wouldn't catch e.g. clicking "Log in" while on the
+// marketing domain. Re-check on every route change too.
+router.subscribe(() => {
+  enforceDomainRouting()
+})
 
 export function AppRouter() {
   return <RouterProvider router={router} />
