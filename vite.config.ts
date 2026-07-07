@@ -17,6 +17,11 @@ export default defineConfig({
 
   server: {
     headers: securityHeaders,
+    // "*.localhost" already resolves to 127.0.0.1 in every modern browser
+    // with no hosts-file edit — this just lets Vite's dev server accept the
+    // Host header so http://dashboard.localhost:5173 works for testing the
+    // dashboard subdomain split locally (see src/utils/domainRouting.ts).
+    allowedHosts: ['localhost', 'dashboard.localhost'],
   },
 
   preview: {

@@ -37,9 +37,7 @@ export function LoginPage() {
     <div className="space-y-8">
       {/* Mobile brand mark */}
       <div className="lg:hidden flex items-center gap-3 mb-2">
-        <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center" aria-hidden="true">
-          <span className="text-on-primary font-bold text-xs tracking-tight">S</span>
-        </div>
+        <img src="/Logo.png" alt="" aria-hidden="true" className="w-9 h-9 rounded-lg object-contain" />
         <span className="font-bold text-lg text-primary tracking-tight">SiteSelo</span>
       </div>
 

@@ -36,8 +36,8 @@ export function AuthLayout() {
       <div className="hidden lg:flex lg:w-1/2 bg-primary flex-col justify-between p-12 relative overflow-hidden">
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-12">
-            <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">
-              <span className="text-white font-bold text-lg tracking-tight">S</span>
+            <div className="w-12 h-12 rounded-lg bg-white flex items-center justify-center p-1">
+              <img src="/Logo.png" alt="SiteSelo" className="w-full h-full object-contain" />
             </div>
             <span className="text-white font-bold text-xl tracking-tight">SiteSelo</span>
           </div>

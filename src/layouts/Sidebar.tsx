@@ -119,9 +119,7 @@ export function Sidebar({ mobile }: SidebarProps) {
       {/* Brand header */}
       <div className="px-6 mb-6 flex items-center justify-between">
         <NavLink to={ROUTES.DASHBOARD} end className="flex items-center gap-3 min-w-0">
-          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center flex-shrink-0">
-            <span className="text-on-primary font-bold text-sm tracking-tight">S</span>
-          </div>
+          <img src="/Logo.png" alt="SiteSelo" className="w-9 h-9 rounded-lg object-contain flex-shrink-0" />
           <div className="min-w-0">
             <h1 className="text-sm font-bold text-primary truncate tracking-tight">SiteSelo</h1>
             <p className="text-[11px] text-on-surface-variant">Business Dashboard</p>

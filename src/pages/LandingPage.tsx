@@ -149,7 +149,7 @@ export function LandingPage() {
       {/* ============ NAV ============ */}
       <nav className="nav">
         <div className="wrap nav-inner">
-          <a href="#top" className="brand"><span className="brand-mark"><span /></span>SiteSelo</a>
+          <a href="#top" className="brand"><img src="/Logo.png" alt="" className="brand-mark" />SiteSelo</a>
           <div className="nav-links">
             <a href="#included">Features</a>
             <a href="#pricing">Pricing</a>
@@ -510,7 +510,7 @@ export function LandingPage() {
         <div className="wrap">
           <div className="footer-top">
             <div className="footer-brand">
-              <a href="#top" className="brand"><span className="brand-mark"><span /></span>SiteSelo</a>
+              <a href="#top" className="brand"><img src="/Logo.png" alt="" className="brand-mark" />SiteSelo</a>
               <p>Professional websites for local businesses. Ready in minutes.</p>
             </div>
             <nav className="footer-links" aria-label="Footer">
