@@ -212,7 +212,7 @@ export function TestimonialFormModal({ open, onClose, testimonial }: Testimonial
               <Switch
                 checked={field.value}
                 onChange={field.onChange}
-                label="Published (visible on storefront)"
+                label="Published (visible on website)"
                 disabled={isLoading}
               />
             )}

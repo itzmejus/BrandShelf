@@ -9,9 +9,9 @@ interface PageMeta {
   jsonLd?: Record<string, unknown>
 }
 
-const DEFAULT_TITLE = 'SiteSelo: Everything Your Customers Need. One Link.'
+const DEFAULT_TITLE = 'SiteSelo — Launch Your Business Website in Minutes'
 const DEFAULT_DESCRIPTION =
-  'SiteSelo gives every business a beautiful digital storefront. Manage your catalogue, gallery, and contact details, then share one link with your customers.'
+  'SiteSelo helps local businesses create professional websites in minutes. Built for restaurants, salons, clinics, and service businesses.'
 
 function setMeta(name: string, content: string, attr = 'name') {
   let el = document.querySelector(`meta[${attr}="${name}"]`)

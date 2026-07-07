@@ -15,6 +15,12 @@ export function ContactSection({ business }: ContactSectionProps) {
     business.phone || business.whatsapp || business.email || business.address
   if (!hasAnyContact && !business.opening_hours) return null
 
+  // The grid is 2 columns (contact card, map, opening hours). If an even
+  // number of cards precede it, Opening Hours lands alone in a new row —
+  // center it instead of leaving it stuck against the left column.
+  const precedingCount = (hasAnyContact ? 1 : 0) + (business.address ? 1 : 0)
+  const hoursAlone = precedingCount % 2 === 0
+
   return (
     <section id="contact" className="bg-white py-16 md:py-20 px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
@@ -123,44 +129,46 @@ export function ContactSection({ business }: ContactSectionProps) {
 
           {/* Opening hours card */}
           {business.opening_hours && business.opening_hours.length > 0 && (
-            <div className="bg-(--color-inverse-surface) rounded-2xl p-7 md:p-8">
-              <h3 className="font-['Hanken_Grotesk'] text-lg font-bold text-(--color-inverse-on-surface) mb-6 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-                  <Clock size={18} className="text-(--color-inverse-on-surface)" />
-                </div>
-                Opening Hours
-              </h3>
+            <div className={hoursAlone ? 'md:col-span-2 flex md:justify-center' : ''}>
+              <div className={`bg-(--color-inverse-surface) rounded-2xl p-7 md:p-8 w-full ${hoursAlone ? 'md:max-w-xl' : ''}`}>
+                <h3 className="font-['Hanken_Grotesk'] text-lg font-bold text-(--color-inverse-on-surface) mb-6 flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                    <Clock size={18} className="text-(--color-inverse-on-surface)" />
+                  </div>
+                  Opening Hours
+                </h3>
 
-              <div className="space-y-2">
-                {business.opening_hours.map((h) => {
-                  const todayName = new Date().toLocaleDateString('en-US', { weekday: 'long' })
-                  const isToday = h.day === todayName
-                  return (
-                    <div
-                      key={h.day}
-                      className={`flex justify-between items-center py-2 px-3 rounded-xl transition-colors ${
-                        isToday ? 'bg-white/10' : ''
-                      }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        {isToday && (
-                          <span className="w-1.5 h-1.5 rounded-full bg-(--color-brand)" />
-                        )}
-                        <span className={`text-sm font-medium ${isToday ? 'text-(--color-inverse-on-surface) font-bold' : 'text-(--color-inverse-on-surface)/60'}`}>
-                          {h.day}
-                        </span>
-                        {isToday && (
-                          <span className="text-[10px] bg-(--color-brand) text-white px-2 py-0.5 rounded-full font-bold">
-                            Today
+                <div className="space-y-2">
+                  {business.opening_hours.map((h) => {
+                    const todayName = new Date().toLocaleDateString('en-US', { weekday: 'long' })
+                    const isToday = h.day === todayName
+                    return (
+                      <div
+                        key={h.day}
+                        className={`flex justify-between items-center py-2 px-3 rounded-xl transition-colors ${
+                          isToday ? 'bg-white/10' : ''
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          {isToday && (
+                            <span className="w-1.5 h-1.5 rounded-full bg-(--color-brand)" />
+                          )}
+                          <span className={`text-sm font-medium ${isToday ? 'text-(--color-inverse-on-surface) font-bold' : 'text-(--color-inverse-on-surface)/60'}`}>
+                            {h.day}
                           </span>
-                        )}
+                          {isToday && (
+                            <span className="text-[10px] bg-(--color-brand) text-white px-2 py-0.5 rounded-full font-bold">
+                              Today
+                            </span>
+                          )}
+                        </div>
+                        <span className={`text-sm font-medium ${h.closed ? 'text-(--color-inverse-on-surface)/40' : isToday ? 'text-(--color-inverse-on-surface) font-semibold' : 'text-(--color-inverse-on-surface)/60'}`}>
+                          {h.closed ? 'Closed' : `${h.open} – ${h.close}`}
+                        </span>
                       </div>
-                      <span className={`text-sm font-medium ${h.closed ? 'text-(--color-inverse-on-surface)/40' : isToday ? 'text-(--color-inverse-on-surface) font-semibold' : 'text-(--color-inverse-on-surface)/60'}`}>
-                        {h.closed ? 'Closed' : `${h.open} – ${h.close}`}
-                      </span>
-                    </div>
-                  )
-                })}
+                    )
+                  })}
+                </div>
               </div>
             </div>
           )}

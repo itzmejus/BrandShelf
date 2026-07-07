@@ -87,7 +87,7 @@ export function GalleryPage() {
         title="Gallery"
         subtitle={
           images.length === 0
-            ? 'Showcase photos of your work, space, or products on your storefront.'
+            ? 'Showcase photos of your work, space, or products on your website.'
             : `${images.length} image${images.length !== 1 ? 's' : ''} in your gallery`
         }
         action={
@@ -121,7 +121,7 @@ export function GalleryPage() {
           <EmptyState
             icon={Images}
             title="No images yet"
-            description="Upload photos to build a gallery your customers can browse on your storefront."
+            description="Upload photos to build a gallery your customers can browse on your website."
             action={{ label: 'Add Your First Image', onClick: () => inputRef.current?.click() }}
           />
         ) : (

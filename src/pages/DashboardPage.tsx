@@ -31,9 +31,10 @@ import { StatCard, StatCardSkeleton, Switch, Badge } from '../components'
 import { ROUTES } from '../utils/constants'
 import { formatRelativeTime } from '../utils/business.utils'
 import { computeSetupProgress } from '../utils/setupProgress'
+import { getCatalogueLabel } from '../utils/businessType'
 
 const DUMMY_STATS = [
-  { icon: Eye, label: 'Storefront Views', value: '2,845', trend: '+12%', trendUp: true },
+  { icon: Eye, label: 'Website Views', value: '2,845', trend: '+12%', trendUp: true },
   { icon: MessageCircle, label: 'WhatsApp Taps', value: '412', trend: '+8%', trendUp: true },
   { icon: Phone, label: 'Phone Calls', value: '89', trend: '-2%', trendUp: false },
   { icon: CalendarCheck, label: 'Bookings', value: '54', trend: '+15%', trendUp: true },
@@ -123,6 +124,7 @@ export function DashboardPage() {
   const galleryImages = useAppSelector((s) => s.gallery.images)
 
   const availableCount = catalogue.items.filter((i) => i.available).length
+  const catalogueLabel = getCatalogueLabel(business?.type ?? '')
 
   useEffect(() => {
     if (business) dispatch(fetchGalleryImages(business.id))
@@ -167,10 +169,10 @@ export function DashboardPage() {
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-primary tracking-tight">
-          {business ? `Welcome back, ${business.name}.` : 'Welcome back.'}
+          {business ? `Welcome to SiteSelo, ${business.name}.` : 'Welcome to SiteSelo.'}
         </h1>
         <p className="text-sm text-on-surface-variant mt-0.5">
-          Your digital storefront is ready to grow. Manage everything your customers see from one place.
+          Set up your business profile and publish your website in minutes.
         </p>
       </div>
 
@@ -225,7 +227,7 @@ export function DashboardPage() {
           <div className="absolute top-0 right-0 w-56 h-56 bg-secondary/20 rounded-full blur-3xl -mr-20 -mt-20" />
           <div className="relative z-10">
             <p className="text-xs font-bold text-on-primary-container uppercase tracking-widest mb-1">
-              Finish setting up your website
+              Complete your business profile to launch your website
             </p>
             <p className="text-white text-sm font-semibold">
               Step {setupProgress.completedSteps + 1} of {setupProgress.totalSteps} · {setupProgress.percent}% complete
@@ -254,7 +256,7 @@ export function DashboardPage() {
         <div className="lg:col-span-8 bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
           <div className="px-6 py-4 border-b border-outline-variant flex justify-between items-center">
             <div>
-              <h3 className="text-base font-semibold text-primary">Storefront Traffic</h3>
+              <h3 className="text-base font-semibold text-primary">Website Traffic</h3>
               <p className="text-xs text-on-surface-variant">Views and customer interactions over time</p>
             </div>
             <select
@@ -329,14 +331,14 @@ export function DashboardPage() {
 
       {/* Bento row */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {/* Storefront status */}
+        {/* Website status */}
         <div className="md:col-span-2 bg-primary p-5 md:p-8 rounded-xl text-on-primary flex flex-col justify-between overflow-hidden relative">
           <div className="relative z-10">
-            <h3 className="text-lg font-semibold mb-2">Your Storefront</h3>
+            <h3 className="text-lg font-semibold mb-2">Your Website</h3>
             <p className="text-sm opacity-80 max-w-xs">
               {catalogue.items.length > 0
                 ? `${catalogue.items.length} item${catalogue.items.length !== 1 ? 's' : ''} published. ${availableCount} available to customers.`
-                : 'Your storefront is live. Start adding products and services.'}
+                : 'Your website is live. Start adding services or menu items.'}
             </p>
           </div>
           <div className="mt-8 relative z-10">
@@ -344,7 +346,7 @@ export function DashboardPage() {
               onClick={() => navigate(ROUTES.CATALOGUE)}
               className="bg-white text-primary font-bold px-6 py-2.5 rounded-lg text-xs hover:bg-secondary-fixed transition-colors"
             >
-              Manage Catalogue
+              Manage {catalogueLabel}
             </button>
           </div>
           <div className="absolute top-0 right-0 w-64 h-64 bg-secondary opacity-10 rounded-full blur-3xl -mr-20 -mt-20" />
@@ -353,7 +355,7 @@ export function DashboardPage() {
         {/* Catalogue summary */}
         <div className="bg-white border border-outline-variant rounded-xl p-6 flex flex-col gap-2">
           <span className="text-[11px] font-medium text-on-surface-variant uppercase tracking-wider">
-            Catalogue Items
+            {catalogueLabel}
           </span>
           <h3 className="text-2xl font-bold text-primary">{catalogue.items.length}</h3>
           <p className="text-xs text-on-surface-variant">
@@ -371,7 +373,7 @@ export function DashboardPage() {
           </div>
           <h4 className="text-xs font-bold text-on-surface">Generate QR Code</h4>
           <p className="text-[11px] text-on-surface-variant mt-1">
-            Share your storefront anywhere: print, post, or display.
+            Share your website anywhere: print, post, or display.
           </p>
         </button>
       </div>

@@ -52,9 +52,9 @@ interface FlowStep {
 }
 
 const FLOW_STEPS: FlowStep[] = [
-  { key: 'create', step: 'Step 01', icon: Code2, title: 'Create your business', desc: 'Tell us the basics — the same details a customer would ask you for: name, category, phone, address, services.' },
-  { key: 'build', step: 'Step 02', icon: Zap, title: 'SiteSelo builds everything', desc: 'Homepage, About, Services, Gallery, Contact and SEO — every page a real business website needs, generated instantly.' },
-  { key: 'publish', step: 'Step 03', icon: Globe, title: 'Publish', desc: 'Your website goes live instantly, on a link you can share today: siteselo.com/your-business.' },
+  { key: 'create', step: 'Step 01', icon: Code2, title: 'Add your business details', desc: 'Enter your business name, category, phone number, location, services, and working hours.' },
+  { key: 'build', step: 'Step 02', icon: Zap, title: 'SiteSelo builds your website', desc: 'Your business information is turned into a professional website with services, gallery, contact buttons, SEO, and mobile-ready pages.' },
+  { key: 'publish', step: 'Step 03', icon: Globe, title: 'Publish and share', desc: 'Your website goes live instantly with a simple link like siteselo.com/your-business.' },
 ]
 
 interface GalleryItem { name: string; category: string }
@@ -66,14 +66,16 @@ const GALLERY_ITEMS: GalleryItem[] = [
   { name: 'Cafe', category: 'Food & Drink' },
   { name: 'Dental Clinic', category: 'Health & Beauty' },
   { name: 'Medical Clinic', category: 'Health & Beauty' },
-  { name: 'Salon', category: 'Health & Beauty' },
+  { name: 'Beauty Salon', category: 'Health & Beauty' },
+  { name: 'Spa', category: 'Health & Beauty' },
   { name: 'Gym', category: 'Health & Beauty' },
   { name: 'Moving Company', category: 'Home Services' },
   { name: 'Electrician', category: 'Home Services' },
-  { name: 'HVAC', category: 'Home Services' },
-  { name: 'Cleaning', category: 'Home Services' },
-  { name: 'Landscaping', category: 'Home Services' },
-  { name: 'Photography', category: 'Creative' },
+  { name: 'HVAC Company', category: 'Home Services' },
+  { name: 'Cleaning Company', category: 'Home Services' },
+  { name: 'Landscaping Company', category: 'Home Services' },
+  { name: 'Real Estate', category: 'Home Services' },
+  { name: 'Photographer', category: 'Creative' },
 ]
 
 interface CompareRow { label: string; starter: boolean; business: boolean; professional: boolean }
@@ -99,7 +101,7 @@ const STATS_2 = [
 const FAQ_ITEMS: { q: string; a: string }[] = [
   { q: 'Do I need any technical or design skills?', a: "No. If you can fill out a form, you can build your website. There's nothing to install and nothing to design — you answer questions about your business, and SiteSelo handles layout, structure, and copy." },
   { q: 'How long does it actually take to go live?', a: 'Most businesses are live in under two minutes with just the essentials filled in. You can always come back and add photos, services, or hours later — nothing has to be perfect before you publish.' },
-  { q: 'Can I use my own domain name?', a: "Yes, on the Business and Professional plans. Every website also comes with a free siteselo.com address you can use right away, so you're never blocked waiting on domain setup." },
+  { q: 'Can I use my own domain name?', a: "Yes, on the Grow and Scale plans. Every website also comes with a free siteselo.com address you can use right away, so you're never blocked waiting on domain setup." },
   { q: 'What if I need to change something later?', a: 'Everything is editable from your dashboard — text, photos, hours, services — and changes go live immediately. There’s no rebuild or waiting on a developer.' },
   { q: 'Is it really mobile-friendly?', a: 'Every layout is built mobile-first, since most of your customers will land on your site from a phone search or a shared link. Nothing extra to configure.' },
   { q: 'What happens if I cancel?', a: "Your website stays live through the end of your billing period. You can export your business details at any time, and there's no lock-in contract." },
@@ -107,8 +109,8 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
 
 export function LandingPage() {
   usePageMeta({
-    title: 'SiteSelo — Launch your business website in minutes',
-    description: 'SiteSelo turns a few business details into a complete, professional website — live in minutes. Built for restaurants, clinics, salons, and every local business.',
+    title: 'SiteSelo — Launch Your Business Website in Minutes',
+    description: 'SiteSelo helps local businesses create professional websites in minutes. Built for restaurants, salons, clinics, and service businesses.',
   })
 
   const navigate = useNavigate()
@@ -187,14 +189,14 @@ export function LandingPage() {
         <div className="wrap hero-grid">
           <div>
             <span className="eyebrow">For every local business</span>
-            <h1>Launch your business website in minutes.</h1>
+            <h1>Launch your business online in minutes.</h1>
             <p className="hero-sub">
-              No designers. No developers. No complicated setup. Just answer a few questions —
-              SiteSelo builds a complete, professional website for your business while you watch.
+              SiteSelo creates a professional website for your business from a few simple details.
+              No designer, no developer, no complicated setup.
             </p>
             <div className="hero-ctas">
               <Link to={ROUTES.REGISTER} className="btn btn-primary">Start Free <span className="btn-arrow">→</span></Link>
-              <a href="#gallery" className="btn btn-ghost">See live examples</a>
+              <a href="#gallery" className="btn btn-ghost">View Examples</a>
             </div>
           </div>
 
@@ -248,8 +250,8 @@ export function LandingPage() {
         <div className="wrap">
           <div className="section-head center">
             <span className="eyebrow">How it works</span>
-            <h2>Watch it build itself.</h2>
-            <p>Three steps between you and a live website — no waiting on a developer.</p>
+            <h2>From business details to a live website.</h2>
+            <p>Add your details, and SiteSelo takes care of the rest.</p>
           </div>
           <div className="steps-grid">
             {FLOW_STEPS.map((s, i) => (
@@ -275,8 +277,8 @@ export function LandingPage() {
         <div className="wrap">
           <div className="section-head">
             <span className="eyebrow">Built for your industry</span>
-            <h2>Whatever you run, SiteSelo already knows the shape of your website.</h2>
-            <p>Every category ships with layouts and structure suited to that business — filter by the kind of business you run.</p>
+            <h2>Built for every kind of local business.</h2>
+            <p>Whether you run a restaurant, salon, clinic, or service company, SiteSelo gives your business a professional website in minutes.</p>
           </div>
           <div className="gallery-layout">
             <div>
@@ -338,9 +340,9 @@ export function LandingPage() {
               <thead>
                 <tr>
                   <th>Feature</th>
-                  <th className="plan">Starter</th>
-                  <th className="plan popular">Business</th>
-                  <th className="plan">Pro</th>
+                  <th className="plan">Launch</th>
+                  <th className="plan popular">Grow</th>
+                  <th className="plan">Scale</th>
                 </tr>
               </thead>
               <tbody>
@@ -409,9 +411,9 @@ export function LandingPage() {
           </div>
           <div className="price-grid">
             <div className="price-card">
-              <div className="price-top"><span className="price-name">Starter</span></div>
+              <div className="price-top"><span className="price-name">Launch</span></div>
               <div className="price-amount"><b>AED 99</b> <span>/ month</span></div>
-              <p className="price-desc">For a business ready to be found online for the first time.</p>
+              <p className="price-desc">For businesses getting online for the first time.</p>
               <ul className="price-list">
                 <li><span className="yes">✓</span>1 website on a siteselo.com address</li>
                 <li><span className="yes">✓</span>Homepage, About, Contact & Gallery</li>
@@ -421,11 +423,11 @@ export function LandingPage() {
               <Link to={ROUTES.REGISTER} className="btn btn-ghost" style={{ justifyContent: 'center' }}>Start Free</Link>
             </div>
             <div className="price-card featured">
-              <div className="price-top"><span className="price-name">Business</span><span className="price-chip">Most popular</span></div>
+              <div className="price-top"><span className="price-name">Grow</span><span className="price-chip">Most popular</span></div>
               <div className="price-amount"><b>AED 199</b> <span>/ month</span></div>
-              <p className="price-desc">For a business that takes bookings and wants to be found.</p>
+              <p className="price-desc">For businesses that want more leads and bookings.</p>
               <ul className="price-list">
-                <li><span className="yes">✓</span>Everything in Starter</li>
+                <li><span className="yes">✓</span>Everything in Launch</li>
                 <li><span className="yes">✓</span>Your own custom domain</li>
                 <li><span className="yes">✓</span>Bookings & testimonials pages</li>
                 <li><span className="yes">✓</span>Visitor analytics</li>
@@ -434,11 +436,11 @@ export function LandingPage() {
               <Link to={ROUTES.REGISTER} className="btn btn-primary" style={{ justifyContent: 'center' }}>Start Free</Link>
             </div>
             <div className="price-card">
-              <div className="price-top"><span className="price-name">Professional</span></div>
+              <div className="price-top"><span className="price-name">Scale</span></div>
               <div className="price-amount"><b>AED 349</b> <span>/ month</span></div>
-              <p className="price-desc">For multi-location businesses and growing brands.</p>
+              <p className="price-desc">For businesses that need advanced control and growth tools.</p>
               <ul className="price-list">
-                <li><span className="yes">✓</span>Everything in Business</li>
+                <li><span className="yes">✓</span>Everything in Grow</li>
                 <li><span className="yes">✓</span>Multiple locations, one dashboard</li>
                 <li><span className="yes">✓</span>Advanced SEO tools</li>
                 <li><span className="yes">✓</span>No SiteSelo branding</li>
@@ -470,7 +472,7 @@ export function LandingPage() {
         <div className="wrap">
           <div className="cta-card">
             <div className="cta-card-icon"><Mail size={22} /></div>
-            <h2>Get your free storefront checklist.</h2>
+            <h2>Get your free website launch checklist.</h2>
             <p>Drop your email and we'll send the exact checklist SiteSelo uses to get a business live in under two minutes.</p>
             <form className="cta-form" onSubmit={handleCtaSubmit}>
               <input
@@ -497,7 +499,7 @@ export function LandingPage() {
             <p>Join the local businesses already taking bookings, enquiries, and orders through a website they built in minutes.</p>
             <div className="final-ctas">
               <Link to={ROUTES.REGISTER} className="btn btn-primary">Start Free <span className="btn-arrow">→</span></Link>
-              <a href="#gallery" className="btn btn-ghost">View demo</a>
+              <a href="#gallery" className="btn btn-ghost">View Examples</a>
             </div>
           </div>
         </div>
@@ -509,16 +511,18 @@ export function LandingPage() {
           <div className="footer-top">
             <div className="footer-brand">
               <a href="#top" className="brand"><span className="brand-mark"><span /></span>SiteSelo</a>
-              <p>A complete business website, built from a few details and live in minutes.</p>
+              <p>Professional websites for local businesses. Ready in minutes.</p>
             </div>
             <nav className="footer-links" aria-label="Footer">
               <a href="#included">Features</a>
-              <a href="#pricing">Pricing</a>
               <a href="#gallery">Templates</a>
-              <a href="#faq">Help</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#gallery">Examples</a>
+              <a href="#top">About</a>
               <a href="#">Contact</a>
-              <Link to={ROUTES.PRIVACY}>Privacy</Link>
-              <Link to={ROUTES.TERMS}>Terms</Link>
+              <a href="#faq">Help</a>
+              <Link to={ROUTES.PRIVACY}>Privacy Policy</Link>
+              <Link to={ROUTES.TERMS}>Terms of Service</Link>
             </nav>
           </div>
           <div className="footer-bottom">

@@ -169,7 +169,7 @@ export function SettingsPage() {
   if (businessLoading) {
     return (
       <div className="space-y-6 pb-8">
-        <PageHeader title="Business Settings" subtitle="Preparing your storefront settings…" />
+        <PageHeader title="Business Settings" subtitle="Preparing your website settings…" />
         <SettingsSkeleton />
       </div>
     )
@@ -180,7 +180,7 @@ export function SettingsPage() {
       <div className="space-y-6 pb-8">
         <PageHeader
           title="Business Settings"
-          subtitle="Manage your business profile and what customers see on your storefront."
+          subtitle="Manage your business profile and what customers see on your website."
           action={
             <Button type="submit" loading={isLoading}>
               Save Changes
@@ -195,7 +195,7 @@ export function SettingsPage() {
             <div className="relative z-10 px-6 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold text-on-primary-container uppercase tracking-widest mb-1">
-                  Your SiteSelo Storefront
+                  Your SiteSelo Website
                 </p>
                 <p className="text-white font-semibold text-sm break-all">
                   {window.location.origin}/{business.slug}
@@ -290,7 +290,7 @@ export function SettingsPage() {
           <div className="px-6 py-4 border-b border-outline-variant">
             <h2 className="text-sm font-semibold text-primary">Brand Images</h2>
             <p className="text-xs text-on-surface-variant mt-0.5">
-              These images appear on your public storefront. JPEG, PNG, WEBP (max 5 MB).
+              These images appear on your public website. JPEG, PNG, WEBP (max 5 MB).
             </p>
           </div>
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">

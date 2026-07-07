@@ -40,7 +40,7 @@ export function DashboardLayout() {
     return (
       <div className="min-h-screen flex items-center justify-center flex-col gap-3">
         <Spinner size={32} />
-        <p className="text-sm text-on-surface-variant">Loading your storefront…</p>
+        <p className="text-sm text-on-surface-variant">Loading your website…</p>
       </div>
     )
   }

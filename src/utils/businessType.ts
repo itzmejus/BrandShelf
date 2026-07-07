@@ -5,7 +5,7 @@ export type HeroCta = 'menu' | 'booking' | 'quote' | 'contact'
 const CATEGORY_BY_TYPE: Record<string, BusinessCategory> = {
   Restaurant: 'food',
   Cafe: 'food',
-  Salon: 'beauty',
+  'Beauty Salon': 'beauty',
   Spa: 'beauty',
   'Dental Clinic': 'medical',
   'Medical Clinic': 'medical',
@@ -13,9 +13,14 @@ const CATEGORY_BY_TYPE: Record<string, BusinessCategory> = {
   'Moving Company': 'service',
   'Cleaning Company': 'service',
   'HVAC Company': 'service',
-  'Electrical Company': 'service',
+  Electrician: 'service',
   'Landscaping Company': 'service',
   'Real Estate': 'service',
+  Photographer: 'service',
+  // Legacy labels — keep mapping so businesses created before the rename
+  // (stored with the old type string) still get the right category.
+  Salon: 'beauty',
+  'Electrical Company': 'service',
   Photography: 'service',
 }
 

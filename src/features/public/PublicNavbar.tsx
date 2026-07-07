@@ -21,11 +21,14 @@ export function PublicNavbar({ businessName, catalogueLabel = 'Catalogue' }: Pub
     <>
       {/* Main navbar */}
       <nav className="sticky top-0 w-full bg-white z-50 shadow-sm border-b border-(--color-outline-variant)">
-        <div className="flex items-center justify-between px-4 md:px-10 py-4 max-w-7xl mx-auto">
+        <div className="flex items-center justify-between gap-4 px-4 md:px-10 py-4 max-w-7xl mx-auto">
           {/* Logo — min-w-0 + flex-1 lets the name shrink to whatever space is
               actually left, so a long business name truncates gracefully at
-              every breakpoint instead of overflowing past the navbar */}
-          <a href="#" className="flex items-center gap-2.5 min-w-0 flex-1 mr-3">
+              every breakpoint instead of overflowing past the navbar. The
+              outer flex's `gap-4` (not just justify-between) guarantees a
+              minimum gap here even when content is tight — justify-between
+              alone can collapse to 0px between groups and visually overlap. */}
+          <a href="#" className="flex items-center gap-2.5 min-w-0 flex-1">
             <div className="w-8 h-8 rounded-lg bg-(--color-brand) flex items-center justify-center flex-shrink-0">
               <span className="text-white font-bold text-sm">
                 {businessName?.charAt(0) ?? 'C'}
@@ -36,8 +39,9 @@ export function PublicNavbar({ businessName, catalogueLabel = 'Catalogue' }: Pub
             </span>
           </a>
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-6 flex-shrink-0">
+          {/* Desktop nav — held off until lg: 5 links + the Share button need
+              real room, and md: was cramming them against the business name */}
+          <div className="hidden lg:flex items-center gap-5 xl:gap-6 flex-shrink-0">
             {[
               { label: 'Home', href: '#' },
               { label: 'About', href: '#about' },
@@ -48,7 +52,7 @@ export function PublicNavbar({ businessName, catalogueLabel = 'Catalogue' }: Pub
               <a
                 key={link.label}
                 href={link.href}
-                className="text-sm text-(--color-on-surface-variant) hover:text-(--color-brand) transition-colors font-medium"
+                className="text-sm text-(--color-on-surface-variant) hover:text-(--color-brand) transition-colors font-medium whitespace-nowrap"
               >
                 {link.label}
               </a>
@@ -59,14 +63,14 @@ export function PublicNavbar({ businessName, catalogueLabel = 'Catalogue' }: Pub
           <div className="flex items-center gap-3 flex-shrink-0">
             <button
               onClick={handleShare}
-              className="hidden md:flex items-center gap-2 bg-(--color-brand) hover:bg-(--color-brand-hover) text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors"
+              className="hidden lg:flex items-center gap-2 bg-(--color-brand) hover:bg-(--color-brand-hover) text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors"
             >
               <Share2 size={14} />
               Share
             </button>
             <button
               onClick={() => setMenuOpen((v) => !v)}
-              className="md:hidden p-2 text-(--color-on-surface)"
+              className="lg:hidden p-2 text-(--color-on-surface)"
             >
               {menuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -75,7 +79,7 @@ export function PublicNavbar({ businessName, catalogueLabel = 'Catalogue' }: Pub
 
         {/* Mobile dropdown */}
         {menuOpen && (
-          <div className="md:hidden bg-white border-t border-(--color-outline-variant) px-4 py-3 space-y-1">
+          <div className="lg:hidden bg-white border-t border-(--color-outline-variant) px-4 py-3 space-y-1">
             {[
               { label: 'Home', href: '#' },
               { label: 'About', href: '#about' },

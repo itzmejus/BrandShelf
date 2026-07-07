@@ -38,7 +38,7 @@ export function LoginPage() {
       {/* Mobile brand mark */}
       <div className="lg:hidden flex items-center gap-3 mb-2">
         <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center" aria-hidden="true">
-          <span className="text-on-primary font-bold text-xs tracking-tight">BS</span>
+          <span className="text-on-primary font-bold text-xs tracking-tight">S</span>
         </div>
         <span className="font-bold text-lg text-primary tracking-tight">SiteSelo</span>
       </div>
@@ -46,7 +46,7 @@ export function LoginPage() {
       <div>
         <h1 className="text-2xl font-bold text-primary">Welcome back.</h1>
         <p className="text-sm text-on-surface-variant mt-1.5">
-          Sign in to manage your digital storefront.
+          Sign in to manage your business website.
         </p>
       </div>
 

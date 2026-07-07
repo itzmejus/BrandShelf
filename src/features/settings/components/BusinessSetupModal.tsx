@@ -94,7 +94,7 @@ export function BusinessSetupModal({ open }: BusinessSetupModalProps) {
     )
 
     if (saveBusiness.fulfilled.match(result)) {
-      dispatch(addToast({ message: `Your storefront for "${values.name}" is live. Welcome to SiteSelo!`, type: 'success' }))
+      dispatch(addToast({ message: `Your website for "${values.name}" is live. Welcome to SiteSelo!`, type: 'success' }))
     }
   }
 
@@ -139,7 +139,7 @@ export function BusinessSetupModal({ open }: BusinessSetupModalProps) {
               <div className="flex items-center gap-2 px-3 py-2 bg-surface-container-low rounded-lg border border-outline-variant">
                 <Link size={13} className="text-secondary flex-shrink-0" />
                 <p className="text-xs text-on-surface-variant truncate">
-                  Your storefront link:{' '}
+                  Your website link:{' '}
                   <span className="font-semibold text-secondary">
                     siteselo.com/{slug}
                   </span>

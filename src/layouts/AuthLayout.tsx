@@ -4,12 +4,12 @@ import { Spinner } from '../components'
 
 const FEATURES = [
   {
-    title: 'Beautiful Digital Storefront',
+    title: 'A Professional Business Website',
     desc: 'Your customers get a clean, professional page. No app required.',
   },
   {
-    title: 'Full Catalogue Management',
-    desc: 'Add products and services with images, prices, and availability.',
+    title: 'Everything Managed in One Place',
+    desc: 'Add your services or menu, photos, and business details anytime.',
   },
   {
     title: 'One Shareable Link',
@@ -37,16 +37,16 @@ export function AuthLayout() {
         <div className="relative z-10">
           <div className="flex items-center gap-3 mb-12">
             <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">
-              <span className="text-white font-bold text-lg tracking-tight">B</span>
+              <span className="text-white font-bold text-lg tracking-tight">S</span>
             </div>
             <span className="text-white font-bold text-xl tracking-tight">SiteSelo</span>
           </div>
           <h2 className="text-4xl font-bold text-white leading-tight mb-4">
-            Create a beautiful<br />digital storefront.
+            Launch your business<br />online in minutes.
           </h2>
           <p className="text-on-primary-container text-base leading-relaxed max-w-sm">
-            Manage your catalogue, gallery, and business details from one dashboard.
-            Then share one beautiful link with your customers.
+            Add your business details, services, and photos from one dashboard.
+            Then share one link with your customers.
           </p>
         </div>
 
@@ -63,7 +63,7 @@ export function AuthLayout() {
             </div>
           ))}
           <p className="text-xs text-on-primary-container/60 pt-4 border-t border-white/10">
-            Everything Your Customers Need. One Link.
+            From details to website.
           </p>
         </div>
 

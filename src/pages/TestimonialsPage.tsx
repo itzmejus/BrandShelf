@@ -56,7 +56,7 @@ export function TestimonialsPage() {
         title="Testimonials"
         subtitle={
           testimonials.length === 0
-            ? 'Share customer reviews on your public storefront.'
+            ? 'Share customer reviews on your public website.'
             : `${testimonials.length} testimonial${testimonials.length !== 1 ? 's' : ''}`
         }
         action={
@@ -78,7 +78,7 @@ export function TestimonialsPage() {
           <EmptyState
             icon={Quote}
             title="No testimonials yet"
-            description="Add customer reviews to build trust with visitors on your public storefront."
+            description="Add customer reviews to build trust with visitors on your public website."
             action={{ label: 'Add Your First Testimonial', onClick: openAdd }}
           />
         ) : (

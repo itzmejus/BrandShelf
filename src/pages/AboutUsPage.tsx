@@ -102,7 +102,7 @@ export function AboutUsPage() {
       <div className="space-y-6 pb-8">
         <PageHeader
           title="About Us"
-          subtitle="Tell customers your story. This appears on your public storefront."
+          subtitle="Tell customers your story. This appears on your public website."
           action={
             <Button type="submit" loading={isLoading} disabled={loading}>
               Save Changes
@@ -114,7 +114,7 @@ export function AboutUsPage() {
           <div className="px-6 py-4 border-b border-outline-variant">
             <h2 className="text-sm font-semibold text-primary">Our Story</h2>
             <p className="text-xs text-on-surface-variant mt-0.5">
-              Shown in the About Us section of your storefront. Leave blank to fall back to your business description.
+              Shown in the About Us section of your website. Leave blank to fall back to your business description.
             </p>
           </div>
           <div className="p-6 space-y-5">

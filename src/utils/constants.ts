@@ -1,18 +1,22 @@
+export const APP_NAME = 'SiteSelo'
+export const APP_TAGLINE = 'Launch your business online in minutes.'
+export const APP_SHORT_TAGLINE = 'From details to website.'
+
 export const BUSINESS_TYPES = [
   'Restaurant',
   'Cafe',
-  'Salon',
-  'Spa',
   'Dental Clinic',
   'Medical Clinic',
+  'Beauty Salon',
+  'Spa',
   'Gym',
   'Moving Company',
-  'Cleaning Company',
+  'Electrician',
   'HVAC Company',
-  'Electrical Company',
+  'Cleaning Company',
   'Landscaping Company',
+  'Photographer',
   'Real Estate',
-  'Photography',
   'Other',
 ] as const
 
