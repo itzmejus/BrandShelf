@@ -1,0 +1,525 @@
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import {
+  Zap, Code2, Smartphone, Globe, LayoutGrid, MessageCircle, Mail, MapPin,
+  Images, Clock, Search, Star, CalendarCheck, BarChart3, Check, ChevronDown,
+} from 'lucide-react'
+import { usePageMeta } from '../hooks/usePageMeta'
+import { ROUTES } from '../utils/constants'
+import './LandingPage.css'
+
+const TRUST_ITEMS = [
+  { icon: Zap, title: 'Live in under 2 minutes', desc: 'From sign-up to a working website, start to finish.' },
+  { icon: Code2, title: 'Zero code required', desc: "Answer questions about your business — that's it." },
+  { icon: Smartphone, title: 'Mobile-optimized', desc: 'Every layout works perfectly on any screen size.' },
+  { icon: Globe, title: 'Hosted, always on', desc: '24/7 hosting included, with nothing to configure.' },
+]
+
+const BENTO_SMALL = [
+  { icon: MessageCircle, title: 'WhatsApp built in', desc: 'A tap-to-chat button on every page.' },
+  { icon: Smartphone, title: 'Mobile responsive', desc: 'Looks right on any screen, by default.' },
+  { icon: Mail, title: 'Contact forms', desc: 'Enquiries land straight in your inbox.' },
+  { icon: MapPin, title: 'Google Maps', desc: 'An embedded map customers can tap to.' },
+  { icon: Images, title: 'Gallery', desc: 'A clean grid for your best photos.' },
+  { icon: Clock, title: 'Working hours', desc: 'Auto-flagged "Open now" or "Closed."' },
+  { icon: Search, title: 'SEO ready', desc: 'Titles and metadata, generated for you.' },
+  { icon: Star, title: 'Testimonials', desc: 'A dedicated place for your reviews.' },
+  { icon: CalendarCheck, title: 'Bookings', desc: 'Accept appointments without a call.' },
+  { icon: BarChart3, title: 'Analytics', desc: 'See visits and clicks from your dashboard.' },
+]
+
+interface FlowStep {
+  key: string
+  step: string
+  title: string
+  desc: string
+}
+
+const FLOW_STEPS: FlowStep[] = [
+  { key: 'create', step: 'Step 01', title: 'Create your business', desc: 'Tell us the basics — the same details a customer would ask you for: name, category, phone, address, services.' },
+  { key: 'build', step: 'Step 02', title: 'BrandShelf builds everything', desc: 'Homepage, About, Services, Gallery, Contact and SEO — every page a real business website needs, generated instantly.' },
+  { key: 'publish', step: 'Step 03', title: 'Publish', desc: 'Your website goes live instantly, on a link you can share today: brandshelf.com/your-business.' },
+]
+
+interface GalleryItem { name: string; category: string }
+
+const CATEGORIES = ['All', 'Food & Drink', 'Health & Beauty', 'Home Services', 'Creative']
+
+const GALLERY_ITEMS: GalleryItem[] = [
+  { name: 'Restaurant', category: 'Food & Drink' },
+  { name: 'Cafe', category: 'Food & Drink' },
+  { name: 'Dental Clinic', category: 'Health & Beauty' },
+  { name: 'Medical Clinic', category: 'Health & Beauty' },
+  { name: 'Salon', category: 'Health & Beauty' },
+  { name: 'Gym', category: 'Health & Beauty' },
+  { name: 'Moving Company', category: 'Home Services' },
+  { name: 'Electrician', category: 'Home Services' },
+  { name: 'HVAC', category: 'Home Services' },
+  { name: 'Cleaning', category: 'Home Services' },
+  { name: 'Landscaping', category: 'Home Services' },
+  { name: 'Photography', category: 'Creative' },
+]
+
+interface CompareRow { label: string; starter: boolean; business: boolean; professional: boolean }
+
+const COMPARE_ROWS: CompareRow[] = [
+  { label: 'Website pages (About, Services, Gallery, Contact)', starter: true, business: true, professional: true },
+  { label: 'WhatsApp button & contact form', starter: true, business: true, professional: true },
+  { label: 'Custom domain', starter: false, business: true, professional: true },
+  { label: 'Bookings & testimonials pages', starter: false, business: true, professional: true },
+  { label: 'Visitor analytics', starter: false, business: true, professional: true },
+  { label: 'Priority support', starter: false, business: true, professional: true },
+  { label: 'Multiple locations, one dashboard', starter: false, business: false, professional: true },
+  { label: 'No BrandShelf branding', starter: false, business: false, professional: true },
+]
+
+const STATS_2 = [
+  { num: '2,400+', label: 'businesses launched' },
+  { num: '4.9★', label: 'average owner rating' },
+  { num: '12', label: 'business categories supported' },
+  { num: '6', label: 'countries live in' },
+]
+
+const FAQ_ITEMS: { q: string; a: string }[] = [
+  { q: 'Do I need any technical or design skills?', a: "No. If you can fill out a form, you can build your website. There's nothing to install and nothing to design — you answer questions about your business, and BrandShelf handles layout, structure, and copy." },
+  { q: 'How long does it actually take to go live?', a: 'Most businesses are live in under two minutes with just the essentials filled in. You can always come back and add photos, services, or hours later — nothing has to be perfect before you publish.' },
+  { q: 'Can I use my own domain name?', a: "Yes, on the Business and Professional plans. Every website also comes with a free brandshelf.com address you can use right away, so you're never blocked waiting on domain setup." },
+  { q: 'What if I need to change something later?', a: 'Everything is editable from your dashboard — text, photos, hours, services — and changes go live immediately. There’s no rebuild or waiting on a developer.' },
+  { q: 'Is it really mobile-friendly?', a: 'Every layout is built mobile-first, since most of your customers will land on your site from a phone search or a shared link. Nothing extra to configure.' },
+  { q: 'What happens if I cancel?', a: "Your website stays live through the end of your billing period. You can export your business details at any time, and there's no lock-in contract." },
+]
+
+export function LandingPage() {
+  usePageMeta({
+    title: 'BrandShelf — Launch your business website in minutes',
+    description: 'BrandShelf turns a few business details into a complete, professional website — live in minutes. Built for restaurants, clinics, salons, and every local business.',
+  })
+
+  const navigate = useNavigate()
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [activeFlow, setActiveFlow] = useState(FLOW_STEPS[0].key)
+  const [activeCategory, setActiveCategory] = useState('All')
+  const [ctaEmail, setCtaEmail] = useState('')
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const root = document.documentElement
+    const previous = root.style.scrollBehavior
+    root.style.scrollBehavior = reduceMotion ? 'auto' : 'smooth'
+    return () => {
+      root.style.scrollBehavior = previous
+    }
+  }, [])
+
+  const flow = FLOW_STEPS.find((s) => s.key === activeFlow) ?? FLOW_STEPS[0]
+  const visibleGallery = activeCategory === 'All' ? GALLERY_ITEMS : GALLERY_ITEMS.filter((g) => g.category === activeCategory)
+
+  const handleCtaSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    navigate(`${ROUTES.REGISTER}${ctaEmail ? `?email=${encodeURIComponent(ctaEmail)}` : ''}`)
+  }
+
+  return (
+    <div className={`ls${menuOpen ? ' menu-open' : ''}`}>
+      {/* ============ NAV ============ */}
+      <nav className="nav">
+        <div className="wrap nav-inner">
+          <a href="#top" className="brand"><span className="brand-mark"><span /></span>BrandShelf</a>
+          <div className="nav-links">
+            <a href="#included">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#gallery">Examples</a>
+            <a href="#faq">FAQ</a>
+          </div>
+          <div className="nav-cta">
+            <Link to={ROUTES.LOGIN} className="btn btn-ghost" style={{ padding: '.6rem 1rem' }}>Log in</Link>
+            <Link to={ROUTES.REGISTER} className="btn btn-primary">Start Free</Link>
+            <button
+              className="nav-burger"
+              aria-label="Open menu"
+              aria-expanded={menuOpen}
+              aria-controls="landing-nav-drawer"
+              onClick={() => setMenuOpen((v) => !v)}
+            >
+              <span /><span /><span />
+            </button>
+          </div>
+        </div>
+        <div className={`nav-drawer${menuOpen ? ' open' : ''}`} id="landing-nav-drawer">
+          <a href="#included" onClick={() => setMenuOpen(false)}>Features</a>
+          <a href="#pricing" onClick={() => setMenuOpen(false)}>Pricing</a>
+          <a href="#gallery" onClick={() => setMenuOpen(false)}>Examples</a>
+          <a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
+          <div className="drawer-cta">
+            <Link to={ROUTES.LOGIN} className="btn btn-ghost" style={{ flex: 1, justifyContent: 'center' }}>Log in</Link>
+            <Link to={ROUTES.REGISTER} className="btn btn-primary" style={{ flex: 1, justifyContent: 'center' }}>Start Free</Link>
+          </div>
+        </div>
+      </nav>
+
+      {/* ============ HERO ============ */}
+      <header className="hero" id="top">
+        <div className="wrap hero-grid">
+          <div>
+            <span className="eyebrow">For every local business</span>
+            <h1>Launch your business website in minutes.</h1>
+            <p className="hero-sub">
+              No designers. No developers. No complicated setup. Just answer a few questions —
+              BrandShelf builds a complete, professional website for your business while you watch.
+            </p>
+            <div className="hero-ctas">
+              <Link to={ROUTES.REGISTER} className="btn btn-primary">Start Free <span className="btn-arrow">→</span></Link>
+              <a href="#gallery" className="btn btn-ghost">See live examples</a>
+            </div>
+          </div>
+
+          <div className="hero-art">
+            <div className="hero-art-frame">
+              <div className="hero-art-bar"><span className="hero-art-dot" /><span className="hero-art-dot" /><span className="hero-art-dot" /></div>
+              <div className="hero-art-body">
+                <div className="hero-art-hero" />
+                <div className="hero-art-line w60" />
+                <div className="hero-art-line w40" />
+                <div className="hero-art-cards"><div /><div /></div>
+              </div>
+            </div>
+            <div className="float-card f1"><span className="dot" />Every page included</div>
+            <div className="float-card f2"><span className="dot" />Live in under 2 minutes</div>
+          </div>
+        </div>
+      </header>
+
+      {/* ============ TRUST STRIP ============ */}
+      <section className="trust">
+        <div className="wrap trust-grid">
+          {TRUST_ITEMS.map((item) => (
+            <div className="trust-item" key={item.title}>
+              <div className="trust-icon"><item.icon size={17} /></div>
+              <div className="trust-title">{item.title}</div>
+              <div className="trust-desc">{item.desc}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ============ BENTO GRID (dark) — everything included ============ */}
+      <section className="section dark-section" id="included">
+        <div className="wrap">
+          <div className="section-head">
+            <span className="eyebrow">Everything included</span>
+            <h2>One plan. A complete website — not a starter kit.</h2>
+            <p>Twelve things every local business website needs, all included, all live from day one.</p>
+          </div>
+          <div className="bento-grid">
+            <div className="bento-card big">
+              <div className="bento-icon"><LayoutGrid size={18} /></div>
+              <h3>Professional website</h3>
+              <p>Homepage, About, Services, Gallery and Contact — structured the way customers expect.</p>
+              <div className="bento-mock">
+                <div className="bento-mock-bar"><span /><span /><span /></div>
+                <div className="bento-mock-body">
+                  <div className="bento-mock-line w70" />
+                  <div className="bento-mock-line w45" />
+                </div>
+              </div>
+            </div>
+            {BENTO_SMALL.map((f) => (
+              <div className="bento-card" key={f.title}>
+                <div className="bento-icon"><f.icon size={18} /></div>
+                <h3>{f.title}</h3>
+                <p>{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ FULL-BLEED DARK FLOW ============ */}
+      <section className="section dark-section">
+        <div className="wrap">
+          <div className="section-head">
+            <span className="eyebrow">How it works</span>
+            <h2>Watch it build itself.</h2>
+          </div>
+          <div className="flow-tabs" role="tablist">
+            {FLOW_STEPS.map((s) => (
+              <button
+                key={s.key}
+                className="flow-tab"
+                role="tab"
+                aria-selected={activeFlow === s.key}
+                onClick={() => setActiveFlow(s.key)}
+              >
+                {s.title}
+              </button>
+            ))}
+          </div>
+          <div className="flow-frame">
+            <div className="flow-bar"><span className="flow-dot" /><span className="flow-dot" /><span className="flow-dot" /></div>
+            <div className="flow-body">
+              <div className="flow-side">
+                {FLOW_STEPS.map((s) => (
+                  <div key={s.key} className={`fi${s.key === activeFlow ? ' on' : ''}`}>{s.title}</div>
+                ))}
+              </div>
+              <div className="flow-main">
+                <span className="flow-step-label">{flow.step}</span>
+                <h3>{flow.title}</h3>
+                <p>{flow.desc}</p>
+                <Link to={ROUTES.REGISTER} className="btn btn-primary flow-cta" style={{ alignSelf: 'flex-start' }}>Start Free <span className="btn-arrow">→</span></Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ FILTERABLE GALLERY ============ */}
+      <section className="section" id="gallery">
+        <div className="wrap">
+          <div className="section-head">
+            <span className="eyebrow">Built for your industry</span>
+            <h2>Whatever you run, BrandShelf already knows the shape of your website.</h2>
+            <p>Every category ships with layouts and structure suited to that business — filter by the kind of business you run.</p>
+          </div>
+          <div className="gallery-layout">
+            <div>
+              <div className="filter-group">
+                <h5>Category</h5>
+                {CATEGORIES.map((cat) => (
+                  <button
+                    key={cat}
+                    className="filter-chip"
+                    aria-pressed={activeCategory === cat}
+                    onClick={() => setActiveCategory(cat)}
+                  >
+                    <span className="box">{activeCategory === cat ? <Check size={10} /> : null}</span>
+                    {cat}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="gallery-grid">
+              {visibleGallery.map((item) => (
+                <div className="gallery-card" key={item.name}>
+                  <div className="gallery-thumb photo"><span className="photo-cap">{item.name}</span></div>
+                  <div className="gallery-info">
+                    <div>
+                      <h4>{item.name}</h4>
+                      <span>{item.category}</span>
+                    </div>
+                    <span className="gallery-tag">View</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ COMPARISON TABLE ============ */}
+      <section className="section band-sunk">
+        <div className="wrap">
+          <div className="section-head">
+            <span className="eyebrow">Compare plans</span>
+            <h2>Every plan gets a real website. Some get more.</h2>
+          </div>
+          <div className="compare-scroll">
+            <table className="compare">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th className="plan">Starter</th>
+                  <th className="plan">Business</th>
+                  <th className="plan">Professional</th>
+                </tr>
+              </thead>
+              <tbody>
+                {COMPARE_ROWS.map((row) => (
+                  <tr key={row.label}>
+                    <th scope="row">{row.label}</th>
+                    <td>{row.starter ? <span className="yes">✓</span> : <span className="no">—</span>}</td>
+                    <td>{row.business ? <span className="yes">✓</span> : <span className="no">—</span>}</td>
+                    <td>{row.professional ? <span className="yes">✓</span> : <span className="no">—</span>}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ TESTIMONIALS ============ */}
+      <section className="section">
+        <div className="wrap">
+          <div className="section-head"><h2>Built for people running a business, not a website.</h2></div>
+          <div className="testi-grid">
+            <div className="testi-card">
+              <p className="testi-quote">"I filled in our menu and opening hours on a Tuesday evening. By Wednesday morning we had our first WhatsApp order from someone who found us on Google."</p>
+              <div className="testi-who">
+                <div className="avatar">MK</div>
+                <div><div className="testi-name">Mario Khalil</div><div className="testi-biz">Owner, Mario's Trattoria — Dubai</div></div>
+              </div>
+            </div>
+            <div className="testi-card">
+              <p className="testi-quote">"We'd been meaning to get a website for two years. It took less time than choosing which photos to use for the gallery."</p>
+              <div className="testi-who">
+                <div className="avatar">RS</div>
+                <div><div className="testi-name">Dr. Reem Saleh</div><div className="testi-biz">Bright Smile Dental — Abu Dhabi</div></div>
+              </div>
+            </div>
+            <div className="testi-card">
+              <p className="testi-quote">"Clients kept asking if we had a website before they'd book. Now they book straight from it — no more back-and-forth on Instagram DMs."</p>
+              <div className="testi-who">
+                <div className="avatar">LA</div>
+                <div><div className="testi-name">Lina Al-Farsi</div><div className="testi-biz">Lumen Hair Studio — Sharjah</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ STATS ============ */}
+      <section className="section band-sunk">
+        <div className="wrap stats-grid">
+          {STATS_2.map((s) => (
+            <div key={s.label}>
+              <div className="stat-num">{s.num}</div>
+              <div className="stat-label">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ============ PRICING (dark) ============ */}
+      <section className="section dark-section" id="pricing">
+        <div className="wrap">
+          <div className="section-head">
+            <span className="eyebrow">Pricing</span>
+            <h2>Priced for a business, not a developer's budget.</h2>
+          </div>
+          <div className="price-grid">
+            <div className="price-card">
+              <div className="price-top"><span className="price-name">Starter</span></div>
+              <div className="price-amount"><b>AED 99</b> <span>/ month</span></div>
+              <p className="price-desc">For a business ready to be found online for the first time.</p>
+              <ul className="price-list">
+                <li><span className="yes">✓</span>1 website on a brandshelf.com address</li>
+                <li><span className="yes">✓</span>Homepage, About, Contact & Gallery</li>
+                <li><span className="yes">✓</span>WhatsApp button & contact form</li>
+                <li><span className="yes">✓</span>Mobile-optimized & SEO ready</li>
+              </ul>
+              <Link to={ROUTES.REGISTER} className="btn btn-ghost" style={{ justifyContent: 'center' }}>Start Free</Link>
+            </div>
+            <div className="price-card featured">
+              <div className="price-top"><span className="price-name">Business</span><span className="price-chip">Most popular</span></div>
+              <div className="price-amount"><b>AED 199</b> <span>/ month</span></div>
+              <p className="price-desc">For a business that takes bookings and wants to be found.</p>
+              <ul className="price-list">
+                <li><span className="yes">✓</span>Everything in Starter</li>
+                <li><span className="yes">✓</span>Your own custom domain</li>
+                <li><span className="yes">✓</span>Bookings & testimonials pages</li>
+                <li><span className="yes">✓</span>Visitor analytics</li>
+                <li><span className="yes">✓</span>Priority support</li>
+              </ul>
+              <Link to={ROUTES.REGISTER} className="btn btn-primary" style={{ justifyContent: 'center' }}>Start Free</Link>
+            </div>
+            <div className="price-card">
+              <div className="price-top"><span className="price-name">Professional</span></div>
+              <div className="price-amount"><b>AED 349</b> <span>/ month</span></div>
+              <p className="price-desc">For multi-location businesses and growing brands.</p>
+              <ul className="price-list">
+                <li><span className="yes">✓</span>Everything in Business</li>
+                <li><span className="yes">✓</span>Multiple locations, one dashboard</li>
+                <li><span className="yes">✓</span>Advanced SEO tools</li>
+                <li><span className="yes">✓</span>No BrandShelf branding</li>
+                <li><span className="yes">✓</span>Dedicated onboarding call</li>
+              </ul>
+              <a href="#faq" className="btn btn-ghost" style={{ justifyContent: 'center' }}>Talk to us</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ FAQ ============ */}
+      <section className="section" id="faq">
+        <div className="wrap">
+          <div className="section-head"><h2>Before you start.</h2></div>
+          <div className="faq">
+            {FAQ_ITEMS.map((item, i) => (
+              <details key={item.q} open={i === 0}>
+                <summary>{item.q}<ChevronDown size={18} className="chev" /></summary>
+                <p className="faq-a">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ EMAIL CTA CARD ============ */}
+      <section className="section" style={{ paddingTop: 0 }}>
+        <div className="wrap">
+          <div className="cta-card">
+            <div className="cta-card-icon"><Mail size={22} /></div>
+            <h2>Get your free storefront checklist.</h2>
+            <p>Drop your email and we'll send the exact checklist BrandShelf uses to get a business live in under two minutes.</p>
+            <form className="cta-form" onSubmit={handleCtaSubmit}>
+              <input
+                type="email"
+                required
+                className="cta-input"
+                placeholder="you@business.com"
+                value={ctaEmail}
+                onChange={(e) => setCtaEmail(e.target.value)}
+                aria-label="Email address"
+              />
+              <button type="submit" className="btn btn-primary">Start Building</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ FINAL DARK CTA ============ */}
+      <section className="section">
+        <div className="final-cta wrap">
+          <div className="final-diamond" />
+          <div className="final-inner">
+            <h2>Ready to launch your business online?</h2>
+            <p>Join the local businesses already taking bookings, enquiries, and orders through a website they built in minutes.</p>
+            <div className="final-ctas">
+              <Link to={ROUTES.REGISTER} className="btn btn-primary">Start Free <span className="btn-arrow">→</span></Link>
+              <a href="#gallery" className="btn btn-ghost">View demo</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ FOOTER ============ */}
+      <footer className="footer">
+        <div className="wrap">
+          <div className="footer-grid">
+            <div className="footer-brand">
+              <a href="#top" className="brand"><span className="brand-mark"><span /></span>BrandShelf</a>
+              <p>A complete business website, built from a few details and live in minutes.</p>
+            </div>
+            <div className="footer-col">
+              <h5>Product</h5>
+              <ul><li><a href="#included">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#gallery">Templates</a></li></ul>
+            </div>
+            <div className="footer-col">
+              <h5>Support</h5>
+              <ul><li><a href="#faq">Help</a></li><li><a href="#">Contact</a></li></ul>
+            </div>
+            <div className="footer-col">
+              <h5>Legal</h5>
+              <ul><li><Link to={ROUTES.PRIVACY}>Privacy</Link></li><li><Link to={ROUTES.TERMS}>Terms</Link></li></ul>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <span>© 2026 BrandShelf. All rights reserved.</span>
+            <span>Dubai, UAE</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  )
+}

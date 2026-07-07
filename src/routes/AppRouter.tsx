@@ -1,9 +1,10 @@
 import { lazy, Suspense } from 'react'
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Spinner } from '../components'
 import { ErrorBoundary } from '../components/ErrorBoundary'
 
-// Auth pages — small, load eagerly (user lands here first)
+// Landing + auth pages — small, load eagerly (user lands here first)
+import { LandingPage } from '../pages/LandingPage'
 import { LoginPage } from '../pages/LoginPage'
 import { RegisterPage } from '../pages/RegisterPage'
 import { ForgotPasswordPage } from '../pages/ForgotPasswordPage'
@@ -77,7 +78,7 @@ function PageLoader() {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Navigate to="/login" replace />,
+    element: <LandingPage />,
   },
   {
     element: <AuthLayout />,
