@@ -2,11 +2,11 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
-import { enforceDomainRouting } from './utils/domainRouting'
+import { enforceLegacyDashboardRedirect } from './utils/domainRouting'
 
-// If this URL belongs on the other domain (main site vs. dashboard
-// subdomain), bounce there before mounting anything.
-if (!enforceDomainRouting()) {
+// Old /dashboard-prefixed or auth-page links hit on the main domain —
+// bounce to the dashboard subdomain before mounting anything.
+if (!enforceLegacyDashboardRedirect()) {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <App />

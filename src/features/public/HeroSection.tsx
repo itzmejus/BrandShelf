@@ -1,7 +1,7 @@
 import { Phone, Navigation, MapPin } from 'lucide-react'
 import type { Business, AnalyticsEventType } from '../../types'
 import { isBusinessOpen, formatPhone } from '../../utils/business.utils'
-import { getHeroCta, getCatalogueLabel, getDefaultTrustBadges } from '../../utils/businessType'
+import { getHeroCta, getDefaultTrustBadges } from '../../utils/businessType'
 import { analyticsEventService } from '../../services/analyticsEvent.service'
 import { WhatsAppIcon } from './WhatsAppIcon'
 
@@ -18,10 +18,6 @@ interface PrimaryCta {
 
 function getPrimaryCta(business: Business): PrimaryCta | null {
   const cta = getHeroCta(business.type)
-
-  if (cta === 'menu') {
-    return { label: `View ${getCatalogueLabel(business.type)}`, href: '#catalogue' }
-  }
 
   const label = cta === 'booking' ? 'Book Appointment' : cta === 'quote' ? 'Get Quote' : 'Contact Us'
   const eventType: AnalyticsEventType =

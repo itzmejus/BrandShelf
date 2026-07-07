@@ -1,6 +1,6 @@
 export type BusinessCategory = 'food' | 'beauty' | 'medical' | 'fitness' | 'service' | 'other'
 
-export type HeroCta = 'menu' | 'booking' | 'quote' | 'contact'
+export type HeroCta = 'booking' | 'quote' | 'contact'
 
 const CATEGORY_BY_TYPE: Record<string, BusinessCategory> = {
   Restaurant: 'food',
@@ -55,7 +55,7 @@ export function getCatalogueItemNoun(type: string): string {
 }
 
 const HERO_CTA_BY_CATEGORY: Record<BusinessCategory, HeroCta> = {
-  food: 'menu',
+  food: 'contact',
   beauty: 'booking',
   medical: 'booking',
   fitness: 'booking',

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import {
   Zap, Code2, Smartphone, Globe, LayoutGrid, MessageCircle, Mail,
   Check, ChevronDown, FileText, TrendingUp, ArrowUp,
 } from 'lucide-react'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { ROUTES } from '../utils/constants'
+import { dashboardUrl } from '../utils/domainRouting'
 import { WhatsAppIcon } from '../features/public/WhatsAppIcon'
 import bannerImage from '../assets/Banner.png'
 import './LandingPage.css'
@@ -113,7 +114,6 @@ export function LandingPage() {
     description: 'SiteSelo helps local businesses create professional websites in minutes. Built for restaurants, salons, clinics, and service businesses.',
   })
 
-  const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeCategory, setActiveCategory] = useState('All')
   const [galleryExpanded, setGalleryExpanded] = useState(false)
@@ -141,7 +141,7 @@ export function LandingPage() {
 
   const handleCtaSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    navigate(`${ROUTES.REGISTER}${ctaEmail ? `?email=${encodeURIComponent(ctaEmail)}` : ''}`)
+    window.location.href = dashboardUrl(`${ROUTES.REGISTER}${ctaEmail ? `?email=${encodeURIComponent(ctaEmail)}` : ''}`)
   }
 
   return (
@@ -157,8 +157,8 @@ export function LandingPage() {
             <a href="#faq">FAQ</a>
           </div>
           <div className="nav-cta">
-            <Link to={ROUTES.LOGIN} className="btn btn-ghost" style={{ padding: '.6rem 1rem' }}>Log in</Link>
-            <Link to={ROUTES.REGISTER} className="btn btn-primary">Start Free</Link>
+            <a href={dashboardUrl(ROUTES.LOGIN)} className="btn btn-ghost" style={{ padding: '.6rem 1rem' }}>Log in</a>
+            <a href={dashboardUrl(ROUTES.REGISTER)} className="btn btn-primary">Start Free</a>
             <button
               className="nav-burger"
               aria-label="Open menu"
@@ -177,8 +177,8 @@ export function LandingPage() {
             <a href="#gallery" onClick={() => setMenuOpen(false)}>Examples</a>
             <a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
             <div className="drawer-cta">
-              <Link to={ROUTES.LOGIN} className="btn btn-ghost" style={{ flex: 1, justifyContent: 'center' }}>Log in</Link>
-              <Link to={ROUTES.REGISTER} className="btn btn-primary" style={{ flex: 1, justifyContent: 'center' }}>Start Free</Link>
+              <a href={dashboardUrl(ROUTES.LOGIN)} className="btn btn-ghost" style={{ flex: 1, justifyContent: 'center' }}>Log in</a>
+              <a href={dashboardUrl(ROUTES.REGISTER)} className="btn btn-primary" style={{ flex: 1, justifyContent: 'center' }}>Start Free</a>
             </div>
           </div>
         </div>
@@ -195,7 +195,7 @@ export function LandingPage() {
               No designer, no developer, no complicated setup.
             </p>
             <div className="hero-ctas">
-              <Link to={ROUTES.REGISTER} className="btn btn-primary">Start Free <span className="btn-arrow">→</span></Link>
+              <a href={dashboardUrl(ROUTES.REGISTER)} className="btn btn-primary">Start Free <span className="btn-arrow">→</span></a>
               <a href="#gallery" className="btn btn-ghost">View Examples</a>
             </div>
           </div>
@@ -267,7 +267,7 @@ export function LandingPage() {
             ))}
           </div>
           <div className="steps-cta">
-            <Link to={ROUTES.REGISTER} className="btn btn-primary">Start Free <span className="btn-arrow">→</span></Link>
+            <a href={dashboardUrl(ROUTES.REGISTER)} className="btn btn-primary">Start Free <span className="btn-arrow">→</span></a>
           </div>
         </div>
       </section>
@@ -420,7 +420,7 @@ export function LandingPage() {
                 <li><span className="yes">✓</span>WhatsApp button & contact form</li>
                 <li><span className="yes">✓</span>Mobile-optimized & SEO ready</li>
               </ul>
-              <Link to={ROUTES.REGISTER} className="btn btn-ghost" style={{ justifyContent: 'center' }}>Start Free</Link>
+              <a href={dashboardUrl(ROUTES.REGISTER)} className="btn btn-ghost" style={{ justifyContent: 'center' }}>Start Free</a>
             </div>
             <div className="price-card featured">
               <div className="price-top"><span className="price-name">Grow</span><span className="price-chip">Most popular</span></div>
@@ -433,7 +433,7 @@ export function LandingPage() {
                 <li><span className="yes">✓</span>Visitor analytics</li>
                 <li><span className="yes">✓</span>Priority support</li>
               </ul>
-              <Link to={ROUTES.REGISTER} className="btn btn-primary" style={{ justifyContent: 'center' }}>Start Free</Link>
+              <a href={dashboardUrl(ROUTES.REGISTER)} className="btn btn-primary" style={{ justifyContent: 'center' }}>Start Free</a>
             </div>
             <div className="price-card">
               <div className="price-top"><span className="price-name">Scale</span></div>
@@ -498,7 +498,7 @@ export function LandingPage() {
             <h2>Ready to launch your business online?</h2>
             <p>Join the local businesses already taking bookings, enquiries, and orders through a website they built in minutes.</p>
             <div className="final-ctas">
-              <Link to={ROUTES.REGISTER} className="btn btn-primary">Start Free <span className="btn-arrow">→</span></Link>
+              <a href={dashboardUrl(ROUTES.REGISTER)} className="btn btn-primary">Start Free <span className="btn-arrow">→</span></a>
               <a href="#gallery" className="btn btn-ghost">View Examples</a>
             </div>
           </div>

@@ -1,8 +1,9 @@
 import { lazy, Suspense } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import type { RouteObject } from 'react-router-dom'
 import { Spinner } from '../components'
 import { ErrorBoundary } from '../components/ErrorBoundary'
-import { enforceDomainRouting } from '../utils/domainRouting'
+import { isDashboardHost } from '../utils/domainRouting'
 
 // Landing + auth pages — small, load eagerly (user lands here first)
 import { LandingPage } from '../pages/LandingPage'
@@ -76,136 +77,150 @@ function PageLoader() {
   )
 }
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <LandingPage />,
-  },
-  {
-    element: <AuthLayout />,
-    children: [
-      { path: '/login', element: <LoginPage /> },
-      { path: '/register', element: <RegisterPage /> },
-      { path: '/forgot-password', element: <ForgotPasswordPage /> },
-    ],
-  },
-  {
-    path: '/dashboard',
-    element: <DashboardLayout />,
-    children: [
-      {
-        index: true,
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <DashboardPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'catalogue',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <CataloguePage />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'categories',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <CategoriesPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'setup',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <SetupWizardPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'business-info',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <BusinessInfoPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'contact',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <ContactPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'account',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <AccountPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'about',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <AboutUsPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'testimonials',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <TestimonialsPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'gallery',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <GalleryPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'working-hours',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <WorkingHoursPage />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'analytics',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <AnalyticsPage />
-          </Suspense>
-        ),
-      },
-      ...[
-        'bookings',
-        'reviews',
-        'messages',
-        'marketing',
-        'qr',
-        'themes',
-      ].map((path) => ({
-        path,
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <ComingSoonPage title={path.charAt(0).toUpperCase() + path.slice(1)} />
-          </Suspense>
-        ),
-      })),
-    ],
-  },
+// Auth pages — always unprefixed, identical on either tree
+const authRoute: RouteObject = {
+  element: <AuthLayout />,
+  children: [
+    { path: '/login', element: <LoginPage /> },
+    { path: '/register', element: <RegisterPage /> },
+    { path: '/forgot-password', element: <ForgotPasswordPage /> },
+  ],
+}
+
+// Dashboard — mounted at "/" (the dashboard.<domain> subdomain itself is
+// what scopes these paths; no /dashboard prefix needed underneath it)
+const dashboardRoute: RouteObject = {
+  path: '/',
+  element: <DashboardLayout />,
+  children: [
+    {
+      index: true,
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <DashboardPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: 'catalogue',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <CataloguePage />
+        </Suspense>
+      ),
+    },
+    {
+      path: 'categories',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <CategoriesPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: 'setup',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <SetupWizardPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: 'business-info',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <BusinessInfoPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: 'contact',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <ContactPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: 'account',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <AccountPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: 'about',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <AboutUsPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: 'testimonials',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <TestimonialsPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: 'gallery',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <GalleryPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: 'working-hours',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <WorkingHoursPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: 'analytics',
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <AnalyticsPage />
+        </Suspense>
+      ),
+    },
+    ...[
+      'bookings',
+      'reviews',
+      'messages',
+      'marketing',
+      'qr',
+      'themes',
+    ].map((path) => ({
+      path,
+      element: (
+        <Suspense fallback={<PageLoader />}>
+          <ComingSoonPage title={path.charAt(0).toUpperCase() + path.slice(1)} />
+        </Suspense>
+      ),
+    })),
+  ],
+}
+
+const notFoundRoute: RouteObject = {
+  path: '*',
+  element: (
+    <Suspense fallback={<PageLoader />}>
+      <NotFoundPage />
+    </Suspense>
+  ),
+}
+
+// Marketing site + public business pages — served on the main domain only.
+// No dashboard routes here, so a business slugged "contact" or "about"
+// can never collide with a dashboard page.
+const mainSiteRoutes: RouteObject[] = [
+  { path: '/', element: <LandingPage /> },
   {
     path: '/privacy',
     element: (
@@ -232,22 +247,15 @@ const router = createBrowserRouter([
       </ErrorBoundary>
     ),
   },
-  {
-    path: '*',
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <NotFoundPage />
-      </Suspense>
-    ),
-  },
-])
+  notFoundRoute,
+]
 
-// `<Link>` clicks are client-side navigations (no full page load), so the
-// main.tsx check alone wouldn't catch e.g. clicking "Log in" while on the
-// marketing domain. Re-check on every route change too.
-router.subscribe(() => {
-  enforceDomainRouting()
-})
+// Auth + dashboard — served on the dashboard.<domain> subdomain only.
+const dashboardSiteRoutes: RouteObject[] = [authRoute, dashboardRoute, notFoundRoute]
+
+const router = createBrowserRouter(
+  isDashboardHost(window.location.hostname) ? dashboardSiteRoutes : mainSiteRoutes,
+)
 
 export function AppRouter() {
   return <RouterProvider router={router} />

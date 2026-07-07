@@ -28,7 +28,7 @@ export function AuthLayout() {
     )
   }
 
-  if (user) return <Navigate to="/dashboard" replace />
+  if (user) return <Navigate to="/" replace />
 
   return (
     <div className="min-h-screen flex">
