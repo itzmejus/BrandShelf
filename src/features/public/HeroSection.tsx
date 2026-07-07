@@ -1,4 +1,4 @@
-import { Phone, Navigation, MapPin, ShieldCheck } from 'lucide-react'
+import { Phone, Navigation, MapPin } from 'lucide-react'
 import type { Business, AnalyticsEventType } from '../../types'
 import { isBusinessOpen, formatPhone } from '../../utils/business.utils'
 import { getHeroCta, getCatalogueLabel, getDefaultTrustBadges } from '../../utils/businessType'
@@ -161,7 +161,7 @@ export function HeroSection({ business }: HeroSectionProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => track('direction_click')}
-                className="flex-1 md:flex-none flex items-center justify-center gap-1.5 md:gap-2 text-(--color-on-surface-variant) hover:text-(--color-on-surface) px-3 md:px-0 py-2.5 md:py-3 rounded-xl text-xs md:text-sm font-medium transition-colors whitespace-nowrap"
+                className="flex-1 md:flex-none flex items-center justify-center gap-1.5 md:gap-2 text-(--color-on-surface-variant) hover:text-(--color-on-surface) border border-(--color-outline-variant) hover:border-(--color-brand) bg-white px-3 md:px-6 py-2.5 md:py-3 rounded-xl text-xs md:text-sm font-medium transition-colors whitespace-nowrap"
               >
                 <Navigation size={14} />
                 <span className="md:hidden">Directions</span>
@@ -171,15 +171,14 @@ export function HeroSection({ business }: HeroSectionProps) {
           </div>
         </div>
 
-        {/* Trust badges */}
+        {/* Trust badges — single row on mobile (swipe if needed) rather than wrapping */}
         {trustBadges.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2 mt-6">
+          <div className="flex items-center gap-2 mt-6 overflow-x-auto no-scrollbar">
             {trustBadges.map((badge) => (
               <span
                 key={badge}
-                className="inline-flex items-center gap-1.5 bg-(--color-surface-container-low) border border-(--color-outline-variant) text-(--color-on-surface-variant) text-xs font-semibold px-3 py-1.5 rounded-full"
+                className="flex-shrink-0 inline-flex items-center bg-(--color-surface-container-low) border border-(--color-outline-variant) text-(--color-on-surface-variant) text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap"
               >
-                <ShieldCheck size={12} className="text-(--color-brand)" />
                 {badge}
               </span>
             ))}

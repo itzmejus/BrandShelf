@@ -39,7 +39,7 @@ export function AnalyticsPage() {
     <div className="space-y-6 pb-8">
       <PageHeader
         title="Analytics"
-        subtitle={`How customers are engaging with your website — last ${RANGE_DAYS} days.`}
+        subtitle={`How customers are engaging with your website over the last ${RANGE_DAYS} days.`}
       />
 
       <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
@@ -51,7 +51,7 @@ export function AnalyticsPage() {
       {!loading && counts && counts.page_view === 0 && (
         <div className="bg-white rounded-xl border border-outline-variant shadow-sm p-8 text-center">
           <p className="text-sm text-on-surface-variant">
-            No visitors yet — share your website link to start seeing data here.
+            No visitors yet. Share your website link to start seeing data here.
           </p>
         </div>
       )}

@@ -24,7 +24,7 @@ export function FeaturedSection({ items, catalogueLabel }: FeaturedSectionProps)
             Featured
           </h2>
           <p className="text-(--color-outline) text-base mt-3 max-w-md">
-            Handpicked from our {catalogueLabel.toLowerCase()} — the best of what we offer
+            Handpicked from our {catalogueLabel.toLowerCase()}, the best of what we offer
           </p>
         </div>
 

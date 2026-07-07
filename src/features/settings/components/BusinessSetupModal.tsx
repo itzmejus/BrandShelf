@@ -102,10 +102,10 @@ export function BusinessSetupModal({ open }: BusinessSetupModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden">
+      <div className="w-full max-w-lg max-h-[92dvh] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col">
 
-        {/* Header */}
-        <div className="bg-primary px-8 py-7 relative overflow-hidden">
+        {/* Header — flex-shrink-0 so it's never pushed off-screen */}
+        <div className="bg-primary px-6 py-5 sm:px-8 sm:py-7 relative overflow-hidden flex-shrink-0">
           <div className="absolute top-0 right-0 w-48 h-48 bg-secondary/20 rounded-full blur-3xl -mr-16 -mt-16" />
           <div className="relative z-10">
             <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center mb-4">
@@ -113,14 +113,14 @@ export function BusinessSetupModal({ open }: BusinessSetupModalProps) {
             </div>
             <h2 className="text-xl font-bold text-white">Set up your website.</h2>
             <p className="text-sm text-on-primary-container mt-1">
-              Step 1 of 8 — a few details and your SiteSelo website will be ready to share. You can add your logo, images, and working hours afterward.
+              Step 1 of 8. A few details and your SiteSelo website will be ready to share. You can add your logo, images, and working hours afterward.
             </p>
           </div>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="px-8 py-6 space-y-4 max-h-[60vh] overflow-y-auto thin-scrollbar">
+        {/* Form — only this middle section scrolls, header/footer stay pinned */}
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 min-h-0">
+          <div className="px-6 py-5 sm:px-8 sm:py-6 space-y-4 flex-1 overflow-y-auto overscroll-contain thin-scrollbar">
             {error && (
               <div className="bg-error-container text-on-error-container text-sm rounded-lg px-4 py-3">
                 {error}
@@ -158,7 +158,7 @@ export function BusinessSetupModal({ open }: BusinessSetupModalProps) {
             <div className="border-t border-outline-variant pt-4">
               <p className="text-xs font-medium text-on-surface-variant mb-3">
                 Contact details{' '}
-                <span className="font-normal opacity-70">— optional, can be added later</span>
+                <span className="font-normal opacity-70">(optional, can be added later)</span>
               </p>
               <div className="grid grid-cols-2 gap-3">
                 <Input
@@ -189,12 +189,12 @@ export function BusinessSetupModal({ open }: BusinessSetupModalProps) {
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="px-8 py-5 bg-surface-container-low border-t border-outline-variant flex items-center justify-between gap-4">
+          {/* Footer — flex-shrink-0, stacks on mobile so the button never gets clipped */}
+          <div className="px-6 py-4 sm:px-8 sm:py-5 bg-surface-container-low border-t border-outline-variant flex flex-col sm:flex-row sm:items-center justify-between gap-3 flex-shrink-0">
             <p className="text-xs text-on-surface-variant leading-tight">
-              Your website goes live instantly. We'll walk you through the rest — logo, contact info, services, and more — right after this.
+              Your website goes live instantly. We'll walk you through the rest (logo, contact info, services, and more) right after this.
             </p>
-            <Button type="submit" loading={saving} size="lg" className="flex-shrink-0">
+            <Button type="submit" loading={saving} size="lg" className="w-full sm:w-auto flex-shrink-0">
               {saving ? 'Creating website…' : 'Create Website'}
             </Button>
           </div>

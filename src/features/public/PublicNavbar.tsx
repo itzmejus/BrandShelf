@@ -22,20 +22,22 @@ export function PublicNavbar({ businessName, catalogueLabel = 'Catalogue' }: Pub
       {/* Main navbar */}
       <nav className="sticky top-0 w-full bg-white z-50 shadow-sm border-b border-(--color-outline-variant)">
         <div className="flex items-center justify-between px-4 md:px-10 py-4 max-w-7xl mx-auto">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-2.5">
+          {/* Logo — min-w-0 + flex-1 lets the name shrink to whatever space is
+              actually left, so a long business name truncates gracefully at
+              every breakpoint instead of overflowing past the navbar */}
+          <a href="#" className="flex items-center gap-2.5 min-w-0 flex-1 mr-3">
             <div className="w-8 h-8 rounded-lg bg-(--color-brand) flex items-center justify-center flex-shrink-0">
               <span className="text-white font-bold text-sm">
                 {businessName?.charAt(0) ?? 'C'}
               </span>
             </div>
-            <span className="font-['Hanken_Grotesk'] text-base font-bold text-(--color-on-surface) leading-tight truncate max-w-[130px] sm:max-w-none">
+            <span className="font-['Hanken_Grotesk'] text-base font-bold text-(--color-on-surface) leading-tight truncate">
               {businessName ?? 'SiteSelo'}
             </span>
           </a>
 
           {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-6 flex-shrink-0">
             {[
               { label: 'Home', href: '#' },
               { label: 'About', href: '#about' },
@@ -54,7 +56,7 @@ export function PublicNavbar({ businessName, catalogueLabel = 'Catalogue' }: Pub
           </div>
 
           {/* Right actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-shrink-0">
             <button
               onClick={handleShare}
               className="hidden md:flex items-center gap-2 bg-(--color-brand) hover:bg-(--color-brand-hover) text-white px-5 py-2 rounded-lg text-sm font-semibold transition-colors"

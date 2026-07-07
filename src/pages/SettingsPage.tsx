@@ -290,7 +290,7 @@ export function SettingsPage() {
           <div className="px-6 py-4 border-b border-outline-variant">
             <h2 className="text-sm font-semibold text-primary">Brand Images</h2>
             <p className="text-xs text-on-surface-variant mt-0.5">
-              These images appear on your public storefront. JPEG, PNG, WEBP — max 5 MB.
+              These images appear on your public storefront. JPEG, PNG, WEBP (max 5 MB).
             </p>
           </div>
           <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">

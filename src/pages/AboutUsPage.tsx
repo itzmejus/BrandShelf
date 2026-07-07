@@ -102,7 +102,7 @@ export function AboutUsPage() {
       <div className="space-y-6 pb-8">
         <PageHeader
           title="About Us"
-          subtitle="Tell customers your story — this appears on your public storefront."
+          subtitle="Tell customers your story. This appears on your public storefront."
           action={
             <Button type="submit" loading={isLoading} disabled={loading}>
               Save Changes
@@ -126,7 +126,7 @@ export function AboutUsPage() {
             />
             <Textarea
               label="Our Story"
-              placeholder="Keep it to 1–2 short paragraphs — share your journey and what makes your business special…"
+              placeholder="Keep it to 1–2 short paragraphs sharing your journey and what makes your business special…"
               rows={6}
               error={errors.body?.message}
               {...register('body')}

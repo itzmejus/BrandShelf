@@ -43,7 +43,7 @@ export function WorkingHoursPage() {
     <div className="space-y-6 pb-8">
       <PageHeader
         title="Working Hours"
-        subtitle="Set your opening hours — shown to customers on your public website."
+        subtitle="Set your opening hours. Shown to customers on your public website."
         action={
           <Button onClick={handleSave} loading={saving}>
             Save Changes

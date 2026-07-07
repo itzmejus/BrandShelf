@@ -74,7 +74,7 @@ export function CatalogueSection({ categories, items, catalogueLabel, onCategory
           <h3 className="font-['Hanken_Grotesk'] text-2xl font-bold text-(--color-on-surface) mb-2">
             {catalogueLabel} coming soon
           </h3>
-          <p className="text-(--color-outline) text-sm">Check back soon — we're setting things up.</p>
+          <p className="text-(--color-outline) text-sm">Check back soon, we're setting things up.</p>
         </div>
       </section>
     )

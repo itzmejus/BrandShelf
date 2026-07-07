@@ -36,7 +36,7 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
         onClick={onClose}
       />
       <div
-        className={`relative w-full ${widths[size]} bg-white rounded-xl shadow-xl flex flex-col max-h-[90vh]`}
+        className={`relative w-full ${widths[size]} bg-white rounded-xl shadow-xl flex flex-col max-h-[90dvh]`}
       >
         <div className="flex items-center justify-between px-6 py-4 border-b border-outline-variant flex-shrink-0">
           <h2 className="text-base font-semibold text-primary">{title}</h2>
@@ -47,7 +47,7 @@ export function Modal({ open, onClose, title, children, size = 'md' }: ModalProp
             <X size={18} />
           </button>
         </div>
-        <div className="overflow-y-auto thin-scrollbar flex-1">{children}</div>
+        <div className="overflow-y-auto overscroll-contain thin-scrollbar flex-1">{children}</div>
       </div>
     </div>
   )

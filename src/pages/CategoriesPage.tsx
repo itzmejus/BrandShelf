@@ -142,7 +142,7 @@ export function CategoriesPage() {
           <EmptyState
             icon={Tag}
             title="No categories yet"
-            description="Add categories to organise your catalogue into sections — making it easier for customers to browse."
+            description="Add categories to organise your catalogue into sections, making it easier for customers to browse."
             action={{ label: 'Add Your First Category', onClick: openAdd }}
           />
         ) : (

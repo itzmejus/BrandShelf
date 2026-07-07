@@ -192,7 +192,7 @@ export function DashboardPage() {
               <p className="text-xs text-outline mt-0.5">Last updated {formatRelativeTime(business.updated_at)}</p>
             </div>
           </div>
-          <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex items-center flex-wrap gap-2 sm:gap-3 flex-shrink-0">
             <Switch checked={business.published} onChange={handleTogglePublished} disabled={businessSaving} />
             <button
               onClick={handleCopyLink}
@@ -335,7 +335,7 @@ export function DashboardPage() {
             <h3 className="text-lg font-semibold mb-2">Your Storefront</h3>
             <p className="text-sm opacity-80 max-w-xs">
               {catalogue.items.length > 0
-                ? `${catalogue.items.length} item${catalogue.items.length !== 1 ? 's' : ''} published — ${availableCount} available to customers.`
+                ? `${catalogue.items.length} item${catalogue.items.length !== 1 ? 's' : ''} published. ${availableCount} available to customers.`
                 : 'Your storefront is live. Start adding products and services.'}
             </p>
           </div>
@@ -371,7 +371,7 @@ export function DashboardPage() {
           </div>
           <h4 className="text-xs font-bold text-on-surface">Generate QR Code</h4>
           <p className="text-[11px] text-on-surface-variant mt-1">
-            Share your storefront anywhere — print, post, or display.
+            Share your storefront anywhere: print, post, or display.
           </p>
         </button>
       </div>

@@ -71,7 +71,7 @@ export function ContactPage() {
       <div className="space-y-6 pb-8">
         <PageHeader
           title="Contact"
-          subtitle="How customers reach you — shown on your public website and in the hero call-to-action."
+          subtitle="How customers reach you. Shown on your public website and in the hero call-to-action."
           action={
             <Button type="submit" loading={saving}>
               Save Changes

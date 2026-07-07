@@ -5,7 +5,7 @@ import { Spinner } from '../components'
 const FEATURES = [
   {
     title: 'Beautiful Digital Storefront',
-    desc: 'Your customers get a clean, professional page — no app required.',
+    desc: 'Your customers get a clean, professional page. No app required.',
   },
   {
     title: 'Full Catalogue Management',

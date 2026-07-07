@@ -87,7 +87,7 @@ export function BusinessPage() {
   const seoDescription =
     about?.body ??
     business?.description ??
-    (business ? `${business.name} — ${business.type}. Everything your customers need.` : undefined)
+    (business ? `${business.name}, ${business.type}. Everything your customers need.` : undefined)
   const seoImage = about?.image_url ?? business?.cover_url ?? business?.logo_url
   const canonicalUrl = business ? `${window.location.origin}/${business.slug}` : undefined
 
@@ -171,7 +171,7 @@ export function BusinessPage() {
 
       <PlaceholderSection
         title="Online Booking"
-        description="Book appointments online — this feature is coming soon."
+        description="Book appointments online. This feature is coming soon."
       />
 
       <FooterSection business={business} catalogueLabel={catalogueLabel} />

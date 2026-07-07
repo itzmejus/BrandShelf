@@ -152,7 +152,7 @@ export function Sidebar({ mobile }: SidebarProps) {
       )}
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto thin-scrollbar px-3 space-y-0.5" aria-label="Main navigation">
+      <nav className="flex-1 overflow-y-auto overscroll-contain thin-scrollbar px-3 space-y-0.5" aria-label="Main navigation">
         <NavItem to={ROUTES.DASHBOARD} label="Dashboard" icon={LayoutDashboard} end onClick={mobile ? close : undefined} />
 
         <SectionLabel label="Website" />
