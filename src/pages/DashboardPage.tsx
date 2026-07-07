@@ -31,7 +31,7 @@ import { addToast } from '../store/slices/uiSlice'
 import { StatCard, StatCardSkeleton, Switch, Badge } from '../components'
 import { ROUTES } from '../utils/constants'
 import { mainSiteUrl } from '../utils/domainRouting'
-import { formatRelativeTime } from '../utils/business.utils'
+import { formatRelativeTime, getTrialDaysRemaining, isInTrial } from '../utils/business.utils'
 import { computeSetupProgress } from '../utils/setupProgress'
 import { getCatalogueLabel } from '../utils/businessType'
 
@@ -125,7 +125,9 @@ export function DashboardPage() {
   const businessSaving = useAppSelector((s) => s.business.saving)
   const paid = useAppSelector((s) => s.business.paid)
   const paidFetched = useAppSelector((s) => s.business.paidFetched)
-  const paymentPending = business?.published && paidFetched && !paid
+  const trialActive = !!business && business.published && !paid && isInTrial(business.created_at)
+  const trialDaysLeft = business ? getTrialDaysRemaining(business.created_at) : 0
+  const paymentPending = business?.published && paidFetched && !paid && !trialActive
   const galleryImages = useAppSelector((s) => s.gallery.images)
 
   const availableCount = catalogue.items.filter((i) => i.available).length
@@ -191,8 +193,10 @@ export function DashboardPage() {
             <div className="min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 <h3 className="text-sm font-bold text-primary">Website Status</h3>
-                <Badge variant={!business.published ? 'default' : paymentPending ? 'warning' : 'success'}>
-                  {!business.published ? 'Draft' : paymentPending ? 'Pending Payment' : 'Live'}
+                <Badge
+                  variant={!business.published ? 'default' : paymentPending ? 'warning' : trialActive ? 'info' : 'success'}
+                >
+                  {!business.published ? 'Draft' : paymentPending ? 'Pending Payment' : trialActive ? 'Free Trial' : 'Live'}
                 </Badge>
               </div>
               <p className="text-sm text-on-surface-variant truncate">{websiteUrl ?? 'No website link yet'}</p>
@@ -223,6 +227,24 @@ export function DashboardPage() {
         </div>
       )}
 
+      {/* Free trial notice */}
+      {trialActive && (
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 md:p-6 flex items-start gap-4">
+          <div className="w-11 h-11 rounded-xl bg-blue-100 flex items-center justify-center flex-shrink-0">
+            <Clock size={20} className="text-blue-700" aria-hidden="true" />
+          </div>
+          <div>
+            <p className="text-sm font-bold text-blue-900">
+              Your website is live on a free trial, {trialDaysLeft} day{trialDaysLeft !== 1 ? 's' : ''} left
+            </p>
+            <p className="text-sm text-blue-800 mt-1">
+              Visitors can see it right now. Once your payment is confirmed it'll stay live automatically,
+              otherwise it'll pause when the trial ends.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Payment pending notice */}
       {paymentPending && (
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 md:p-6 flex items-start gap-4">
@@ -230,9 +252,9 @@ export function DashboardPage() {
             <Clock size={20} className="text-amber-700" aria-hidden="true" />
           </div>
           <div>
-            <p className="text-sm font-bold text-amber-900">Your website is ready — payment pending</p>
+            <p className="text-sm font-bold text-amber-900">Your free trial has ended — payment pending</p>
             <p className="text-sm text-amber-800 mt-1">
-              Your website is fully built, but it won't be visible to visitors until your payment is confirmed.
+              Your website is fully built, but it's no longer visible to visitors until your payment is confirmed.
               Once we receive it, your site goes live automatically — no action needed from you.
             </p>
           </div>

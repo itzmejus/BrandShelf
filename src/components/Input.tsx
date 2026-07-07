@@ -1,14 +1,15 @@
 import { forwardRef, useState } from 'react'
-import type { InputHTMLAttributes } from 'react'
+import type { InputHTMLAttributes, ReactNode } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
   error?: string
+  icon?: ReactNode
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, className = '', id, type, ...props }, ref) => {
+  ({ label, error, icon, className = '', id, type, ...props }, ref) => {
     const inputId = id ?? label?.toLowerCase().replace(/\s+/g, '-')
     const isPassword = type === 'password'
     const [visible, setVisible] = useState(false)
@@ -21,6 +22,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           </label>
         )}
         <div className="relative">
+          {icon && (
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-outline pointer-events-none">
+              {icon}
+            </span>
+          )}
           <input
             ref={ref}
             id={inputId}
@@ -28,6 +34,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             className={`w-full bg-white border border-outline-variant rounded-lg px-3 py-2 text-sm text-on-surface placeholder:text-outline outline-none transition-all
               focus:border-secondary focus:ring-2 focus:ring-secondary/20
               disabled:bg-surface-container-low disabled:opacity-60
+              ${icon ? 'pl-10' : ''}
               ${isPassword ? 'pr-10' : ''}
               ${error ? 'border-error focus:border-error focus:ring-error/20' : ''}
               ${className}`}

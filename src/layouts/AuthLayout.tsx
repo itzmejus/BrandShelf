@@ -1,21 +1,7 @@
 import { Outlet, Navigate } from 'react-router-dom'
 import { useAppSelector } from '../hooks/useAppSelector'
 import { Spinner } from '../components'
-
-const FEATURES = [
-  {
-    title: 'A Professional Business Website',
-    desc: 'Your customers get a clean, professional page. No app required.',
-  },
-  {
-    title: 'Everything Managed in One Place',
-    desc: 'Add your services or menu, photos, and business details anytime.',
-  },
-  {
-    title: 'One Shareable Link',
-    desc: 'Share via WhatsApp, Instagram, QR code, or anywhere online.',
-  },
-]
+import loginImage from '../assets/Login.png'
 
 export function AuthLayout() {
   const { user, initialized } = useAppSelector((s) => s.auth)
@@ -33,48 +19,38 @@ export function AuthLayout() {
   return (
     <div className="min-h-screen flex">
       {/* Left branding panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-primary flex-col justify-between p-12 relative overflow-hidden">
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-12">
-            <div className="w-12 h-12 rounded-lg bg-white flex items-center justify-center p-1">
-              <img src="/Logo.png" alt="SiteSelo" className="w-full h-full object-contain" />
-            </div>
-            <span className="text-white font-bold text-xl tracking-tight">SiteSelo</span>
+      <div className="hidden lg:flex lg:w-1/2 bg-primary flex-col p-12 relative overflow-hidden">
+        <div className="flex items-center justify-center gap-3 relative z-10">
+          <div className="w-12 h-12 rounded-lg bg-white flex items-center justify-center p-1">
+            <img src="/Logo.png" alt="SiteSelo" className="w-full h-full object-contain" />
           </div>
+          <span className="text-white font-bold text-xl tracking-tight">SiteSelo</span>
+        </div>
+
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center max-w-md mx-auto">
           <h2 className="text-4xl font-bold text-white leading-tight mb-4">
             Launch your business<br />online in minutes.
           </h2>
-          <p className="text-on-primary-container text-base leading-relaxed max-w-sm">
+          <p className="text-on-primary-container text-base leading-relaxed mb-8">
             Add your business details, services, and photos from one dashboard.
             Then share one link with your customers.
           </p>
+
+          <img
+            src={loginImage}
+            alt=""
+            aria-hidden="true"
+            className="w-full max-w-sm"
+          />
         </div>
 
-        <div className="relative z-10 space-y-5">
-          {FEATURES.map((f) => (
-            <div key={f.title} className="flex items-start gap-3">
-              <div className="w-5 h-5 rounded-full bg-secondary/30 border border-secondary/50 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <div className="w-2 h-2 rounded-full bg-secondary" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-white">{f.title}</p>
-                <p className="text-xs text-on-primary-container mt-0.5">{f.desc}</p>
-              </div>
-            </div>
-          ))}
-          <p className="text-xs text-on-primary-container/60 pt-4 border-t border-white/10">
-            From details to website.
-          </p>
-        </div>
-
-        {/* Decorative blobs */}
+        {/* Decorative blob */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-secondary/10 rounded-full blur-3xl -mr-32 -mt-32" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl -ml-24 -mb-24" />
       </div>
 
       {/* Right form panel */}
       <div className="flex-1 flex items-center justify-center p-6 lg:p-12 bg-background">
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-outline-variant/60 p-8 md:p-10">
           <Outlet />
         </div>
       </div>

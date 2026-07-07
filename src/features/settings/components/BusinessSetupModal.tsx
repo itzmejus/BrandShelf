@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { Sparkles, Link } from 'lucide-react'
+import { Link } from 'lucide-react'
 import { useAppDispatch } from '../../../hooks/useAppDispatch'
 import { useAppSelector } from '../../../hooks/useAppSelector'
 import { useBodyScrollLock } from '../../../hooks/useBodyScrollLock'
@@ -108,9 +108,6 @@ export function BusinessSetupModal({ open }: BusinessSetupModalProps) {
         <div className="bg-primary px-6 py-5 sm:px-8 sm:py-7 relative overflow-hidden flex-shrink-0">
           <div className="absolute top-0 right-0 w-48 h-48 bg-secondary/20 rounded-full blur-3xl -mr-16 -mt-16" />
           <div className="relative z-10">
-            <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center mb-4">
-              <Sparkles size={22} className="text-white" />
-            </div>
             <h2 className="text-xl font-bold text-white">Set up your website.</h2>
             <p className="text-sm text-on-primary-container mt-1">
               Step 1 of 8. A few details and your SiteSelo website will be ready to share. You can add your logo, images, and working hours afterward.

@@ -2,6 +2,9 @@ export const APP_NAME = 'SiteSelo'
 export const APP_TAGLINE = 'Launch your business online in minutes.'
 export const APP_SHORT_TAGLINE = 'From details to website.'
 
+// Keep in sync with the trial window in supabase/trial_period_migration.sql
+export const TRIAL_PERIOD_DAYS = 7
+
 export const BUSINESS_TYPES = [
   'Restaurant',
   'Cafe',

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
+import { User, Mail, Lock, ArrowRight, Check } from 'lucide-react'
 import { useAppDispatch } from '../hooks/useAppDispatch'
 import { useAppSelector } from '../hooks/useAppSelector'
 import { signUp } from '../store/slices/authSlice'
@@ -46,10 +47,10 @@ export function RegisterPage() {
     return (
       <div className="space-y-5 text-center">
         <div
-          className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto"
+          className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto"
           aria-hidden="true"
         >
-          <span className="text-3xl">✓</span>
+          <Check size={22} className="text-primary" />
         </div>
         <div>
           <h2 className="text-xl font-bold text-primary">Check your inbox.</h2>
@@ -65,18 +66,23 @@ export function RegisterPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {/* Mobile brand mark */}
-      <div className="lg:hidden flex items-center gap-3 mb-2">
+      <div className="lg:hidden flex items-center justify-center gap-3 mb-2">
         <img src="/Logo.png" alt="" aria-hidden="true" className="w-9 h-9 rounded-lg object-contain" />
         <span className="font-bold text-lg text-primary tracking-tight">SiteSelo</span>
       </div>
 
-      <div>
-        <h1 className="text-2xl font-bold text-primary">Create your account.</h1>
-        <p className="text-sm text-on-surface-variant mt-1.5">
-          Start building your business presence today.
-        </p>
+      <div className="flex flex-col items-center text-center gap-3">
+        <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+          <User size={22} className="text-primary" />
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold text-primary">Create your account.</h1>
+          <p className="text-sm text-on-surface-variant mt-1.5">
+            Start building your business presence today.
+          </p>
+        </div>
       </div>
 
       {error && (
@@ -91,6 +97,7 @@ export function RegisterPage() {
           type="email"
           placeholder="you@example.com"
           autoComplete="email"
+          icon={<Mail size={16} />}
           error={errors.email?.message}
           {...register('email')}
         />
@@ -99,6 +106,7 @@ export function RegisterPage() {
           type="password"
           placeholder="Min. 8 characters"
           autoComplete="new-password"
+          icon={<Lock size={16} />}
           error={errors.password?.message}
           {...register('password')}
         />
@@ -107,18 +115,27 @@ export function RegisterPage() {
           type="password"
           placeholder="Repeat password"
           autoComplete="new-password"
+          icon={<Lock size={16} />}
           error={errors.confirmPassword?.message}
           {...register('confirmPassword')}
         />
         <Button type="submit" loading={loading} className="w-full" size="lg">
           Create account
+          <ArrowRight size={16} />
         </Button>
       </form>
 
+      <div className="flex items-center gap-3">
+        <div className="h-px flex-1 bg-outline-variant" />
+        <span className="text-xs text-outline">or</span>
+        <div className="h-px flex-1 bg-outline-variant" />
+      </div>
+
       <p className="text-sm text-on-surface-variant text-center">
         Already have an account?{' '}
-        <Link to="/login" className="text-secondary font-semibold hover:underline">
+        <Link to="/login" className="text-secondary font-semibold hover:underline inline-flex items-center gap-1">
           Sign in
+          <ArrowRight size={12} />
         </Link>
       </p>
     </div>

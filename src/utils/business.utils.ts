@@ -1,4 +1,5 @@
 import type { OpeningHours } from '../types'
+import { TRIAL_PERIOD_DAYS } from './constants'
 
 const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
@@ -23,6 +24,19 @@ export function getTodayHours(hours: OpeningHours[] | null): OpeningHours | null
 
 export function formatPhone(phone: string): string {
   return phone.replace(/\s+/g, '')
+}
+
+// Mirrors the `created_at > now() - interval '7 days'` check in
+// business_is_live() (supabase/trial_period_migration.sql) — the actual
+// gate is enforced server-side; this is just for dashboard messaging.
+export function getTrialDaysRemaining(createdAt: string): number {
+  const trialEnd = new Date(createdAt).getTime() + TRIAL_PERIOD_DAYS * 24 * 60 * 60 * 1000
+  const msRemaining = trialEnd - Date.now()
+  return Math.max(0, Math.ceil(msRemaining / (24 * 60 * 60 * 1000)))
+}
+
+export function isInTrial(createdAt: string): boolean {
+  return getTrialDaysRemaining(createdAt) > 0
 }
 
 export function formatRelativeTime(dateString: string): string {

@@ -13,7 +13,7 @@ import './LandingPage.css'
 
 const TRUST_ITEMS = [
   { icon: Zap, title: 'Live in under 2 minutes', desc: 'From sign-up to a working website, start to finish.' },
-  { icon: Code2, title: 'Zero code required', desc: "Answer questions about your business — that's it." },
+  { icon: Code2, title: 'Zero code required', desc: "Answer questions about your business, that's it." },
   { icon: Smartphone, title: 'Mobile-optimized', desc: 'Every layout works perfectly on any screen size.' },
   { icon: Globe, title: 'Hosted, always on', desc: '24/7 hosting included, with nothing to configure.' },
 ]
@@ -412,7 +412,7 @@ export function LandingPage() {
           <div className="price-grid">
             <div className="price-card">
               <div className="price-top"><span className="price-name">Launch</span></div>
-              <div className="price-amount"><b>AED 99</b> <span>/ month</span></div>
+              <div className="price-amount"><b>AED 49</b> <span>/ month</span></div>
               <p className="price-desc">For businesses getting online for the first time.</p>
               <ul className="price-list">
                 <li><span className="yes">✓</span>1 website on a siteselo.com address</li>
@@ -437,7 +437,7 @@ export function LandingPage() {
             </div>
             <div className="price-card">
               <div className="price-top"><span className="price-name">Scale</span></div>
-              <div className="price-amount"><b>AED 349</b> <span>/ month</span></div>
+              <div className="price-amount"><b>AED 299</b> <span>/ month</span></div>
               <p className="price-desc">For businesses that need advanced control and growth tools.</p>
               <ul className="price-list">
                 <li><span className="yes">✓</span>Everything in Grow</li>
