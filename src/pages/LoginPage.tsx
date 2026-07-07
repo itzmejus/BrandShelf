@@ -40,7 +40,7 @@ export function LoginPage() {
         <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center" aria-hidden="true">
           <span className="text-on-primary font-bold text-xs tracking-tight">BS</span>
         </div>
-        <span className="font-bold text-lg text-primary tracking-tight">BrandShelf</span>
+        <span className="font-bold text-lg text-primary tracking-tight">SiteSelo</span>
       </div>
 
       <div>
@@ -84,7 +84,7 @@ export function LoginPage() {
       </form>
 
       <p className="text-sm text-on-surface-variant text-center">
-        New to BrandShelf?{' '}
+        New to SiteSelo?{' '}
         <Link to="/register" className="text-secondary font-semibold hover:underline">
           Create an account
         </Link>

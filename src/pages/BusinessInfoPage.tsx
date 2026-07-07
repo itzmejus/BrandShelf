@@ -165,7 +165,7 @@ export function BusinessInfoPage() {
             <div className="relative z-10 px-6 py-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold text-on-primary-container uppercase tracking-widest mb-1">
-                  Your BrandShelf Website
+                  Your SiteSelo Website
                 </p>
                 <p className="text-white font-semibold text-sm break-all">
                   {window.location.origin}/{business.slug}

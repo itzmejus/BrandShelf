@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { Sparkles, Link } from 'lucide-react'
 import { useAppDispatch } from '../../../hooks/useAppDispatch'
 import { useAppSelector } from '../../../hooks/useAppSelector'
+import { useBodyScrollLock } from '../../../hooks/useBodyScrollLock'
 import { saveBusiness } from '../../../store/slices/businessSlice'
 import { addToast } from '../../../store/slices/uiSlice'
 import { Input, Select, Button } from '../../../components'
@@ -43,6 +44,8 @@ export function BusinessSetupModal({ open }: BusinessSetupModalProps) {
   const dispatch = useAppDispatch()
   const user = useAppSelector((s) => s.auth.user)
   const { saving, error } = useAppSelector((s) => s.business)
+
+  useBodyScrollLock(open)
 
   const {
     register,
@@ -91,7 +94,7 @@ export function BusinessSetupModal({ open }: BusinessSetupModalProps) {
     )
 
     if (saveBusiness.fulfilled.match(result)) {
-      dispatch(addToast({ message: `Your storefront for "${values.name}" is live. Welcome to BrandShelf!`, type: 'success' }))
+      dispatch(addToast({ message: `Your storefront for "${values.name}" is live. Welcome to SiteSelo!`, type: 'success' }))
     }
   }
 
@@ -110,7 +113,7 @@ export function BusinessSetupModal({ open }: BusinessSetupModalProps) {
             </div>
             <h2 className="text-xl font-bold text-white">Set up your website.</h2>
             <p className="text-sm text-on-primary-container mt-1">
-              Step 1 of 8 — a few details and your BrandShelf website will be ready to share. You can add your logo, images, and working hours afterward.
+              Step 1 of 8 — a few details and your SiteSelo website will be ready to share. You can add your logo, images, and working hours afterward.
             </p>
           </div>
         </div>
@@ -138,7 +141,7 @@ export function BusinessSetupModal({ open }: BusinessSetupModalProps) {
                 <p className="text-xs text-on-surface-variant truncate">
                   Your storefront link:{' '}
                   <span className="font-semibold text-secondary">
-                    brandshelf.com/{slug}
+                    siteselo.com/{slug}
                   </span>
                 </p>
               </div>

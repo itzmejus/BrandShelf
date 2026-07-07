@@ -112,3 +112,12 @@
     border-radius: 10px;
   }
 }
+
+/* iOS/Android zoom the page on focus when a form field's font-size is under
+   16px. Unlayered so it wins over Tailwind's utility classes (e.g. text-sm)
+   regardless of specificity. */
+@media (max-width: 767px) {
+  input, select, textarea {
+    font-size: 16px;
+  }
+}

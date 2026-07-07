@@ -38,7 +38,7 @@ export function FooterSection({ business, catalogueLabel }: FooterSectionProps) 
             <p className="text-xs text-(--color-inverse-on-surface)/40 leading-relaxed">
               Powered by{' '}
               <a href="/" className="text-(--color-inverse-on-surface) hover:opacity-80 transition-opacity font-semibold">
-                BrandShelf
+                SiteSelo
               </a>
               <br />
               <span className="text-(--color-inverse-on-surface)/25">Everything Your Customers Need. One Link.</span>

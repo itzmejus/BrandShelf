@@ -32,16 +32,19 @@ function NavItem({
   label,
   icon: Icon,
   end,
+  onClick,
 }: {
   to: string
   label: string
   icon: React.ElementType
   end?: boolean
+  onClick?: () => void
 }) {
   return (
     <NavLink
       to={to}
       end={end}
+      onClick={onClick}
       className={({ isActive }) =>
         `flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium transition-all
         ${
@@ -120,7 +123,7 @@ export function Sidebar({ mobile }: SidebarProps) {
             <span className="text-on-primary font-bold text-sm tracking-tight">BS</span>
           </div>
           <div className="min-w-0">
-            <h1 className="text-sm font-bold text-primary truncate tracking-tight">BrandShelf</h1>
+            <h1 className="text-sm font-bold text-primary truncate tracking-tight">SiteSelo</h1>
             <p className="text-[11px] text-on-surface-variant">Business Dashboard</p>
           </div>
         </NavLink>
@@ -150,26 +153,26 @@ export function Sidebar({ mobile }: SidebarProps) {
 
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto thin-scrollbar px-3 space-y-0.5" aria-label="Main navigation">
-        <NavItem to={ROUTES.DASHBOARD} label="Dashboard" icon={LayoutDashboard} end />
+        <NavItem to={ROUTES.DASHBOARD} label="Dashboard" icon={LayoutDashboard} end onClick={mobile ? close : undefined} />
 
         <SectionLabel label="Website" />
         {navWebsite.map((item) => (
-          <NavItem key={item.to} {...item} />
+          <NavItem key={item.to} {...item} onClick={mobile ? close : undefined} />
         ))}
 
         <SectionLabel label="Customers" />
         {navCustomers.map((item) => (
-          <NavItem key={item.to} {...item} />
+          <NavItem key={item.to} {...item} onClick={mobile ? close : undefined} />
         ))}
 
         <SectionLabel label="Growth" />
         {navGrowth.map((item) => (
-          <NavItem key={item.to} {...item} />
+          <NavItem key={item.to} {...item} onClick={mobile ? close : undefined} />
         ))}
 
         <SectionLabel label="Settings" />
         {navSettings.map((item) => (
-          <NavItem key={item.to} {...item} />
+          <NavItem key={item.to} {...item} onClick={mobile ? close : undefined} />
         ))}
       </nav>
 

@@ -26,7 +26,7 @@ export function Topnav() {
   }, [])
 
   return (
-    <header className="flex items-center justify-between h-16 px-6 bg-surface border-b border-outline-variant sticky top-0 z-40 flex-shrink-0">
+    <header className="flex items-center justify-between h-16 px-6 bg-surface border-b border-outline-variant sticky top-0 z-50 flex-shrink-0">
       {/* Left */}
       <div className="flex items-center gap-4 flex-1">
         <button
@@ -75,7 +75,7 @@ export function Topnav() {
             <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl border border-outline-variant shadow-lg py-1 z-50">
               <div className="px-4 py-2 border-b border-outline-variant">
                 <p className="text-xs font-semibold text-on-surface truncate">{user?.email}</p>
-                <p className="text-[11px] text-on-surface-variant">BrandShelf Account</p>
+                <p className="text-[11px] text-on-surface-variant">SiteSelo Account</p>
               </div>
               <button
                 onClick={() => { navigate(ROUTES.ACCOUNT); setShowUserMenu(false) }}

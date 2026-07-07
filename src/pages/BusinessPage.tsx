@@ -107,7 +107,7 @@ export function BusinessPage() {
   }, [business, seoDescription, seoImage, canonicalUrl])
 
   usePageMeta({
-    title: business ? `${business.name} | BrandShelf` : 'BrandShelf',
+    title: business ? `${business.name} | SiteSelo` : 'SiteSelo',
     description: seoDescription,
     image: seoImage,
     canonicalUrl,

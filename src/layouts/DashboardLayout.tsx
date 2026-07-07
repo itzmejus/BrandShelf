@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Outlet, Navigate } from 'react-router-dom'
 import { useAppDispatch } from '../hooks/useAppDispatch'
 import { useAppSelector } from '../hooks/useAppSelector'
+import { useBodyScrollLock } from '../hooks/useBodyScrollLock'
 import { setSidebarOpen } from '../store/slices/uiSlice'
 import { fetchBusiness } from '../store/slices/businessSlice'
 import { BusinessSetupModal } from '../features/settings/components/BusinessSetupModal'
@@ -14,6 +15,8 @@ export function DashboardLayout() {
   const { user, initialized } = useAppSelector((s) => s.auth)
   const { business, loading, fetched } = useAppSelector((s) => s.business)
   const sidebarOpen = useAppSelector((s) => s.ui.sidebarOpen)
+
+  useBodyScrollLock(sidebarOpen)
 
   // Fetch once — `fetched` flag prevents re-running when business is null
   useEffect(() => {
@@ -49,14 +52,14 @@ export function DashboardLayout() {
         <Sidebar />
       </div>
 
-      {/* Mobile sidebar drawer */}
+      {/* Mobile sidebar drawer — sits below the topnav so it stays visible/usable while open */}
       {sidebarOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden flex">
+        <div className="fixed top-16 left-0 right-0 bottom-0 z-40 lg:hidden flex">
           <div
             className="absolute inset-0 bg-black/40"
             onClick={() => dispatch(setSidebarOpen(false))}
           />
-          <div className="relative">
+          <div className="relative h-full">
             <Sidebar mobile />
           </div>
         </div>

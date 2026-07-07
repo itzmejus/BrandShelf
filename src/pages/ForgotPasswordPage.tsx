@@ -49,7 +49,7 @@ export function ForgotPasswordPage() {
         <div>
           <h2 className="text-xl font-bold text-primary">Check your inbox.</h2>
           <p className="text-sm text-on-surface-variant mt-2 max-w-xs mx-auto">
-            If that email is registered with BrandShelf, we've sent a secure reset link.
+            If that email is registered with SiteSelo, we've sent a secure reset link.
           </p>
         </div>
         <Link to="/login" className="text-secondary text-sm font-semibold hover:underline">

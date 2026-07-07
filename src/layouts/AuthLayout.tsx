@@ -39,7 +39,7 @@ export function AuthLayout() {
             <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">
               <span className="text-white font-bold text-lg tracking-tight">B</span>
             </div>
-            <span className="text-white font-bold text-xl tracking-tight">BrandShelf</span>
+            <span className="text-white font-bold text-xl tracking-tight">SiteSelo</span>
           </div>
           <h2 className="text-4xl font-bold text-white leading-tight mb-4">
             Create a beautiful<br />digital storefront.

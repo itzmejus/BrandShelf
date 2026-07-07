@@ -12,7 +12,7 @@ export function ComingSoonPage({ title }: ComingSoonPageProps) {
       </div>
       <h1 className="text-2xl font-bold text-primary mb-2">{title ?? 'Coming Soon'}</h1>
       <p className="text-sm text-on-surface-variant max-w-xs leading-relaxed">
-        This feature is in development and will be available in an upcoming BrandShelf update.
+        This feature is in development and will be available in an upcoming SiteSelo update.
       </p>
       <span className="mt-6 inline-flex items-center gap-1.5 text-xs font-semibold bg-surface-container text-on-surface-variant px-4 py-2 rounded-full">
         <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse" />

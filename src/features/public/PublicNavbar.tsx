@@ -30,7 +30,7 @@ export function PublicNavbar({ businessName, catalogueLabel = 'Catalogue' }: Pub
               </span>
             </div>
             <span className="font-['Hanken_Grotesk'] text-base font-bold text-(--color-on-surface) leading-tight truncate max-w-[130px] sm:max-w-none">
-              {businessName ?? 'BrandShelf'}
+              {businessName ?? 'SiteSelo'}
             </span>
           </a>
 

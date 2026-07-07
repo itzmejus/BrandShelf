@@ -57,7 +57,7 @@ export function AccountPage() {
 
   return (
     <div className="space-y-6 pb-8">
-      <PageHeader title="Account" subtitle="Manage your BrandShelf login." />
+      <PageHeader title="Account" subtitle="Manage your SiteSelo login." />
 
       <section className="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-outline-variant">
@@ -96,12 +96,12 @@ export function AccountPage() {
       </section>
 
       <section className="bg-white rounded-xl border border-outline-variant shadow-sm overflow-hidden">
-        <div className="px-6 py-4 flex items-center justify-between">
-          <div>
+        <div className="px-6 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div className="min-w-0">
             <h2 className="text-sm font-semibold text-primary">Sign Out</h2>
             <p className="text-xs text-on-surface-variant mt-0.5">You'll need to sign in again to access your dashboard.</p>
           </div>
-          <Button variant="danger" onClick={handleSignOut}>
+          <Button variant="danger" onClick={handleSignOut} className="w-full sm:w-auto">
             <LogOut size={14} />
             Sign Out
           </Button>

@@ -19,7 +19,7 @@ export function NotFoundBusiness({ slug }: NotFoundBusinessProps) {
           The business you're looking for may have been removed or the link is incorrect.
         </p>
         <p className="font-medium text-(--color-on-surface-variant) text-sm mb-8 bg-(--color-surface-container-low) px-4 py-2 rounded-lg inline-block border border-(--color-outline-variant)">
-          brandshelf.com/{slug}
+          siteselo.com/{slug}
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <Link

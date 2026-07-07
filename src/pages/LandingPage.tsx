@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
-  Zap, Code2, Smartphone, Globe, LayoutGrid, MessageCircle, Mail, MapPin,
-  Images, Clock, Search, Star, CalendarCheck, BarChart3, Check, ChevronDown,
+  Zap, Code2, Smartphone, Globe, LayoutGrid, MessageCircle, Mail,
+  Check, ChevronDown, FileText, TrendingUp, ArrowUp,
 } from 'lucide-react'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { ROUTES } from '../utils/constants'
+import { WhatsAppIcon } from '../features/public/WhatsAppIcon'
+import bannerImage from '../assets/Banner.png'
 import './LandingPage.css'
 
 const TRUST_ITEMS = [
@@ -15,30 +17,44 @@ const TRUST_ITEMS = [
   { icon: Globe, title: 'Hosted, always on', desc: '24/7 hosting included, with nothing to configure.' },
 ]
 
-const BENTO_SMALL = [
-  { icon: MessageCircle, title: 'WhatsApp built in', desc: 'A tap-to-chat button on every page.' },
-  { icon: Smartphone, title: 'Mobile responsive', desc: 'Looks right on any screen, by default.' },
-  { icon: Mail, title: 'Contact forms', desc: 'Enquiries land straight in your inbox.' },
-  { icon: MapPin, title: 'Google Maps', desc: 'An embedded map customers can tap to.' },
-  { icon: Images, title: 'Gallery', desc: 'A clean grid for your best photos.' },
-  { icon: Clock, title: 'Working hours', desc: 'Auto-flagged "Open now" or "Closed."' },
-  { icon: Search, title: 'SEO ready', desc: 'Titles and metadata, generated for you.' },
-  { icon: Star, title: 'Testimonials', desc: 'A dedicated place for your reviews.' },
-  { icon: CalendarCheck, title: 'Bookings', desc: 'Accept appointments without a call.' },
-  { icon: BarChart3, title: 'Analytics', desc: 'See visits and clicks from your dashboard.' },
+interface IncludedGroup {
+  key: string
+  icon: typeof LayoutGrid
+  title: string
+  items: string[]
+}
+
+const INCLUDED_GROUPS: IncludedGroup[] = [
+  {
+    key: 'website', icon: LayoutGrid, title: 'Website',
+    items: ['Mobile-ready website', 'Fast hosting', 'SEO-ready pages', 'Custom business URL'],
+  },
+  {
+    key: 'actions', icon: MessageCircle, title: 'Customer Actions',
+    items: ['Call button', 'WhatsApp button', 'Directions button', 'Contact form'],
+  },
+  {
+    key: 'content', icon: FileText, title: 'Business Content',
+    items: ['Services or menu', 'Gallery', 'Testimonials', 'Working hours'],
+  },
+  {
+    key: 'growth', icon: TrendingUp, title: 'Growth',
+    items: ['Analytics', 'QR code', 'Booking requests', 'Website status'],
+  },
 ]
 
 interface FlowStep {
   key: string
   step: string
+  icon: typeof Zap
   title: string
   desc: string
 }
 
 const FLOW_STEPS: FlowStep[] = [
-  { key: 'create', step: 'Step 01', title: 'Create your business', desc: 'Tell us the basics — the same details a customer would ask you for: name, category, phone, address, services.' },
-  { key: 'build', step: 'Step 02', title: 'BrandShelf builds everything', desc: 'Homepage, About, Services, Gallery, Contact and SEO — every page a real business website needs, generated instantly.' },
-  { key: 'publish', step: 'Step 03', title: 'Publish', desc: 'Your website goes live instantly, on a link you can share today: brandshelf.com/your-business.' },
+  { key: 'create', step: 'Step 01', icon: Code2, title: 'Create your business', desc: 'Tell us the basics — the same details a customer would ask you for: name, category, phone, address, services.' },
+  { key: 'build', step: 'Step 02', icon: Zap, title: 'SiteSelo builds everything', desc: 'Homepage, About, Services, Gallery, Contact and SEO — every page a real business website needs, generated instantly.' },
+  { key: 'publish', step: 'Step 03', icon: Globe, title: 'Publish', desc: 'Your website goes live instantly, on a link you can share today: siteselo.com/your-business.' },
 ]
 
 interface GalleryItem { name: string; category: string }
@@ -70,7 +86,7 @@ const COMPARE_ROWS: CompareRow[] = [
   { label: 'Visitor analytics', starter: false, business: true, professional: true },
   { label: 'Priority support', starter: false, business: true, professional: true },
   { label: 'Multiple locations, one dashboard', starter: false, business: false, professional: true },
-  { label: 'No BrandShelf branding', starter: false, business: false, professional: true },
+  { label: 'No SiteSelo branding', starter: false, business: false, professional: true },
 ]
 
 const STATS_2 = [
@@ -81,9 +97,9 @@ const STATS_2 = [
 ]
 
 const FAQ_ITEMS: { q: string; a: string }[] = [
-  { q: 'Do I need any technical or design skills?', a: "No. If you can fill out a form, you can build your website. There's nothing to install and nothing to design — you answer questions about your business, and BrandShelf handles layout, structure, and copy." },
+  { q: 'Do I need any technical or design skills?', a: "No. If you can fill out a form, you can build your website. There's nothing to install and nothing to design — you answer questions about your business, and SiteSelo handles layout, structure, and copy." },
   { q: 'How long does it actually take to go live?', a: 'Most businesses are live in under two minutes with just the essentials filled in. You can always come back and add photos, services, or hours later — nothing has to be perfect before you publish.' },
-  { q: 'Can I use my own domain name?', a: "Yes, on the Business and Professional plans. Every website also comes with a free brandshelf.com address you can use right away, so you're never blocked waiting on domain setup." },
+  { q: 'Can I use my own domain name?', a: "Yes, on the Business and Professional plans. Every website also comes with a free siteselo.com address you can use right away, so you're never blocked waiting on domain setup." },
   { q: 'What if I need to change something later?', a: 'Everything is editable from your dashboard — text, photos, hours, services — and changes go live immediately. There’s no rebuild or waiting on a developer.' },
   { q: 'Is it really mobile-friendly?', a: 'Every layout is built mobile-first, since most of your customers will land on your site from a phone search or a shared link. Nothing extra to configure.' },
   { q: 'What happens if I cancel?', a: "Your website stays live through the end of your billing period. You can export your business details at any time, and there's no lock-in contract." },
@@ -91,15 +107,16 @@ const FAQ_ITEMS: { q: string; a: string }[] = [
 
 export function LandingPage() {
   usePageMeta({
-    title: 'BrandShelf — Launch your business website in minutes',
-    description: 'BrandShelf turns a few business details into a complete, professional website — live in minutes. Built for restaurants, clinics, salons, and every local business.',
+    title: 'SiteSelo — Launch your business website in minutes',
+    description: 'SiteSelo turns a few business details into a complete, professional website — live in minutes. Built for restaurants, clinics, salons, and every local business.',
   })
 
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
-  const [activeFlow, setActiveFlow] = useState(FLOW_STEPS[0].key)
   const [activeCategory, setActiveCategory] = useState('All')
+  const [galleryExpanded, setGalleryExpanded] = useState(false)
   const [ctaEmail, setCtaEmail] = useState('')
+  const [showScrollTop, setShowScrollTop] = useState(false)
 
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -111,7 +128,13 @@ export function LandingPage() {
     }
   }, [])
 
-  const flow = FLOW_STEPS.find((s) => s.key === activeFlow) ?? FLOW_STEPS[0]
+  useEffect(() => {
+    const handleScroll = () => setShowScrollTop(window.scrollY > 400)
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   const visibleGallery = activeCategory === 'All' ? GALLERY_ITEMS : GALLERY_ITEMS.filter((g) => g.category === activeCategory)
 
   const handleCtaSubmit = (e: React.FormEvent) => {
@@ -124,7 +147,7 @@ export function LandingPage() {
       {/* ============ NAV ============ */}
       <nav className="nav">
         <div className="wrap nav-inner">
-          <a href="#top" className="brand"><span className="brand-mark"><span /></span>BrandShelf</a>
+          <a href="#top" className="brand"><span className="brand-mark"><span /></span>SiteSelo</a>
           <div className="nav-links">
             <a href="#included">Features</a>
             <a href="#pricing">Pricing</a>
@@ -146,13 +169,15 @@ export function LandingPage() {
           </div>
         </div>
         <div className={`nav-drawer${menuOpen ? ' open' : ''}`} id="landing-nav-drawer">
-          <a href="#included" onClick={() => setMenuOpen(false)}>Features</a>
-          <a href="#pricing" onClick={() => setMenuOpen(false)}>Pricing</a>
-          <a href="#gallery" onClick={() => setMenuOpen(false)}>Examples</a>
-          <a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
-          <div className="drawer-cta">
-            <Link to={ROUTES.LOGIN} className="btn btn-ghost" style={{ flex: 1, justifyContent: 'center' }}>Log in</Link>
-            <Link to={ROUTES.REGISTER} className="btn btn-primary" style={{ flex: 1, justifyContent: 'center' }}>Start Free</Link>
+          <div className="nav-drawer-inner">
+            <a href="#included" onClick={() => setMenuOpen(false)}>Features</a>
+            <a href="#pricing" onClick={() => setMenuOpen(false)}>Pricing</a>
+            <a href="#gallery" onClick={() => setMenuOpen(false)}>Examples</a>
+            <a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
+            <div className="drawer-cta">
+              <Link to={ROUTES.LOGIN} className="btn btn-ghost" style={{ flex: 1, justifyContent: 'center' }}>Log in</Link>
+              <Link to={ROUTES.REGISTER} className="btn btn-primary" style={{ flex: 1, justifyContent: 'center' }}>Start Free</Link>
+            </div>
           </div>
         </div>
       </nav>
@@ -165,7 +190,7 @@ export function LandingPage() {
             <h1>Launch your business website in minutes.</h1>
             <p className="hero-sub">
               No designers. No developers. No complicated setup. Just answer a few questions —
-              BrandShelf builds a complete, professional website for your business while you watch.
+              SiteSelo builds a complete, professional website for your business while you watch.
             </p>
             <div className="hero-ctas">
               <Link to={ROUTES.REGISTER} className="btn btn-primary">Start Free <span className="btn-arrow">→</span></Link>
@@ -174,15 +199,7 @@ export function LandingPage() {
           </div>
 
           <div className="hero-art">
-            <div className="hero-art-frame">
-              <div className="hero-art-bar"><span className="hero-art-dot" /><span className="hero-art-dot" /><span className="hero-art-dot" /></div>
-              <div className="hero-art-body">
-                <div className="hero-art-hero" />
-                <div className="hero-art-line w60" />
-                <div className="hero-art-line w40" />
-                <div className="hero-art-cards"><div /><div /></div>
-              </div>
-            </div>
+            <img src={bannerImage} alt="SiteSelo website editor preview" className="hero-art-image" />
             <div className="float-card f1"><span className="dot" />Every page included</div>
             <div className="float-card f2"><span className="dot" />Live in under 2 minutes</div>
           </div>
@@ -202,83 +219,63 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ============ BENTO GRID (dark) — everything included ============ */}
+      {/* ============ EVERYTHING INCLUDED (dark) ============ */}
       <section className="section dark-section" id="included">
-        <div className="wrap">
-          <div className="section-head">
-            <span className="eyebrow">Everything included</span>
-            <h2>One plan. A complete website — not a starter kit.</h2>
-            <p>Twelve things every local business website needs, all included, all live from day one.</p>
+        <div className="wrap included-layout">
+          <div className="included-intro">
+            <h2>Everything your business website needs.</h2>
+            <p>SiteSelo gives every business a complete online presence from day one. No plugins, no setup, no developer needed.</p>
+            <span className="included-tag">Included from your first plan</span>
           </div>
-          <div className="bento-grid">
-            <div className="bento-card big">
-              <div className="bento-icon"><LayoutGrid size={18} /></div>
-              <h3>Professional website</h3>
-              <p>Homepage, About, Services, Gallery and Contact — structured the way customers expect.</p>
-              <div className="bento-mock">
-                <div className="bento-mock-bar"><span /><span /><span /></div>
-                <div className="bento-mock-body">
-                  <div className="bento-mock-line w70" />
-                  <div className="bento-mock-line w45" />
-                </div>
-              </div>
-            </div>
-            {BENTO_SMALL.map((f) => (
-              <div className="bento-card" key={f.title}>
-                <div className="bento-icon"><f.icon size={18} /></div>
-                <h3>{f.title}</h3>
-                <p>{f.desc}</p>
+          <div className="included-grid">
+            {INCLUDED_GROUPS.map((group) => (
+              <div className="included-card" key={group.key}>
+                <div className="included-mock"><group.icon size={18} /></div>
+                <h3>{group.title}</h3>
+                <ul>
+                  {group.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ============ FULL-BLEED DARK FLOW ============ */}
-      <section className="section dark-section">
+      {/* ============ HOW IT WORKS ============ */}
+      <section className="section">
         <div className="wrap">
-          <div className="section-head">
+          <div className="section-head center">
             <span className="eyebrow">How it works</span>
             <h2>Watch it build itself.</h2>
+            <p>Three steps between you and a live website — no waiting on a developer.</p>
           </div>
-          <div className="flow-tabs" role="tablist">
-            {FLOW_STEPS.map((s) => (
-              <button
-                key={s.key}
-                className="flow-tab"
-                role="tab"
-                aria-selected={activeFlow === s.key}
-                onClick={() => setActiveFlow(s.key)}
-              >
-                {s.title}
-              </button>
+          <div className="steps-grid">
+            {FLOW_STEPS.map((s, i) => (
+              <div className="step-card" key={s.key}>
+                <div className="step-top">
+                  <span className="step-icon"><s.icon size={18} /></span>
+                  <span className="step-num">{s.step}</span>
+                </div>
+                <h3>{s.title}</h3>
+                <p>{s.desc}</p>
+                {i < FLOW_STEPS.length - 1 && <span className="step-arrow">→</span>}
+              </div>
             ))}
           </div>
-          <div className="flow-frame">
-            <div className="flow-bar"><span className="flow-dot" /><span className="flow-dot" /><span className="flow-dot" /></div>
-            <div className="flow-body">
-              <div className="flow-side">
-                {FLOW_STEPS.map((s) => (
-                  <div key={s.key} className={`fi${s.key === activeFlow ? ' on' : ''}`}>{s.title}</div>
-                ))}
-              </div>
-              <div className="flow-main">
-                <span className="flow-step-label">{flow.step}</span>
-                <h3>{flow.title}</h3>
-                <p>{flow.desc}</p>
-                <Link to={ROUTES.REGISTER} className="btn btn-primary flow-cta" style={{ alignSelf: 'flex-start' }}>Start Free <span className="btn-arrow">→</span></Link>
-              </div>
-            </div>
+          <div className="steps-cta">
+            <Link to={ROUTES.REGISTER} className="btn btn-primary">Start Free <span className="btn-arrow">→</span></Link>
           </div>
         </div>
       </section>
 
-      {/* ============ FILTERABLE GALLERY ============ */}
-      <section className="section" id="gallery">
+      {/* ============ FILTERABLE GALLERY (dark) ============ */}
+      <section className="section dark-section" id="gallery">
         <div className="wrap">
           <div className="section-head">
             <span className="eyebrow">Built for your industry</span>
-            <h2>Whatever you run, BrandShelf already knows the shape of your website.</h2>
+            <h2>Whatever you run, SiteSelo already knows the shape of your website.</h2>
             <p>Every category ships with layouts and structure suited to that business — filter by the kind of business you run.</p>
           </div>
           <div className="gallery-layout">
@@ -298,19 +295,32 @@ export function LandingPage() {
                 ))}
               </div>
             </div>
-            <div className="gallery-grid">
-              {visibleGallery.map((item) => (
-                <div className="gallery-card" key={item.name}>
-                  <div className="gallery-thumb photo"><span className="photo-cap">{item.name}</span></div>
-                  <div className="gallery-info">
-                    <div>
-                      <h4>{item.name}</h4>
-                      <span>{item.category}</span>
+            <div>
+              <div className={`gallery-grid${galleryExpanded ? '' : ' collapsed'}`}>
+                {visibleGallery.map((item) => (
+                  <div className="gallery-card" key={item.name}>
+                    <div className="gallery-thumb photo"><span className="photo-cap">{item.name}</span></div>
+                    <div className="gallery-info">
+                      <div>
+                        <h4>{item.name}</h4>
+                        <span>{item.category}</span>
+                      </div>
+                      <span className="gallery-tag">View</span>
                     </div>
-                    <span className="gallery-tag">View</span>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              {visibleGallery.length > 2 && (
+                <button
+                  type="button"
+                  className="gallery-expand"
+                  aria-expanded={galleryExpanded}
+                  onClick={() => setGalleryExpanded((v) => !v)}
+                >
+                  {galleryExpanded ? 'Show less' : `Show all ${visibleGallery.length}`}
+                  <ChevronDown size={16} className="chev" />
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -323,14 +333,14 @@ export function LandingPage() {
             <span className="eyebrow">Compare plans</span>
             <h2>Every plan gets a real website. Some get more.</h2>
           </div>
-          <div className="compare-scroll">
+          <div className="compare-wrap">
             <table className="compare">
               <thead>
                 <tr>
                   <th>Feature</th>
                   <th className="plan">Starter</th>
-                  <th className="plan">Business</th>
-                  <th className="plan">Professional</th>
+                  <th className="plan popular">Business</th>
+                  <th className="plan">Pro</th>
                 </tr>
               </thead>
               <tbody>
@@ -338,7 +348,7 @@ export function LandingPage() {
                   <tr key={row.label}>
                     <th scope="row">{row.label}</th>
                     <td>{row.starter ? <span className="yes">✓</span> : <span className="no">—</span>}</td>
-                    <td>{row.business ? <span className="yes">✓</span> : <span className="no">—</span>}</td>
+                    <td className="popular">{row.business ? <span className="yes">✓</span> : <span className="no">—</span>}</td>
                     <td>{row.professional ? <span className="yes">✓</span> : <span className="no">—</span>}</td>
                   </tr>
                 ))}
@@ -348,8 +358,8 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ============ TESTIMONIALS ============ */}
-      <section className="section">
+      {/* ============ TESTIMONIALS (dark) ============ */}
+      <section className="section dark-section">
         <div className="wrap">
           <div className="section-head"><h2>Built for people running a business, not a website.</h2></div>
           <div className="testi-grid">
@@ -403,7 +413,7 @@ export function LandingPage() {
               <div className="price-amount"><b>AED 99</b> <span>/ month</span></div>
               <p className="price-desc">For a business ready to be found online for the first time.</p>
               <ul className="price-list">
-                <li><span className="yes">✓</span>1 website on a brandshelf.com address</li>
+                <li><span className="yes">✓</span>1 website on a siteselo.com address</li>
                 <li><span className="yes">✓</span>Homepage, About, Contact & Gallery</li>
                 <li><span className="yes">✓</span>WhatsApp button & contact form</li>
                 <li><span className="yes">✓</span>Mobile-optimized & SEO ready</li>
@@ -431,7 +441,7 @@ export function LandingPage() {
                 <li><span className="yes">✓</span>Everything in Business</li>
                 <li><span className="yes">✓</span>Multiple locations, one dashboard</li>
                 <li><span className="yes">✓</span>Advanced SEO tools</li>
-                <li><span className="yes">✓</span>No BrandShelf branding</li>
+                <li><span className="yes">✓</span>No SiteSelo branding</li>
                 <li><span className="yes">✓</span>Dedicated onboarding call</li>
               </ul>
               <a href="#faq" className="btn btn-ghost" style={{ justifyContent: 'center' }}>Talk to us</a>
@@ -443,7 +453,7 @@ export function LandingPage() {
       {/* ============ FAQ ============ */}
       <section className="section" id="faq">
         <div className="wrap">
-          <div className="section-head"><h2>Before you start.</h2></div>
+          <div className="section-head center"><h2>Before you start.</h2></div>
           <div className="faq">
             {FAQ_ITEMS.map((item, i) => (
               <details key={item.q} open={i === 0}>
@@ -455,13 +465,13 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ============ EMAIL CTA CARD ============ */}
-      <section className="section" style={{ paddingTop: 0 }}>
+      {/* ============ EMAIL CTA CARD (dark) ============ */}
+      <section className="section dark-section">
         <div className="wrap">
           <div className="cta-card">
             <div className="cta-card-icon"><Mail size={22} /></div>
             <h2>Get your free storefront checklist.</h2>
-            <p>Drop your email and we'll send the exact checklist BrandShelf uses to get a business live in under two minutes.</p>
+            <p>Drop your email and we'll send the exact checklist SiteSelo uses to get a business live in under two minutes.</p>
             <form className="cta-form" onSubmit={handleCtaSubmit}>
               <input
                 type="email"
@@ -496,30 +506,43 @@ export function LandingPage() {
       {/* ============ FOOTER ============ */}
       <footer className="footer">
         <div className="wrap">
-          <div className="footer-grid">
+          <div className="footer-top">
             <div className="footer-brand">
-              <a href="#top" className="brand"><span className="brand-mark"><span /></span>BrandShelf</a>
+              <a href="#top" className="brand"><span className="brand-mark"><span /></span>SiteSelo</a>
               <p>A complete business website, built from a few details and live in minutes.</p>
             </div>
-            <div className="footer-col">
-              <h5>Product</h5>
-              <ul><li><a href="#included">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#gallery">Templates</a></li></ul>
-            </div>
-            <div className="footer-col">
-              <h5>Support</h5>
-              <ul><li><a href="#faq">Help</a></li><li><a href="#">Contact</a></li></ul>
-            </div>
-            <div className="footer-col">
-              <h5>Legal</h5>
-              <ul><li><Link to={ROUTES.PRIVACY}>Privacy</Link></li><li><Link to={ROUTES.TERMS}>Terms</Link></li></ul>
-            </div>
+            <nav className="footer-links" aria-label="Footer">
+              <a href="#included">Features</a>
+              <a href="#pricing">Pricing</a>
+              <a href="#gallery">Templates</a>
+              <a href="#faq">Help</a>
+              <a href="#">Contact</a>
+              <Link to={ROUTES.PRIVACY}>Privacy</Link>
+              <Link to={ROUTES.TERMS}>Terms</Link>
+            </nav>
           </div>
           <div className="footer-bottom">
-            <span>© 2026 BrandShelf. All rights reserved.</span>
+            <span>© 2026 SiteSelo. All rights reserved.</span>
             <span>Dubai, UAE</span>
           </div>
         </div>
       </footer>
+
+      {/* ============ FLOATING ACTIONS ============ */}
+      <div className="floating-actions">
+        <button
+          type="button"
+          className={`float-btn float-btn-top${showScrollTop ? ' visible' : ''}`}
+          onClick={() => window.scrollTo({ top: 0 })}
+          aria-label="Scroll to top"
+          tabIndex={showScrollTop ? 0 : -1}
+        >
+          <ArrowUp size={20} />
+        </button>
+        <a href="#included" className="float-btn float-btn-whatsapp" aria-label="Chat with us on WhatsApp">
+          <WhatsAppIcon size={26} />
+        </a>
+      </div>
     </div>
   )
 }

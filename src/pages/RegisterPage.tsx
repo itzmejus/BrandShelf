@@ -54,7 +54,7 @@ export function RegisterPage() {
         <div>
           <h2 className="text-xl font-bold text-primary">Check your inbox.</h2>
           <p className="text-sm text-on-surface-variant mt-2 max-w-xs mx-auto">
-            We've sent you a confirmation link. Click it to activate your BrandShelf account.
+            We've sent you a confirmation link. Click it to activate your SiteSelo account.
           </p>
         </div>
         <Link to="/login" className="text-secondary text-sm font-semibold hover:underline">
@@ -71,7 +71,7 @@ export function RegisterPage() {
         <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center" aria-hidden="true">
           <span className="text-on-primary font-bold text-xs tracking-tight">BS</span>
         </div>
-        <span className="font-bold text-lg text-primary tracking-tight">BrandShelf</span>
+        <span className="font-bold text-lg text-primary tracking-tight">SiteSelo</span>
       </div>
 
       <div>
