@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
-  Zap, Code2, Smartphone, Globe, LayoutGrid, MessageCircle, Mail,
+  Zap, Code2, Globe, LayoutGrid, MessageCircle, Mail,
   Check, ChevronDown, FileText, TrendingUp, ArrowUp,
 } from 'lucide-react'
 import { usePageMeta } from '../hooks/usePageMeta'
@@ -12,10 +12,10 @@ import bannerImage from '../assets/Banner.png'
 import './LandingPage.css'
 
 const TRUST_ITEMS = [
-  { icon: Zap, title: 'Live in under 2 minutes', desc: 'From sign-up to a working website, start to finish.' },
-  { icon: Code2, title: 'Zero code required', desc: "Answer questions about your business, that's it." },
-  { icon: Smartphone, title: 'Mobile-optimized', desc: 'Every layout works perfectly on any screen size.' },
-  { icon: Globe, title: 'Hosted, always on', desc: '24/7 hosting included, with nothing to configure.' },
+  { title: 'Live in under 2 minutes', desc: 'From sign-up to a working website, start to finish.' },
+  { title: 'Zero code required', desc: "Answer questions about your business, that's it." },
+  { title: 'Mobile-optimized', desc: 'Every layout works perfectly on any screen size.' },
+  { title: 'Hosted, always on', desc: '24/7 hosting included, with nothing to configure.' },
 ]
 
 interface IncludedGroup {
@@ -59,6 +59,29 @@ const FLOW_STEPS: FlowStep[] = [
 ]
 
 interface GalleryItem { name: string; category: string }
+
+function GalleryThumb({ name }: { name: string }) {
+  const [errored, setErrored] = useState(false)
+
+  if (errored) {
+    return (
+      <div className="gallery-thumb photo">
+        <span className="photo-cap">{name}</span>
+      </div>
+    )
+  }
+
+  return (
+    <div className="gallery-thumb">
+      <img
+        src={`/${encodeURIComponent(name)}.png`}
+        alt={`${name} website example`}
+        loading="lazy"
+        onError={() => setErrored(true)}
+      />
+    </div>
+  )
+}
 
 const CATEGORIES = ['All', 'Food & Drink', 'Health & Beauty', 'Home Services', 'Creative']
 
@@ -213,7 +236,6 @@ export function LandingPage() {
         <div className="wrap trust-grid">
           {TRUST_ITEMS.map((item) => (
             <div className="trust-item" key={item.title}>
-              <div className="trust-icon"><item.icon size={17} /></div>
               <div className="trust-title">{item.title}</div>
               <div className="trust-desc">{item.desc}</div>
             </div>
@@ -301,13 +323,12 @@ export function LandingPage() {
               <div className={`gallery-grid${galleryExpanded ? '' : ' collapsed'}`}>
                 {visibleGallery.map((item) => (
                   <div className="gallery-card" key={item.name}>
-                    <div className="gallery-thumb photo"><span className="photo-cap">{item.name}</span></div>
+                    <GalleryThumb name={item.name} />
                     <div className="gallery-info">
                       <div>
                         <h4>{item.name}</h4>
                         <span>{item.category}</span>
                       </div>
-                      <span className="gallery-tag">View</span>
                     </div>
                   </div>
                 ))}
