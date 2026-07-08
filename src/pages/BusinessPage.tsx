@@ -10,9 +10,8 @@ import { PublicNavbar } from '../features/public/PublicNavbar'
 import { HeroSection } from '../features/public/HeroSection'
 import { QuickActions } from '../features/public/QuickActions'
 import { AboutSection } from '../features/public/AboutSection'
-import { CategoryTabs } from '../features/public/CategoryTabs'
 import { FeaturedSection } from '../features/public/FeaturedSection'
-import { CatalogueSection } from '../features/public/CatalogueSection'
+import { MenuSection } from '../features/public/MenuSection'
 import { GallerySection } from '../features/public/GallerySection'
 import { TestimonialsSection } from '../features/public/TestimonialsSection'
 import { ContactSection } from '../features/public/ContactSection'
@@ -34,7 +33,6 @@ export function BusinessPage() {
   const [loading, setLoading] = useState(true)
   const [notFound, setNotFound] = useState(false)
   const [pausedBusinessName, setPausedBusinessName] = useState<string | null>(null)
-  const [activeCategoryId, setActiveCategoryId] = useState('all')
 
   useEffect(() => {
     if (!slug) return
@@ -142,23 +140,12 @@ export function BusinessPage() {
 
       <AboutSection business={business} about={about} />
 
-      {/* Category sticky nav + catalogue — only if items exist */}
+      {/* Featured picks + full menu — only if items exist */}
       {items.length > 0 && (
         <>
-          <CategoryTabs
-            categories={categories}
-            activeId={activeCategoryId}
-            onSelect={setActiveCategoryId}
-          />
-
           <FeaturedSection items={items} catalogueLabel={catalogueLabel} />
 
-          <CatalogueSection
-            categories={categories}
-            items={items}
-            catalogueLabel={catalogueLabel}
-            onCategoryVisible={setActiveCategoryId}
-          />
+          <MenuSection categories={categories} items={items} catalogueLabel={catalogueLabel} />
         </>
       )}
 
