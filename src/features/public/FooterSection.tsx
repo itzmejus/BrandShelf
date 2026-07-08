@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, ArrowUp } from 'lucide-react'
+import { Phone, Mail, MapPin } from 'lucide-react'
 import type { Business } from '../../types'
 import { formatPhone } from '../../utils/business.utils'
 import { WhatsAppIcon } from './WhatsAppIcon'
@@ -125,13 +125,6 @@ export function FooterSection({ business, catalogueLabel }: FooterSectionProps) 
             <a href="/terms" className="text-xs text-white/50 hover:text-white transition-colors">
               Terms
             </a>
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="flex items-center gap-2 text-xs text-white/50 hover:text-white transition-colors"
-            >
-              <ArrowUp size={13} />
-              Back to top
-            </button>
           </div>
         </div>
       </div>

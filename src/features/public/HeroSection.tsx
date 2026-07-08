@@ -45,8 +45,8 @@ export function HeroSection({ business }: HeroSectionProps) {
   return (
     <section className="relative bg-white overflow-x-hidden">
       {/* Banner image */}
-      <div className="max-w-7xl mx-auto px-4 md:px-10 pt-6 md:pt-10">
-        <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden border border-(--color-outline-variant) shadow-sm">
+      <div className="max-w-7xl mx-auto px-0 md:px-4 pt-0 md:pt-10">
+        <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-none md:rounded-2xl overflow-hidden border-0 md:border md:border-(--color-outline-variant) shadow-none md:shadow-sm">
           {business.cover_url ? (
             <img
               src={business.cover_url}

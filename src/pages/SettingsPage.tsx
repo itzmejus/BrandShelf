@@ -9,6 +9,7 @@ import { saveBusiness } from '../store/slices/businessSlice'
 import { addToast } from '../store/slices/uiSlice'
 import { businessService } from '../services/business.service'
 import { BUSINESS_TYPES, STORAGE_BUCKETS } from '../utils/constants'
+import { mainSiteUrl } from '../utils/domainRouting'
 import { Button, Input, Textarea, Select, ImageUpload, PageHeader, SettingsSkeleton } from '../components'
 import type { OpeningHours } from '../types'
 
@@ -198,14 +199,14 @@ export function SettingsPage() {
                   Your SiteSelo Website
                 </p>
                 <p className="text-white font-semibold text-sm break-all">
-                  {window.location.origin}/{business.slug}
+                  {mainSiteUrl(`/${business.slug}`)}
                 </p>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
                 <button
                   type="button"
                   onClick={async () => {
-                    await navigator.clipboard.writeText(`${window.location.origin}/${business.slug}`)
+                    await navigator.clipboard.writeText(mainSiteUrl(`/${business.slug}`))
                     dispatch(addToast({ message: 'Link copied!', type: 'success' }))
                   }}
                   className="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white border border-white/20 text-xs font-semibold px-3 py-2 rounded-lg transition-colors"
@@ -214,7 +215,7 @@ export function SettingsPage() {
                   Copy Link
                 </button>
                 <a
-                  href={`/${business.slug}`}
+                  href={mainSiteUrl(`/${business.slug}`)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 bg-white text-primary text-xs font-semibold px-3 py-2 rounded-lg hover:bg-secondary-fixed transition-colors"

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Share2, Menu, X } from 'lucide-react'
 
 interface PublicNavbarProps {
@@ -8,6 +8,18 @@ interface PublicNavbarProps {
 
 export function PublicNavbar({ businessName, catalogueLabel = 'Catalogue' }: PublicNavbarProps) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const navRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (!menuOpen) return
+    const handler = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [menuOpen])
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -20,7 +32,7 @@ export function PublicNavbar({ businessName, catalogueLabel = 'Catalogue' }: Pub
   return (
     <>
       {/* Main navbar */}
-      <nav className="sticky top-0 w-full bg-white z-50 shadow-sm border-b border-(--color-outline-variant)">
+      <nav ref={navRef} className="sticky top-0 w-full bg-white z-50 shadow-sm border-b border-(--color-outline-variant)">
         <div className="flex items-center justify-between gap-4 px-4 md:px-10 py-4 max-w-7xl mx-auto">
           {/* Logo — min-w-0 + flex-1 lets the name shrink to whatever space is
               actually left, so a long business name truncates gracefully at

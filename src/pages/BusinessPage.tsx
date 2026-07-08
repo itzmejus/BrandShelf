@@ -7,8 +7,8 @@ import { getCatalogueLabel } from '../utils/businessType'
 import { analyticsEventService } from '../services/analyticsEvent.service'
 
 import { PublicNavbar } from '../features/public/PublicNavbar'
+import { FloatingActions } from '../features/public/FloatingActions'
 import { HeroSection } from '../features/public/HeroSection'
-import { QuickActions } from '../features/public/QuickActions'
 import { AboutSection } from '../features/public/AboutSection'
 import { FeaturedSection } from '../features/public/FeaturedSection'
 import { MenuSection } from '../features/public/MenuSection'
@@ -136,8 +136,6 @@ export function BusinessPage() {
 
       <HeroSection business={business} />
 
-      <QuickActions business={business} />
-
       <AboutSection business={business} about={about} />
 
       {/* Featured picks + full menu — only if items exist */}
@@ -153,8 +151,6 @@ export function BusinessPage() {
         <GallerySection images={displayGalleryImages} businessName={business.name} />
       )}
 
-      <ContactSection business={business} />
-
       {testimonials.length > 0 ? (
         <TestimonialsSection testimonials={testimonials} />
       ) : (
@@ -164,12 +160,16 @@ export function BusinessPage() {
         />
       )}
 
+      <ContactSection business={business} />
+
       <PlaceholderSection
         title="Online Booking"
         description="Book appointments online. This feature is coming soon."
       />
 
       <FooterSection business={business} catalogueLabel={catalogueLabel} />
+
+      <FloatingActions business={business} />
     </div>
   )
 }
