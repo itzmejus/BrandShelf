@@ -334,43 +334,43 @@ export function SetupWizardPage() {
       </div>
 
       {/* Nav footer */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex gap-2">
-          <Button type="button" variant="secondary" onClick={() => goTo(currentStep - 1)} disabled={currentStep === 1}>
+          <Button type="button" variant="secondary" className="flex-1 sm:flex-none" onClick={() => goTo(currentStep - 1)} disabled={currentStep === 1}>
             <ArrowLeft size={14} />
             Back
           </Button>
-          <Button type="button" variant="ghost" onClick={() => (currentStep === 8 ? finish() : goTo(currentStep + 1))}>
+          <Button type="button" variant="ghost" className="flex-1 sm:flex-none" onClick={() => (currentStep === 8 ? finish() : goTo(currentStep + 1))}>
             Skip for now
           </Button>
         </div>
 
         {currentStep === 3 && (
-          <Button onClick={handleSaveImages} loading={uploadingImages || businessSaving}>
+          <Button className="w-full sm:w-auto" onClick={handleSaveImages} loading={uploadingImages || businessSaving}>
             Save &amp; Continue
             <ArrowRight size={14} />
           </Button>
         )}
         {currentStep === 4 && (
-          <Button onClick={handleSaveContact} loading={businessSaving}>
+          <Button className="w-full sm:w-auto" onClick={handleSaveContact} loading={businessSaving}>
             Save &amp; Continue
             <ArrowRight size={14} />
           </Button>
         )}
         {(currentStep === 1 || currentStep === 2 || currentStep === 5 || currentStep === 6) && (
-          <Button onClick={() => goTo(currentStep + 1)}>
+          <Button className="w-full sm:w-auto" onClick={() => goTo(currentStep + 1)}>
             Continue
             <ArrowRight size={14} />
           </Button>
         )}
         {currentStep === 7 && (
-          <Button onClick={handleSaveHours} loading={businessSaving}>
+          <Button className="w-full sm:w-auto" onClick={handleSaveHours} loading={businessSaving}>
             Save &amp; Continue
             <ArrowRight size={14} />
           </Button>
         )}
         {currentStep === 8 && (
-          <Button onClick={finish}>
+          <Button className="w-full sm:w-auto" onClick={finish}>
             Go to Dashboard
             <ArrowRight size={14} />
           </Button>

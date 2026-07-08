@@ -3,10 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import {
   Eye,
   MessageCircle,
-  Phone,
-  CalendarCheck,
   ShoppingBag,
-  DollarSign,
   Plus,
   Tag,
   Upload,
@@ -14,9 +11,6 @@ import {
   QrCode,
   Zap,
   PackagePlus,
-  CalendarDays,
-  Star,
-  User,
   Globe,
   Copy,
   ExternalLink,
@@ -38,42 +32,7 @@ import { getCatalogueLabel } from '../utils/businessType'
 const DUMMY_STATS = [
   { icon: Eye, label: 'Website Views', value: '2,845', trend: '+12%', trendUp: true },
   { icon: MessageCircle, label: 'WhatsApp Taps', value: '412', trend: '+8%', trendUp: true },
-  { icon: Phone, label: 'Phone Calls', value: '89', trend: '-2%', trendUp: false },
-  { icon: CalendarCheck, label: 'Bookings', value: '54', trend: '+15%', trendUp: true },
   { icon: ShoppingBag, label: 'Enquiries', value: '128', trend: '+5%', trendUp: true },
-  { icon: DollarSign, label: 'Est. Revenue', value: '$12.4k', trend: '+22%', trendUp: true },
-]
-
-const RECENT_ACTIVITY = [
-  {
-    icon: CalendarDays,
-    iconColor: 'text-secondary',
-    title: 'New booking from',
-    bold: 'Sarah Jenkins',
-    sub: '45-min consultation • 2m ago',
-  },
-  {
-    icon: MessageCircle,
-    iconColor: 'text-emerald-600',
-    title: 'WhatsApp enquiry',
-    bold: '#ENQ-4921',
-    sub: 'Pricing question • 15m ago',
-  },
-  {
-    icon: Star,
-    iconColor: 'text-amber-500',
-    title: 'New',
-    bold: '5-star review',
-    sub: '"Absolutely loved the service!" • 1h ago',
-  },
-  {
-    icon: User,
-    iconColor: 'text-outline',
-    title: 'New visitor from Instagram',
-    bold: '',
-    sub: 'Referral link • 3h ago',
-    dim: true,
-  },
 ]
 
 const QUICK_ACTIONS = [
@@ -287,9 +246,9 @@ export function DashboardPage() {
       )}
 
       {/* Stat cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {businessLoading
-          ? Array.from({ length: 6 }).map((_, i) => <StatCardSkeleton key={i} />)
+          ? Array.from({ length: DUMMY_STATS.length }).map((_, i) => <StatCardSkeleton key={i} />)
           : DUMMY_STATS.map((s) => <StatCard key={s.label} {...s} />)}
       </div>
 
@@ -340,32 +299,6 @@ export function DashboardPage() {
                     {action.label}
                   </span>
                 </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Recent Activity */}
-          <div className="bg-white rounded-xl border border-outline-variant shadow-sm p-6">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xs font-bold text-primary">Recent Activity</h3>
-              <button className="text-[10px] text-secondary font-bold hover:underline">
-                View All
-              </button>
-            </div>
-            <div className="space-y-4">
-              {RECENT_ACTIVITY.map((item, i) => (
-                <div key={i} className={`flex gap-3 ${item.dim ? 'opacity-60' : ''}`}>
-                  <div className="w-8 h-8 rounded-full bg-surface-container flex-shrink-0 flex items-center justify-center">
-                    <item.icon size={14} className={item.iconColor} aria-hidden="true" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-medium text-on-surface">
-                      {item.title}{' '}
-                      {item.bold && <span className="font-bold">{item.bold}</span>}
-                    </p>
-                    <p className="text-[10px] text-outline">{item.sub}</p>
-                  </div>
-                </div>
               ))}
             </div>
           </div>

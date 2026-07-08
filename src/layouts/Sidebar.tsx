@@ -118,13 +118,13 @@ export function Sidebar({ mobile }: SidebarProps) {
     <aside className="w-[260px] h-full bg-surface border-r border-outline-variant flex flex-col py-6">
       {/* Brand header */}
       <div className="px-6 mb-6 flex items-center justify-between">
-        <NavLink to={ROUTES.DASHBOARD} end className="flex items-center gap-3 min-w-0">
+        <div className="flex items-center gap-3 min-w-0">
           <img src="/Logo.png" alt="SiteSelo" className="w-9 h-9 rounded-lg object-contain flex-shrink-0" />
           <div className="min-w-0">
             <h1 className="text-sm font-bold text-primary truncate tracking-tight">SiteSelo</h1>
             <p className="text-[11px] text-on-surface-variant">Business Dashboard</p>
           </div>
-        </NavLink>
+        </div>
         {mobile && (
           <button
             onClick={close}
@@ -136,22 +136,32 @@ export function Sidebar({ mobile }: SidebarProps) {
         )}
       </div>
 
-      {/* Active business card */}
-      {business && (
-        <div className="mx-3 mb-4 px-3 py-2.5 bg-surface-container rounded-lg">
-          <div className="flex items-center gap-2.5">
-            <Avatar name={business.name} size="sm" src={business.logo_url} />
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-primary truncate">{business.name}</p>
-              <p className="text-[10px] text-on-surface-variant truncate">{business.type}</p>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto overscroll-contain thin-scrollbar px-3 space-y-0.5" aria-label="Main navigation">
-        <NavItem to={ROUTES.DASHBOARD} label="Dashboard" icon={LayoutDashboard} end onClick={mobile ? close : undefined} />
+        {business && (
+          <NavLink
+            to={ROUTES.DASHBOARD}
+            end
+            onClick={mobile ? close : undefined}
+            className={({ isActive }) =>
+              `flex items-center gap-2.5 px-4 py-2 mb-1 rounded-lg transition-all
+              ${
+                isActive
+                  ? 'bg-secondary-fixed text-on-secondary-fixed border-l-2 border-secondary rounded-l-none -ml-px pl-[15px]'
+                  : 'text-on-surface-variant hover:bg-surface-container-high'
+              }`
+            }
+          >
+            <Avatar name={business.name} size="sm" src={business.logo_url} />
+            <div className="min-w-0">
+              <p className="text-xs font-semibold truncate">{business.name}</p>
+              <p className="text-[10px] opacity-70 truncate">{business.type}</p>
+            </div>
+          </NavLink>
+        )}
+        {!business && (
+          <NavItem to={ROUTES.DASHBOARD} label="Dashboard" icon={LayoutDashboard} end onClick={mobile ? close : undefined} />
+        )}
 
         <SectionLabel label="Website" />
         {navWebsite.map((item) => (

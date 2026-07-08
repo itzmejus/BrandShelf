@@ -13,12 +13,17 @@ export function Topnav() {
   const business = useAppSelector((s) => s.business.business)
   const user = useAppSelector((s) => s.auth.user)
   const [showUserMenu, setShowUserMenu] = useState(false)
+  const [showNotifications, setShowNotifications] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const notifRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setShowUserMenu(false)
+      }
+      if (notifRef.current && !notifRef.current.contains(e.target as Node)) {
+        setShowNotifications(false)
       }
     }
     document.addEventListener('mousedown', handler)
@@ -58,14 +63,25 @@ export function Topnav() {
           Add Item
         </button>
 
-        <button className="relative p-2 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-colors">
-          <Bell size={18} />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full" />
-        </button>
+        <div className="relative" ref={notifRef}>
+          <button
+            onClick={() => { setShowNotifications((v) => !v); setShowUserMenu(false) }}
+            className="relative p-2 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-colors"
+          >
+            <Bell size={18} />
+          </button>
+
+          {showNotifications && (
+            <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-xl border border-outline-variant shadow-lg py-4 px-4 z-50 text-center">
+              <p className="text-sm font-medium text-on-surface">No new notifications</p>
+              <p className="text-xs text-on-surface-variant mt-1">You're all caught up for now.</p>
+            </div>
+          )}
+        </div>
 
         <div className="relative" ref={menuRef}>
           <button
-            onClick={() => setShowUserMenu((v) => !v)}
+            onClick={() => { setShowUserMenu((v) => !v); setShowNotifications(false) }}
             className="ml-2 rounded-full ring-2 ring-transparent hover:ring-outline-variant transition-all"
           >
             <Avatar name={user?.email} src={null} size="sm" />
