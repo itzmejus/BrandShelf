@@ -31,4 +31,31 @@ export const analyticsEventService = {
     }
     return counts
   },
+
+  async getDailyPageViews(businessId: string, days: number): Promise<{ date: string; count: number }[]> {
+    const since = new Date()
+    since.setHours(0, 0, 0, 0)
+    since.setDate(since.getDate() - (days - 1))
+
+    const { data, error } = await supabase
+      .from('analytics_events')
+      .select('created_at')
+      .eq('business_id', businessId)
+      .eq('event_type', 'page_view')
+      .gte('created_at', since.toISOString())
+    if (error) throw error
+
+    const counts = new Map<string, number>()
+    for (const row of data ?? []) {
+      const day = (row.created_at as string).slice(0, 10)
+      counts.set(day, (counts.get(day) ?? 0) + 1)
+    }
+
+    return Array.from({ length: days }, (_, i) => {
+      const d = new Date(since)
+      d.setDate(d.getDate() + i)
+      const key = d.toISOString().slice(0, 10)
+      return { date: key, count: counts.get(key) ?? 0 }
+    })
+  },
 }

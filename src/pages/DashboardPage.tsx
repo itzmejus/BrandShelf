@@ -1,9 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Eye,
   MessageCircle,
-  ShoppingBag,
+  CalendarCheck,
   Plus,
   Tag,
   Upload,
@@ -22,6 +22,8 @@ import { useAppSelector } from '../hooks/useAppSelector'
 import { fetchGalleryImages } from '../store/slices/gallerySlice'
 import { saveBusiness } from '../store/slices/businessSlice'
 import { addToast } from '../store/slices/uiSlice'
+import { fetchAnalytics } from '../store/slices/analyticsSlice'
+import { analyticsEventService } from '../services/analyticsEvent.service'
 import { StatCard, StatCardSkeleton, Switch, Badge } from '../components'
 import { ROUTES } from '../utils/constants'
 import { mainSiteUrl } from '../utils/domainRouting'
@@ -29,11 +31,7 @@ import { formatRelativeTime, getTrialDaysRemaining, isInTrial } from '../utils/b
 import { computeSetupProgress } from '../utils/setupProgress'
 import { getCatalogueLabel } from '../utils/businessType'
 
-const DUMMY_STATS = [
-  { icon: Eye, label: 'Website Views', value: '2,845', trend: '+12%', trendUp: true },
-  { icon: MessageCircle, label: 'WhatsApp Taps', value: '412', trend: '+8%', trendUp: true },
-  { icon: ShoppingBag, label: 'Enquiries', value: '128', trend: '+5%', trendUp: true },
-]
+const STATS_RANGE_DAYS = 30
 
 const QUICK_ACTIONS = [
   { icon: PackagePlus, label: 'Add Item', to: ROUTES.CATALOGUE },
@@ -44,7 +42,39 @@ const QUICK_ACTIONS = [
   { icon: Plus, label: 'Business Info', to: ROUTES.BUSINESS_INFO },
 ]
 
-function TrafficChart() {
+interface DailyPoint { date: string; count: number }
+
+function formatAxisLabel(dateStr: string, rangeDays: number): string {
+  const date = new Date(`${dateStr}T00:00:00`)
+  if (rangeDays <= 7) return date.toLocaleDateString('en-US', { weekday: 'short' })
+  if (rangeDays <= 30) return date.toLocaleDateString('en-US', { day: 'numeric', month: 'short' })
+  return date.toLocaleDateString('en-US', { month: 'short' })
+}
+
+function TrafficChart({ data, loading, rangeDays }: { data: DailyPoint[]; loading: boolean; rangeDays: number }) {
+  if (loading) {
+    return <div className="w-full h-48 mt-4 rounded-lg bg-surface-container-low animate-pulse" />
+  }
+
+  const total = data.reduce((sum, d) => sum + d.count, 0)
+  if (total === 0) {
+    return (
+      <div className="w-full h-48 mt-4 flex items-center justify-center text-center px-6">
+        <p className="text-sm text-on-surface-variant">
+          No visitors yet. Share your website link to start seeing traffic here.
+        </p>
+      </div>
+    )
+  }
+
+  const max = Math.max(...data.map((d) => d.count), 1)
+  const stepX = data.length > 1 ? 1000 / (data.length - 1) : 0
+  const points = data.map((d, i) => ({ x: i * stepX, y: 290 - (d.count / max) * 270 }))
+  const linePoints = points.map((p) => `${p.x},${p.y}`).join(' ')
+  const areaPath = `M0,300 L${linePoints} L1000,300 Z`
+  const labelEvery = rangeDays <= 7 ? 1 : rangeDays <= 30 ? 5 : 30
+  const todayCount = data[data.length - 1]?.count ?? 0
+
   return (
     <div className="w-full h-48 relative mt-4">
       <svg className="w-full h-full" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
@@ -57,19 +87,23 @@ function TrafficChart() {
         {[0, 75, 150, 225, 300].map((y) => (
           <line key={y} x1="0" y1={y} x2="1000" y2={y} stroke="#f1f1f1" strokeWidth="1" />
         ))}
-        <path d="M0,300 Q150,220 300,240 T600,150 T1000,75 L1000,300 L0,300 Z" fill="url(#chartGrad)" />
-        <path d="M0,300 Q150,220 300,240 T600,150 T1000,75" fill="none" stroke="#4648d4" strokeWidth="2.5" />
-        <circle cx="300" cy="240" r="4" fill="#4648d4" stroke="white" strokeWidth="2" />
-        <circle cx="600" cy="150" r="4" fill="#4648d4" stroke="white" strokeWidth="2" />
-        <circle cx="1000" cy="75" r="4" fill="#4648d4" stroke="white" strokeWidth="2" />
+        <path d={areaPath} fill="url(#chartGrad)" />
+        <polyline points={linePoints} fill="none" stroke="#4648d4" strokeWidth="2.5" />
+        {points.map((p, i) =>
+          i % labelEvery === 0 || i === points.length - 1 ? (
+            <circle key={data[i].date} cx={p.x} cy={p.y} r="4" fill="#4648d4" stroke="white" strokeWidth="2" />
+          ) : null,
+        )}
       </svg>
-      <div className="absolute top-6 right-[8%] bg-primary text-on-primary px-2 py-1 rounded text-[10px] font-bold shadow-lg">
-        Today: 842 views
+      <div className="absolute top-6 right-[4%] bg-primary text-on-primary px-2 py-1 rounded text-[10px] font-bold shadow-lg">
+        Today: {todayCount} view{todayCount !== 1 ? 's' : ''}
       </div>
       <div className="flex justify-between mt-2 px-1 text-[10px] text-outline font-medium" aria-hidden="true">
-        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
-          <span key={d}>{d}</span>
-        ))}
+        {data.map((d, i) =>
+          i % labelEvery === 0 || i === data.length - 1 ? (
+            <span key={d.date}>{formatAxisLabel(d.date, rangeDays)}</span>
+          ) : null,
+        )}
       </div>
     </div>
   )
@@ -88,13 +122,45 @@ export function DashboardPage() {
   const trialDaysLeft = business ? getTrialDaysRemaining(business.created_at) : 0
   const paymentPending = business?.published && paidFetched && !paid && !trialActive
   const galleryImages = useAppSelector((s) => s.gallery.images)
+  const analyticsCounts = useAppSelector((s) => s.analytics.counts)
+  const analyticsLoading = useAppSelector((s) => s.analytics.loading)
 
   const availableCount = catalogue.items.filter((i) => i.available).length
   const catalogueLabel = getCatalogueLabel(business?.type ?? '')
 
+  const [chartRange, setChartRange] = useState(7)
+  const [dailyViews, setDailyViews] = useState<DailyPoint[]>([])
+  const [dailyViewsLoading, setDailyViewsLoading] = useState(true)
+
   useEffect(() => {
     if (business) dispatch(fetchGalleryImages(business.id))
   }, [business, dispatch])
+
+  useEffect(() => {
+    if (!business) return
+    const since = new Date()
+    since.setDate(since.getDate() - STATS_RANGE_DAYS)
+    dispatch(fetchAnalytics({ businessId: business.id, sinceISODate: since.toISOString() }))
+  }, [business, dispatch])
+
+  useEffect(() => {
+    if (!business) return
+    let cancelled = false
+    setDailyViewsLoading(true)
+    analyticsEventService
+      .getDailyPageViews(business.id, chartRange)
+      .then((data) => { if (!cancelled) setDailyViews(data) })
+      .finally(() => { if (!cancelled) setDailyViewsLoading(false) })
+    return () => { cancelled = true }
+  }, [business, chartRange])
+
+  const stats = analyticsCounts
+    ? [
+        { icon: Eye, label: 'Website Views', value: analyticsCounts.page_view.toLocaleString() },
+        { icon: MessageCircle, label: 'WhatsApp Taps', value: analyticsCounts.whatsapp_click.toLocaleString() },
+        { icon: CalendarCheck, label: 'Booking Requests', value: analyticsCounts.booking_click.toLocaleString() },
+      ]
+    : []
 
   const setupProgress = computeSetupProgress({
     business,
@@ -247,9 +313,9 @@ export function DashboardPage() {
 
       {/* Stat cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {businessLoading
-          ? Array.from({ length: DUMMY_STATS.length }).map((_, i) => <StatCardSkeleton key={i} />)
-          : DUMMY_STATS.map((s) => <StatCard key={s.label} {...s} />)}
+        {businessLoading || analyticsLoading || !analyticsCounts
+          ? Array.from({ length: 3 }).map((_, i) => <StatCardSkeleton key={i} />)
+          : stats.map((s) => <StatCard key={s.label} {...s} />)}
       </div>
 
       {/* Main grid */}
@@ -259,19 +325,21 @@ export function DashboardPage() {
           <div className="px-6 py-4 border-b border-outline-variant flex justify-between items-center">
             <div>
               <h3 className="text-base font-semibold text-primary">Website Traffic</h3>
-              <p className="text-xs text-on-surface-variant">Views and customer interactions over time</p>
+              <p className="text-xs text-on-surface-variant">Views over time</p>
             </div>
             <select
               className="bg-surface-container border border-outline-variant text-xs font-medium rounded-lg px-3 py-1.5 outline-none focus:border-secondary"
               aria-label="Select time range"
+              value={chartRange}
+              onChange={(e) => setChartRange(Number(e.target.value))}
             >
-              <option>Last 7 Days</option>
-              <option>Last 30 Days</option>
-              <option>This Year</option>
+              <option value={7}>Last 7 Days</option>
+              <option value={30}>Last 30 Days</option>
+              <option value={365}>This Year</option>
             </select>
           </div>
           <div className="px-6 pb-6">
-            <TrafficChart />
+            <TrafficChart data={dailyViews} loading={dailyViewsLoading} rangeDays={chartRange} />
           </div>
         </div>
 
