@@ -11,6 +11,10 @@ import { WhatsAppIcon } from '../features/public/WhatsAppIcon'
 import bannerImage from '../assets/Banner.png'
 import './LandingPage.css'
 
+const WHATSAPP_NUMBER = '971502300557'
+const WHATSAPP_MESSAGE = "Hi SiteSelo, I'd like to know more about getting a website for my business."
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`
+
 const TRUST_ITEMS = [
   { title: 'Live in under 2 minutes', desc: 'From sign-up to a working website, start to finish.' },
   { title: 'Zero code required', desc: "Answer questions about your business, that's it." },
@@ -599,7 +603,7 @@ export function LandingPage() {
               <a href="#pricing">Pricing</a>
               <a href="#gallery">Examples</a>
               <a href="#top">About</a>
-              <a href="#">Contact</a>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">Contact via WhatsApp</a>
               <a href="#faq">Help</a>
               <Link to={ROUTES.BLOG}>Blog</Link>
               <Link to={ROUTES.PRIVACY}>Privacy Policy</Link>
@@ -624,7 +628,13 @@ export function LandingPage() {
         >
           <ArrowUp size={20} />
         </button>
-        <a href="#included" className="float-btn float-btn-whatsapp" aria-label="Chat with us on WhatsApp">
+        <a
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="float-btn float-btn-whatsapp"
+          aria-label="Chat with us on WhatsApp"
+        >
           <WhatsAppIcon size={26} />
         </a>
       </div>
