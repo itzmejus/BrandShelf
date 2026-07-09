@@ -8,6 +8,7 @@ import { usePageMeta } from '../hooks/usePageMeta'
 import { ROUTES } from '../utils/constants'
 import { dashboardUrl } from '../utils/domainRouting'
 import { WhatsAppIcon } from '../features/public/WhatsAppIcon'
+import { checklistLeadService } from '../services/checklistLead.service'
 import bannerImage from '../assets/Banner.png'
 import './LandingPage.css'
 
@@ -174,6 +175,7 @@ export function LandingPage() {
   const [activeCategory, setActiveCategory] = useState('All')
   const [galleryExpanded, setGalleryExpanded] = useState(false)
   const [ctaEmail, setCtaEmail] = useState('')
+  const [ctaStatus, setCtaStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const [showScrollTop, setShowScrollTop] = useState(false)
   const [testiIndex, setTestiIndex] = useState(0)
   const testiContainerRef = useRef<HTMLDivElement>(null)
@@ -213,9 +215,16 @@ export function LandingPage() {
 
   const visibleGallery = activeCategory === 'All' ? GALLERY_ITEMS : GALLERY_ITEMS.filter((g) => g.category === activeCategory)
 
-  const handleCtaSubmit = (e: React.FormEvent) => {
+  const handleCtaSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    window.location.href = dashboardUrl(`${ROUTES.REGISTER}${ctaEmail ? `?email=${encodeURIComponent(ctaEmail)}` : ''}`)
+    if (!ctaEmail) return
+    setCtaStatus('submitting')
+    try {
+      await checklistLeadService.submitEmail(ctaEmail)
+      setCtaStatus('success')
+    } catch {
+      setCtaStatus('error')
+    }
   }
 
   return (
@@ -556,20 +565,34 @@ export function LandingPage() {
         <div className="wrap">
           <div className="cta-card">
             <div className="cta-card-icon"><Mail size={22} /></div>
-            <h2>Get your free website launch checklist.</h2>
-            <p>Drop your email and we'll send the exact checklist SiteSelo uses to get a business live in under two minutes.</p>
-            <form className="cta-form" onSubmit={handleCtaSubmit}>
-              <input
-                type="email"
-                required
-                className="cta-input"
-                placeholder="you@business.com"
-                value={ctaEmail}
-                onChange={(e) => setCtaEmail(e.target.value)}
-                aria-label="Email address"
-              />
-              <button type="submit" className="btn btn-primary">Start Building</button>
-            </form>
+            {ctaStatus === 'success' ? (
+              <>
+                <h2>Got it, thanks!</h2>
+                <p>We've got your email, we'll get back to you shortly with your free website launch checklist.</p>
+              </>
+            ) : (
+              <>
+                <h2>Get your free website launch checklist.</h2>
+                <p>Drop your email and we'll send the exact checklist SiteSelo uses to get a business live in under two minutes.</p>
+                <form className="cta-form" onSubmit={handleCtaSubmit}>
+                  <input
+                    type="email"
+                    required
+                    className="cta-input"
+                    placeholder="you@business.com"
+                    value={ctaEmail}
+                    onChange={(e) => setCtaEmail(e.target.value)}
+                    aria-label="Email address"
+                  />
+                  <button type="submit" className="btn btn-primary" disabled={ctaStatus === 'submitting'}>
+                    {ctaStatus === 'submitting' ? 'Sending…' : 'Get the Checklist'}
+                  </button>
+                </form>
+                {ctaStatus === 'error' && (
+                  <p className="cta-error">Something went wrong on our end. Please try again.</p>
+                )}
+              </>
+            )}
           </div>
         </div>
       </section>

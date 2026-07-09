@@ -397,6 +397,7 @@
 .ls .dark-section .cta-card p{ color:var(--dark-text-soft); }
 .ls .dark-section .cta-input{ background:var(--dark-sunk); border-color:var(--dark-line); color:var(--dark-text); }
 .ls .dark-section .cta-input::placeholder{ color:var(--dark-text-faint); }
+.ls .cta-error{ color:#e0685a; font-size:.85rem; margin-top:var(--s3); }
 
 /* ============ FINAL DARK CTA ============ */
 .ls .final-cta{ position:relative; background:var(--dark); color:var(--dark-text); border-radius:var(--r-xl); overflow:hidden; }
