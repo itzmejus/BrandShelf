@@ -40,6 +40,7 @@ export const ROUTES = {
   FORGOT_PASSWORD: '/forgot-password',
   PRIVACY: '/privacy',
   TERMS: '/terms',
+  BLOG: '/blog',
   DASHBOARD: '/',
   SETUP: '/setup',
   CATALOGUE: '/catalogue',
@@ -59,3 +60,14 @@ export const ROUTES = {
   THEMES: '/themes',
   ACCOUNT: '/account',
 } as const
+
+// Slugs a business can never claim — every static route path (main site and
+// dashboard) collapses to a single flat word once the leading slash is
+// stripped, since a business's public site lives at siteselo.com/:slug
+// alongside these. "blog" is included explicitly for the post routes
+// (/blog/:postSlug), which aren't in ROUTES since they're built from a
+// template string rather than looked up by key.
+export const RESERVED_SLUGS: ReadonlySet<string> = new Set([
+  ...Object.values(ROUTES).map((path) => path.replace(/^\//, '')).filter(Boolean),
+  'blog',
+])

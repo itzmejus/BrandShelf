@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Zap, Code2, Globe, LayoutGrid, MessageCircle, Mail,
-  Check, ChevronDown, FileText, TrendingUp, ArrowUp,
+  Check, ChevronDown, FileText, TrendingUp, ArrowUp, ChevronLeft, ChevronRight,
 } from 'lucide-react'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { ROUTES } from '../utils/constants'
@@ -115,6 +115,35 @@ const COMPARE_ROWS: CompareRow[] = [
   { label: 'No SiteSelo branding', starter: false, business: false, professional: true },
 ]
 
+interface Testimonial { initials: string; quote: string; name: string; biz: string }
+
+const TESTIMONIALS: Testimonial[] = [
+  {
+    initials: 'AM',
+    quote: '"My patients in Hannover were already finding me on Google, they just had nowhere to actually book or ask a question. Now they message me on WhatsApp straight from my website before they even call the practice."',
+    name: 'Anuja Mathew',
+    biz: 'Doctor — Hannover, Germany',
+  },
+  {
+    initials: 'MK',
+    quote: '"I filled in our menu and opening hours on a Tuesday evening. By Wednesday morning we had our first WhatsApp order from someone who found us on Google."',
+    name: 'Mario Khalil',
+    biz: "Owner, Mario's Trattoria — Dubai",
+  },
+  {
+    initials: 'RS',
+    quote: '"We\'d been meaning to get a website for two years. It took less time than choosing which photos to use for the gallery."',
+    name: 'Dr. Reem Saleh',
+    biz: 'Bright Smile Dental — Abu Dhabi',
+  },
+  {
+    initials: 'LA',
+    quote: '"Clients kept asking if we had a website before they\'d book. Now they book straight from it — no more back-and-forth on Instagram DMs."',
+    name: 'Lina Al-Farsi',
+    biz: 'Lumen Hair Studio — Sharjah',
+  },
+]
+
 const STATS_2 = [
   { num: '2,400+', label: 'businesses launched' },
   { num: '4.9★', label: 'average owner rating' },
@@ -142,6 +171,24 @@ export function LandingPage() {
   const [galleryExpanded, setGalleryExpanded] = useState(false)
   const [ctaEmail, setCtaEmail] = useState('')
   const [showScrollTop, setShowScrollTop] = useState(false)
+  const [testiIndex, setTestiIndex] = useState(0)
+  const testiContainerRef = useRef<HTMLDivElement>(null)
+  const testiCardRefs = useRef<Array<HTMLDivElement | null>>([])
+
+  useEffect(() => {
+    const container = testiContainerRef.current
+    const card = testiCardRefs.current[testiIndex]
+    if (!container || !card) return
+    const targetLeft = container.scrollLeft + (card.getBoundingClientRect().left - container.getBoundingClientRect().left)
+    container.scrollTo({ left: targetLeft, behavior: 'smooth' })
+  }, [testiIndex])
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setTestiIndex((i) => (i + 1) % TESTIMONIALS.length)
+    }, 3000)
+    return () => clearInterval(id)
+  }, [testiIndex])
 
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -178,6 +225,7 @@ export function LandingPage() {
             <a href="#pricing">Pricing</a>
             <a href="#gallery">Examples</a>
             <a href="#faq">FAQ</a>
+            <Link to={ROUTES.BLOG}>Blog</Link>
           </div>
           <div className="nav-cta">
             <a href={dashboardUrl(ROUTES.LOGIN)} className="btn btn-ghost" style={{ padding: '.6rem 1rem' }}>Log in</a>
@@ -199,6 +247,7 @@ export function LandingPage() {
             <a href="#pricing" onClick={() => setMenuOpen(false)}>Pricing</a>
             <a href="#gallery" onClick={() => setMenuOpen(false)}>Examples</a>
             <a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
+            <Link to={ROUTES.BLOG} onClick={() => setMenuOpen(false)}>Blog</Link>
             <div className="drawer-cta">
               <a href={dashboardUrl(ROUTES.LOGIN)} className="btn btn-ghost" style={{ flex: 1, justifyContent: 'center' }}>Log in</a>
               <a href={dashboardUrl(ROUTES.REGISTER)} className="btn btn-primary" style={{ flex: 1, justifyContent: 'center' }}>Start Free</a>
@@ -385,28 +434,38 @@ export function LandingPage() {
       <section className="section dark-section">
         <div className="wrap">
           <div className="section-head"><h2>Built for people running a business, not a website.</h2></div>
-          <div className="testi-grid">
-            <div className="testi-card">
-              <p className="testi-quote">"I filled in our menu and opening hours on a Tuesday evening. By Wednesday morning we had our first WhatsApp order from someone who found us on Google."</p>
-              <div className="testi-who">
-                <div className="avatar">MK</div>
-                <div><div className="testi-name">Mario Khalil</div><div className="testi-biz">Owner, Mario's Trattoria — Dubai</div></div>
-              </div>
+          <div className="testi-carousel-wrap">
+            <div className="testi-grid" ref={testiContainerRef}>
+              {TESTIMONIALS.map((t, i) => (
+                <div
+                  className="testi-card"
+                  key={t.name}
+                  ref={(el) => { testiCardRefs.current[i] = el }}
+                >
+                  <p className="testi-quote">{t.quote}</p>
+                  <div className="testi-who">
+                    <div className="avatar">{t.initials}</div>
+                    <div><div className="testi-name">{t.name}</div><div className="testi-biz">{t.biz}</div></div>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="testi-card">
-              <p className="testi-quote">"We'd been meaning to get a website for two years. It took less time than choosing which photos to use for the gallery."</p>
-              <div className="testi-who">
-                <div className="avatar">RS</div>
-                <div><div className="testi-name">Dr. Reem Saleh</div><div className="testi-biz">Bright Smile Dental — Abu Dhabi</div></div>
-              </div>
-            </div>
-            <div className="testi-card">
-              <p className="testi-quote">"Clients kept asking if we had a website before they'd book. Now they book straight from it — no more back-and-forth on Instagram DMs."</p>
-              <div className="testi-who">
-                <div className="avatar">LA</div>
-                <div><div className="testi-name">Lina Al-Farsi</div><div className="testi-biz">Lumen Hair Studio — Sharjah</div></div>
-              </div>
-            </div>
+            <button
+              type="button"
+              className="testi-nav testi-nav-prev"
+              aria-label="Previous testimonial"
+              onClick={() => setTestiIndex((i) => (i - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)}
+            >
+              <ChevronLeft size={18} />
+            </button>
+            <button
+              type="button"
+              className="testi-nav testi-nav-next"
+              aria-label="Next testimonial"
+              onClick={() => setTestiIndex((i) => (i + 1) % TESTIMONIALS.length)}
+            >
+              <ChevronRight size={18} />
+            </button>
           </div>
         </div>
       </section>
@@ -542,6 +601,7 @@ export function LandingPage() {
               <a href="#top">About</a>
               <a href="#">Contact</a>
               <a href="#faq">Help</a>
+              <Link to={ROUTES.BLOG}>Blog</Link>
               <Link to={ROUTES.PRIVACY}>Privacy Policy</Link>
               <Link to={ROUTES.TERMS}>Terms of Service</Link>
             </nav>

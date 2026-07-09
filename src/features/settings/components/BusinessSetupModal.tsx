@@ -10,7 +10,7 @@ import { addToast } from '../../../store/slices/uiSlice'
 import { Input, Select, Button } from '../../../components'
 import { BUSINESS_TYPES } from '../../../utils/constants'
 import { getDefaultTrustBadges } from '../../../utils/businessType'
-import { generateSlug } from '../../../utils/slug'
+import { resolveSlug } from '../../../utils/slug'
 
 const phoneRegex = /^[+\d\s\-().]{7,20}$/
 
@@ -65,7 +65,7 @@ export function BusinessSetupModal({ open }: BusinessSetupModalProps) {
   })
 
   const nameValue = watch('name')
-  const slug = generateSlug(nameValue || '')
+  const slug = resolveSlug(nameValue || '')
 
   const onSubmit = async (values: FormValues) => {
     if (!user) return
@@ -75,7 +75,7 @@ export function BusinessSetupModal({ open }: BusinessSetupModalProps) {
         businessId: null,
         userId: user.id,
         formData: {
-          slug: generateSlug(values.name),
+          slug: resolveSlug(values.name),
           name: values.name,
           type: values.type,
           tagline: null,

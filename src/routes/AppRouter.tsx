@@ -1,9 +1,10 @@
 import { lazy, Suspense } from 'react'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, ScrollRestoration, Outlet } from 'react-router-dom'
 import type { RouteObject } from 'react-router-dom'
 import { Spinner } from '../components'
 import { ErrorBoundary } from '../components/ErrorBoundary'
 import { isDashboardHost } from '../utils/domainRouting'
+import { ROUTES } from '../utils/constants'
 
 // Landing + auth pages — small, load eagerly (user lands here first)
 import { LandingPage } from '../pages/LandingPage'
@@ -68,12 +69,30 @@ const PrivacyPolicyPage = lazy(() =>
 const TermsPage = lazy(() =>
   import('../pages/TermsPage').then((m) => ({ default: m.TermsPage })),
 )
+const BlogIndexPage = lazy(() =>
+  import('../pages/BlogIndexPage').then((m) => ({ default: m.BlogIndexPage })),
+)
+const BlogPostPage = lazy(() =>
+  import('../pages/BlogPostPage').then((m) => ({ default: m.BlogPostPage })),
+)
 
 function PageLoader() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <Spinner size={32} />
     </div>
+  )
+}
+
+// Resets scroll position to the top on every navigation (react-router does not
+// do this by default — without it, pushing a new route keeps whatever scroll
+// offset the previous page was left at).
+function RootLayout() {
+  return (
+    <>
+      <ScrollRestoration />
+      <Outlet />
+    </>
   )
 }
 
@@ -246,6 +265,22 @@ const mainSiteRoutes: RouteObject[] = [
     ),
   },
   {
+    path: ROUTES.BLOG,
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <BlogIndexPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: '/blog/:postSlug',
+    element: (
+      <Suspense fallback={<PageLoader />}>
+        <BlogPostPage />
+      </Suspense>
+    ),
+  },
+  {
     path: '/:slug',
     element: (
       <ErrorBoundary>
@@ -261,9 +296,16 @@ const mainSiteRoutes: RouteObject[] = [
 // Auth + dashboard — served on the dashboard.<domain> subdomain only.
 const dashboardSiteRoutes: RouteObject[] = [authRoute, dashboardRoute, notFoundRoute]
 
-const router = createBrowserRouter(
-  isDashboardHost(window.location.hostname) ? dashboardSiteRoutes : mainSiteRoutes,
-)
+// Pathless root wrapping whichever tree is active, purely so ScrollRestoration
+// (which needs to live inside the router) applies across every route.
+const rootRoutes: RouteObject[] = [
+  {
+    element: <RootLayout />,
+    children: isDashboardHost(window.location.hostname) ? dashboardSiteRoutes : mainSiteRoutes,
+  },
+]
+
+const router = createBrowserRouter(rootRoutes)
 
 export function AppRouter() {
   return <RouterProvider router={router} />
