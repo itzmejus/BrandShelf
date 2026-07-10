@@ -368,6 +368,7 @@
 .ls .price-amount{ font-family:var(--font-mono); font-variant-numeric:tabular-nums; color:var(--dark-text); }
 .ls .price-amount b{ font-size:2.1rem; font-weight:700; }
 .ls .price-amount span{ color:var(--dark-text-faint); font-size:.85rem; }
+.ls .price-old{ text-decoration:line-through; color:var(--dark-text-faint); font-size:1.05rem; margin-right:.15rem; }
 .ls .price-desc{ color:var(--dark-text-soft); font-size:.9rem; }
 .ls .price-list{ display:flex; flex-direction:column; gap:.6rem; }
 .ls .price-list li{ display:flex; gap:.55rem; font-size:.88rem; color:var(--dark-text-soft); align-items:flex-start; }

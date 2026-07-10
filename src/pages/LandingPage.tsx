@@ -505,7 +505,7 @@ export function LandingPage() {
           <div className="price-grid">
             <div className="price-card">
               <div className="price-top"><span className="price-name">Launch</span></div>
-              <div className="price-amount"><b>AED 49</b> <span>/ month</span></div>
+              <div className="price-amount"><span className="price-old">AED 99</span> <b>AED 49</b> <span>/ month</span></div>
               <p className="price-desc">For businesses getting online for the first time.</p>
               <ul className="price-list">
                 <li><span className="yes">✓</span>1 website on a siteselo.com address</li>
@@ -517,7 +517,7 @@ export function LandingPage() {
             </div>
             <div className="price-card featured">
               <div className="price-top"><span className="price-name">Grow</span><span className="price-chip">Most popular</span></div>
-              <div className="price-amount"><b>AED 199</b> <span>/ month</span></div>
+              <div className="price-amount"><span className="price-old">AED 249</span> <b>AED 199</b> <span>/ month</span></div>
               <p className="price-desc">For businesses that want more leads and bookings.</p>
               <ul className="price-list">
                 <li><span className="yes">✓</span>Everything in Launch</li>
@@ -530,7 +530,7 @@ export function LandingPage() {
             </div>
             <div className="price-card">
               <div className="price-top"><span className="price-name">Scale</span></div>
-              <div className="price-amount"><b>AED 299</b> <span>/ month</span></div>
+              <div className="price-amount"><span className="price-old">AED 399</span> <b>AED 299</b> <span>/ month</span></div>
               <p className="price-desc">For businesses that need advanced control and growth tools.</p>
               <ul className="price-list">
                 <li><span className="yes">✓</span>Everything in Grow</li>
