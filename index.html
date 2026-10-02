@@ -78,5 +78,18 @@
 
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- SiteSelo chat widget (pinned bottom-left) -->
+    <style>
+      iframe[title='Chat'][src^='https://chat.siteselo.com/embed/'] {
+        left: 0 !important;
+        right: auto !important;
+      }
+    </style>
+    <script
+      src="https://chat.siteselo.com/widget.js"
+      data-workspace="pk_4d603dea6c95eed17afe34d400a1c10d"
+      async
+    ></script>
   </body>
 </html>
