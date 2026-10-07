@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Zap, Code2, Globe, LayoutGrid, MessageCircle, Mail,
-  Check, ChevronDown, FileText, TrendingUp, ArrowUp, ChevronLeft, ChevronRight,
+  Check, ChevronDown, FileText, TrendingUp, ArrowUp, ChevronLeft, ChevronRight, Bot,
 } from 'lucide-react'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { ROUTES } from '../utils/constants'
@@ -11,6 +11,8 @@ import { WhatsAppIcon } from '../features/public/WhatsAppIcon'
 import { checklistLeadService } from '../services/checklistLead.service'
 import bannerImage from '../assets/Banner.png'
 import './LandingPage.css'
+
+import { SELO_ASSIST_URL } from '../features/marketing/MarketingChrome'
 
 const WHATSAPP_NUMBER = '971502300557'
 const WHATSAPP_MESSAGE = "Hi SiteSelo, I'd like to know more about getting a website for my business."
@@ -239,6 +241,7 @@ export function LandingPage() {
             <a href="#gallery">Examples</a>
             <a href="#faq">FAQ</a>
             <Link to={ROUTES.BLOG}>Blog</Link>
+            <a href={SELO_ASSIST_URL} target="_blank" rel="noopener" className="nav-assist">AI Assistant <span className="nav-new">New</span></a>
           </div>
           <div className="nav-cta">
             <a href={dashboardUrl(ROUTES.LOGIN)} className="btn btn-ghost" style={{ padding: '.6rem 1rem' }}>Log in</a>
@@ -261,6 +264,7 @@ export function LandingPage() {
             <a href="#gallery" onClick={() => setMenuOpen(false)}>Examples</a>
             <a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
             <Link to={ROUTES.BLOG} onClick={() => setMenuOpen(false)}>Blog</Link>
+            <a href={SELO_ASSIST_URL} target="_blank" rel="noopener" className="nav-assist" onClick={() => setMenuOpen(false)}>AI Assistant <span className="nav-new">New</span></a>
             <div className="drawer-cta">
               <a href={dashboardUrl(ROUTES.LOGIN)} className="btn btn-ghost" style={{ flex: 1, justifyContent: 'center' }}>Log in</a>
               <a href={dashboardUrl(ROUTES.REGISTER)} className="btn btn-primary" style={{ flex: 1, justifyContent: 'center' }}>Start Free</a>
@@ -545,6 +549,37 @@ export function LandingPage() {
         </div>
       </section>
 
+      {/* ============ SELO ASSIST (sister product) ============ */}
+      <section className="section band-sunk" id="ai-assistant">
+        <div className="wrap">
+          <div className="assist-card">
+            <div className="assist-copy">
+              <span className="eyebrow"><Bot size={14} /> Also from SiteSelo</span>
+              <h2>Give your website an AI assistant that answers customers 24/7.</h2>
+              <p>
+                <a href={SELO_ASSIST_URL} target="_blank" rel="noopener">Selo Assist</a> is our AI chat widget for business
+                websites. It reads your site, answers visitors in their own language using only your information,
+                collects their contact details, and hands the chat to you when a person is needed.
+              </p>
+              <ul className="assist-points">
+                <li><Check size={16} /> Works on your SiteSelo site or any other website</li>
+                <li><Check size={16} /> One line of code to add, free plan to start</li>
+                <li><Check size={16} /> Every enquiry saved as a lead you can follow up</li>
+              </ul>
+              <a href={SELO_ASSIST_URL} target="_blank" rel="noopener" className="btn btn-primary">
+                Try Selo Assist free <span className="btn-arrow">→</span>
+              </a>
+            </div>
+            <div className="assist-chat" aria-hidden="true">
+              <div className="assist-bubble me">Are you open on Sunday?</div>
+              <div className="assist-bubble">Yes, we are open 10 am to 8 pm on Sundays. Would you like to book a table?</div>
+              <div className="assist-bubble me">Yes please, for 4 people</div>
+              <div className="assist-bubble">Of course. May I have your name and phone number to confirm it?</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ============ FAQ ============ */}
       <section className="section" id="faq">
         <div className="wrap">
@@ -629,6 +664,7 @@ export function LandingPage() {
               <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">Contact via WhatsApp</a>
               <a href="#faq">Help</a>
               <Link to={ROUTES.BLOG}>Blog</Link>
+              <a href={SELO_ASSIST_URL} target="_blank" rel="noopener">Selo Assist: AI chat for your website</a>
               <Link to={ROUTES.PRIVACY}>Privacy Policy</Link>
               <Link to={ROUTES.TERMS}>Terms of Service</Link>
             </nav>

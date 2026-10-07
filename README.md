@@ -1,8 +1,8 @@
-# BrandShelf
+# SiteSelo
 
 > **Everything Your Customers Need. One Link.**
 
-BrandShelf is a digital storefront platform that lets any business create a professional online presence in minutes. Manage your catalogue, gallery, and contact details from one dashboard — then share a single link with your customers.
+SiteSelo is a digital storefront platform that lets any business create a professional online presence in minutes. Manage your catalogue, gallery, and contact details from one dashboard — then share a single link with your customers.
 
 ---
 
@@ -53,8 +53,11 @@ VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 In your Supabase project, open **SQL Editor** and run these files in order:
 
 ```
-supabase/schema.sql           ← Tables, RLS policies, Storage buckets, auth trigger
-supabase/slug_migration.sql   ← Slug column + public read access for storefronts
+supabase/schema.sql                  ← Tables, RLS policies, Storage buckets, auth trigger
+supabase/slug_migration.sql          ← Slug column + public read access for storefronts
+supabase/content_migration.sql       ← About Us, testimonials, gallery tables
+supabase/product_experience_migration.sql ← Tagline, trust badges, publish status, analytics
+supabase/payment_gate_migration.sql  ← Manual payment gate (only paid + published businesses are public)
 ```
 
 ### 5. Run locally

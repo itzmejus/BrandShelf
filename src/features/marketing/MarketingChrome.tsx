@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 import { ROUTES } from '../../utils/constants'
 import { dashboardUrl } from '../../utils/domainRouting'
 
+/** Selo Assist, our AI chat widget for business websites: a separate product on its own site. */
+export const SELO_ASSIST_URL = 'https://www.app.siteselo.com/'
+
 const NAV_LINKS: { label: string; to: string }[] = [
   { label: 'Home', to: ROUTES.HOME },
   { label: 'Pricing', to: `${ROUTES.HOME}#pricing` },
@@ -20,6 +23,7 @@ export function MarketingNav() {
           {NAV_LINKS.map((link) => (
             <Link key={link.label} to={link.to}>{link.label}</Link>
           ))}
+          <a href={SELO_ASSIST_URL} target="_blank" rel="noopener" className="nav-assist">AI Assistant <span className="nav-new">New</span></a>
         </div>
         <div className="nav-cta">
           <a href={dashboardUrl(ROUTES.LOGIN)} className="btn btn-ghost" style={{ padding: '.6rem 1rem' }}>Log in</a>
@@ -40,6 +44,7 @@ export function MarketingNav() {
           {NAV_LINKS.map((link) => (
             <Link key={link.label} to={link.to} onClick={() => setMenuOpen(false)}>{link.label}</Link>
           ))}
+          <a href={SELO_ASSIST_URL} target="_blank" rel="noopener" className="nav-assist" onClick={() => setMenuOpen(false)}>AI Assistant <span className="nav-new">New</span></a>
           <div className="drawer-cta">
             <a href={dashboardUrl(ROUTES.LOGIN)} className="btn btn-ghost" style={{ flex: 1, justifyContent: 'center' }}>Log in</a>
             <a href={dashboardUrl(ROUTES.REGISTER)} className="btn btn-primary" style={{ flex: 1, justifyContent: 'center' }}>Start Free</a>
@@ -64,6 +69,7 @@ export function MarketingFooter() {
             <Link to={`${ROUTES.HOME}#pricing`}>Pricing</Link>
             <Link to={`${ROUTES.HOME}#gallery`}>Examples</Link>
             <Link to={ROUTES.BLOG}>Blog</Link>
+            <a href={SELO_ASSIST_URL} target="_blank" rel="noopener">Selo Assist: AI chat for your website</a>
             <Link to={ROUTES.PRIVACY}>Privacy Policy</Link>
             <Link to={ROUTES.TERMS}>Terms of Service</Link>
           </nav>
