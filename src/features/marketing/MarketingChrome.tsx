@@ -4,7 +4,7 @@ import { ROUTES } from '../../utils/constants'
 import { dashboardUrl } from '../../utils/domainRouting'
 
 /** Selo Assist, our AI chat widget for business websites: a separate product on its own site. */
-export const SELO_ASSIST_URL = 'https://www.app.siteselo.com/'
+export const SELO_ASSIST_URL = 'https://www.assist.siteselo.com/'
 
 const NAV_LINKS: { label: string; to: string }[] = [
   { label: 'Home', to: ROUTES.HOME },
